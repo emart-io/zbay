@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 
-	"github.com/gogo/protobuf/types"
 	"github.com/emart.io/zbay/internal/impl/biz"
 	pb "github.com/emart.io/zbay/service/go"
+	"github.com/gogo/protobuf/types"
 )
 
 const (
@@ -43,7 +43,7 @@ func (s *CommoditiesImpl) Update(ctx context.Context, in *pb.Commodity) (*pb.Com
 	return in, nil
 }
 
-func (s *CommoditiesImpl) ListByUser(in *pb.Commodity, stream pb.Commodities_ListByUserServer) error {
+func (s *CommoditiesImpl) List(in *pb.Commodity, stream pb.Commodities_ListServer) error {
 	commodities := []*pb.Commodity{}
 	if err := biz.List(commodityTable, &commodities, " order by data->'$.created.seconds' desc"); err != nil {
 		return err

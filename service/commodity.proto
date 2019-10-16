@@ -10,7 +10,7 @@ service Commodities {
   rpc Add(Commodity) returns (Commodity) {}
   rpc Get(Commodity) returns (Commodity) {}
   rpc Update(Commodity) returns (Commodity) {}
-  rpc ListByUser(Commodity) returns (stream Commodity) {}
+  rpc List(Commodity) returns (stream Commodity) {}
   rpc Delete(Commodity) returns (google.protobuf.Empty) {}
 }
 

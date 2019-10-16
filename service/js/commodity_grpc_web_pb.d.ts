@@ -31,7 +31,7 @@ export class CommoditiesClient {
                response: Commodity) => void
   ): grpcWeb.ClientReadableStream<Commodity>;
 
-  listByUser(
+  list(
     request: Commodity,
     metadata?: grpcWeb.Metadata
   ): grpcWeb.ClientReadableStream<Commodity>;
@@ -65,7 +65,7 @@ export class CommoditiesPromiseClient {
     metadata?: grpcWeb.Metadata
   ): Promise<Commodity>;
 
-  listByUser(
+  list(
     request: Commodity,
     metadata?: grpcWeb.Metadata
   ): grpcWeb.ClientReadableStream<Commodity>;

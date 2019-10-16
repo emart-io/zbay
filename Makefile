@@ -40,7 +40,7 @@ generate-js:
 	@protoc -I./service service/*.proto \
 	--js_out=import_style=commonjs:service/js \
 	--grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:service/js
-#	cp -rf service/js/* ../client/src/sdk
+	cp -rf service/js/* ../client/src/sdk
 #	cp -rf service/js/* ../web/src/sdk
 	@echo Generate-js successfully.
 
@@ -63,7 +63,7 @@ envoy:
 	docker service create --name envoy --network devel -p 80:80 $(IMG_HUB)/envoy:$(TAG)
 
 mysql:
-	-docker service create --name mysql --network devel --mount type=bind,source=/home/daniel/.mysqldata,destination=/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=iyou mysql:5.7.24
+	-docker service create --name mysql --network devel --mount type=bind,source=/home/daniel/.mysqldata,destination=/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=emart mysql:5.7.24
 
 test:
 	go test -cover ./...

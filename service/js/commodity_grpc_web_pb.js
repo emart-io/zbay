@@ -261,7 +261,7 @@ proto.zbay.CommoditiesPromiseClient.prototype.update =
  *   !proto.zbay.Commodity,
  *   !proto.zbay.Commodity>}
  */
-const methodInfo_Commodities_ListByUser = new grpc.web.AbstractClientBase.MethodInfo(
+const methodInfo_Commodities_List = new grpc.web.AbstractClientBase.MethodInfo(
   proto.zbay.Commodity,
   /** @param {!proto.zbay.Commodity} request */
   function(request) {
@@ -278,13 +278,13 @@ const methodInfo_Commodities_ListByUser = new grpc.web.AbstractClientBase.Method
  * @return {!grpc.web.ClientReadableStream<!proto.zbay.Commodity>}
  *     The XHR Node Readable Stream
  */
-proto.zbay.CommoditiesClient.prototype.listByUser =
+proto.zbay.CommoditiesClient.prototype.list =
     function(request, metadata) {
   return this.client_.serverStreaming(this.hostname_ +
-      '/zbay.Commodities/ListByUser',
+      '/zbay.Commodities/List',
       request,
       metadata || {},
-      methodInfo_Commodities_ListByUser);
+      methodInfo_Commodities_List);
 };
 
 
@@ -295,13 +295,13 @@ proto.zbay.CommoditiesClient.prototype.listByUser =
  * @return {!grpc.web.ClientReadableStream<!proto.zbay.Commodity>}
  *     The XHR Node Readable Stream
  */
-proto.zbay.CommoditiesPromiseClient.prototype.listByUser =
+proto.zbay.CommoditiesPromiseClient.prototype.list =
     function(request, metadata) {
   return this.client_.serverStreaming(this.hostname_ +
-      '/zbay.Commodities/ListByUser',
+      '/zbay.Commodities/List',
       request,
       metadata || {},
-      methodInfo_Commodities_ListByUser);
+      methodInfo_Commodities_List);
 };
 
 
