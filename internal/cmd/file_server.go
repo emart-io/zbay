@@ -12,7 +12,8 @@ const (
 	baseDir = "/uploads"
 )
 
-func serveFileUpload() {
+// /static && /upload
+func serveFile() {
 	fs := http.FileServer(http.Dir(baseDir))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.HandleFunc("/upload", fileUploadHandler)

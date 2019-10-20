@@ -20,7 +20,7 @@ message Commodity {
   string category = 3;
   string content = 4;
   repeated Medium media = 5;  
-  string address = 6;
+  string city = 6;
   Price price = 7;
   int32 amount = 8;
   int32 fare = 9;
@@ -31,8 +31,8 @@ message Commodity {
 }
 
 message Price {
-  int32 single = 1;
-  int32 group = 2;
+  float single = 1;
+  float group = 2;
 }
 
 message Medium {

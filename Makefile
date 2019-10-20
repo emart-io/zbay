@@ -53,9 +53,9 @@ image:build
 push:image
 	docker push $(IMG_HUB)/$(SERVICE):$(TAG)
 
-run:image
+zbay:image
 	-docker service rm $(SERVICE) > /dev/null 2>&1  || true	
-	@docker service create --name $(SERVICE) --network devel --mount type=bind,source=/home/daniel/uploads,destination=/uploads $(IMG_HUB)/$(SERVICE):$(TAG)
+	@docker service create --name $(SERVICE) --network devel --mount type=bind,source=/home/daniel/.emart_uploads,destination=/uploads $(IMG_HUB)/$(SERVICE):$(TAG)
 
 envoy:
 	docker build -t $(IMG_HUB)/envoy:$(TAG) -f envoy.Dockerfile .
@@ -63,7 +63,7 @@ envoy:
 	docker service create --name envoy --network devel -p 80:80 $(IMG_HUB)/envoy:$(TAG)
 
 mysql:
-	-docker service create --name mysql --network devel --mount type=bind,source=/home/daniel/.mysqldata,destination=/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=emart mysql:5.7.24
+	-docker service create --name mysql --network devel --mount type=bind,source=/home/daniel/.emart_mysqldata,destination=/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=emart mysql:5.7.24
 
 test:
 	go test -cover ./...
