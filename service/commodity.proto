@@ -31,8 +31,8 @@ message Commodity {
 }
 
 message Price {
-  float single = 1;
-  float group = 2;
+  uint32 single = 1;
+  uint32 group = 2;
 }
 
 message Medium {
