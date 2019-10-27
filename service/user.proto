@@ -21,6 +21,6 @@ message User {
   string telephone = 4;
   string icon = 5;
   string signature = 6;
-  map<string,string> labels = 7;
+  map<string,string> annotations = 7;
   google.protobuf.Timestamp created = 8;  
 }

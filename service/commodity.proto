@@ -22,8 +22,8 @@ message Commodity {
   repeated Medium media = 5;  
   string city = 6;
   Price price = 7;
-  int32 amount = 8;
-  int32 fare = 9;
+  uint32 amount = 8;
+  uint32 fare = 9;
   string owner = 10;
   map<string,string> annotations = 11;
   google.protobuf.Timestamp created = 12;
@@ -31,8 +31,8 @@ message Commodity {
 }
 
 message Price {
-  uint32 single = 1;
-  uint32 group = 2;
+  uint64 single = 1;
+  uint64 group = 2;
 }
 
 message Medium {

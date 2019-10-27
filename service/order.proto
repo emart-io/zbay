@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+import "user.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+package zbay;
+
+service Orders {
+  rpc Add(Order) returns (Order) {}
+  rpc Get(Order) returns (Order) {}
+  rpc Update(Order) returns (Order) {}
+  rpc Delete(Order) returns (google.protobuf.Empty) {}
+  rpc List(User) returns (stream Order) {}
+  // amount required
+  rpc SignAlipay(Order) returns (google.protobuf.StringValue) {}
+}
+
+message Order {
+  string id = 1;
+  string commodityId = 2;
+  string userId = 3;
+  Position destination = 4;
+  uint32 quantity = 5;
+  uint64 amount = 6;
+  string status = 7;
+  string comment = 8;
+  PayInfo payInfo = 9;
+  map<string,string> annotations = 10;  
+  google.protobuf.Timestamp created = 11;  
+}
+
+message Position {
+  string name = 1;
+  string location = 2;
+  string address = 3;
+}
+
+message PayInfo {
+  //alipay|weixin
+  string type = 1;
+  string payResult = 2;
+}

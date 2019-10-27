@@ -1,4 +1,4 @@
-package biz
+package db
 
 import (
 	"database/sql"
@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	dburl = "root:123456@tcp(mysql:3306)/emart"
+	dburl = "root:123456@tcp(mysql_emart:3306)/emart"
 )
 
 var DB *sql.DB

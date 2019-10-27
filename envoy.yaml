@@ -30,6 +30,10 @@ static_resources:
                 route:
                   cluster: zbay_service
                   max_grpc_timeout: 0s
+              - match: { prefix: "/dawn" }
+                route:
+                  cluster: dawn_service
+                  max_grpc_timeout: 0s
               - match: { prefix: "/" }
                 route:
                   cluster: web_service
@@ -54,6 +58,15 @@ static_resources:
     hosts:
     - socket_address:
         address: zbay
+        port_value: 50051
+  - name: dawn_service
+    connect_timeout: 0.25s
+    type: logical_dns
+    http2_protocol_options: {}
+    lb_policy: round_robin
+    hosts:
+    - socket_address:
+        address: dawn
         port_value: 50051
   - name: file_service
     connect_timeout: 10s

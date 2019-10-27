@@ -20,7 +20,7 @@ message Message {
   repeated string videos = 4;
   string to = 5;
   string from = 6;
-  map<string,string> labels = 7;
+  map<string,string> annotations = 7;
   google.protobuf.Timestamp created = 8;  
 }
 

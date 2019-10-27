@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 
-	"github.com/gogo/protobuf/types"
-	"github.com/emart.io/zbay/internal/impl/biz"
+	"github.com/emart.io/zbay/internal/impl/db"
 	pb "github.com/emart.io/zbay/service/go"
+	"github.com/gogo/protobuf/types"
 )
 
 const (
@@ -17,7 +17,7 @@ type UsersImpl struct{}
 func (s *UsersImpl) Add(ctx context.Context, in *pb.User) (*pb.User, error) {
 	in.Id = in.Telephone
 	in.Created = types.TimestampNow()
-	if err := biz.Insert(userTable, in); err != nil {
+	if err := db.Insert(userTable, in); err != nil {
 		return nil, err
 	}
 	return in, nil
@@ -25,7 +25,7 @@ func (s *UsersImpl) Add(ctx context.Context, in *pb.User) (*pb.User, error) {
 
 func (s *UsersImpl) Get(ctx context.Context, in *pb.User) (*pb.User, error) {
 	user := pb.User{}
-	if err := biz.GetById(userTable, in.Id, &user); err != nil {
+	if err := db.GetById(userTable, in.Id, &user); err != nil {
 		return nil, err
 	}
 	return &user, nil
@@ -42,7 +42,7 @@ func (s *UsersImpl) Update(ctx context.Context, in *pb.User) (*pb.User, error) {
 	if in.Signature != "" {
 		user.Signature = in.Signature
 	}
-	if err := biz.Update(userTable, in.Id, user); err != nil {
+	if err := db.Update(userTable, in.Id, user); err != nil {
 		return nil, err
 	}
 	return in, nil
@@ -50,7 +50,7 @@ func (s *UsersImpl) Update(ctx context.Context, in *pb.User) (*pb.User, error) {
 
 func (s *UsersImpl) List(in *pb.User, stream pb.Users_ListServer) error {
 	users := []*pb.User{}
-	if err := biz.List(userTable, &users, " order by data->'$.created.seconds' desc"); err != nil {
+	if err := db.List(userTable, &users, " order by data->'$.created.seconds' desc"); err != nil {
 		return err
 	}
 
@@ -64,7 +64,7 @@ func (s *UsersImpl) List(in *pb.User, stream pb.Users_ListServer) error {
 }
 
 func (s *UsersImpl) Delete(ctx context.Context, in *pb.User) (*types.Empty, error) {
-	if err := biz.Delete(userTable, in.Id); err != nil {
+	if err := db.Delete(userTable, in.Id); err != nil {
 		return nil, err
 	}
 	return &types.Empty{}, nil
@@ -72,7 +72,7 @@ func (s *UsersImpl) Delete(ctx context.Context, in *pb.User) (*types.Empty, erro
 
 func (s *UsersImpl) Login(ctx context.Context, in *pb.User) (*pb.User, error) {
 	user := pb.User{}
-	err := biz.Get(userTable, map[string]interface{}{"$.telephone": in.Telephone, "$.password": in.Password}, &user)
+	err := db.Get(userTable, map[string]interface{}{"$.telephone": in.Telephone, "$.password": in.Password}, &user)
 	if err != nil {
 		return nil, err
 	}
