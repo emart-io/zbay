@@ -36,6 +36,10 @@ func (s *AddressImpl) Update(ctx context.Context, in *pb.Address) (*pb.Address, 
 	if err != nil {
 		return nil, err
 	}
+
+	address.Default = in.Default
+	address.Contact = in.Contact
+	address.Telephone = in.Telephone
 	address.Location = in.Location
 	if err := db.Update(addressTable, in.Id, address); err != nil {
 		return nil, err
@@ -45,7 +49,7 @@ func (s *AddressImpl) Update(ctx context.Context, in *pb.Address) (*pb.Address, 
 
 func (s *AddressImpl) List(in *pb.User, stream pb.Addresses_ListServer) error {
 	addresses := []*pb.Address{}
-	if err := db.List(addressTable, &addresses, " address by data->'$.created.seconds' desc"); err != nil {
+	if err := db.List(addressTable, &addresses, " order by data->'$.created.seconds' desc"); err != nil {
 		return err
 	}
 

@@ -63,7 +63,7 @@ envoy:
 	docker service create --name envoy --network devel -p 80:80 $(IMG_HUB)/envoy:$(TAG)
 
 mysql:
-	-docker service create --name mysql --network devel --mount type=bind,source=/home/daniel/.emart_mysqldata,destination=/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=emart mysql:5.7.24
+	-docker service create --name mysql_emart --network devel --mount type=bind,source=/home/daniel/.emart_mysqldata,destination=/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=emart mysql:5.7.24
 
 test:
 	go test -cover ./...

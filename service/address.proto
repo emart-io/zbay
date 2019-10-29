@@ -20,6 +20,7 @@ message Address {
   string contact = 3;
   string telephone = 4;
   string location = 5;
+  bool default = 8;
   map<string,string> annotations = 6;  
   google.protobuf.Timestamp created = 7;  
 }

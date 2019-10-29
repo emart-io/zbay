@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 
+	"github.com/emart.io/zbay/internal/impl/biz"
 	"github.com/emart.io/zbay/internal/impl/db"
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/gogo/protobuf/types"
@@ -66,5 +67,9 @@ func (s *OrdersImpl) Delete(ctx context.Context, in *pb.Order) (*types.Empty, er
 }
 
 func (s *OrdersImpl) SignAlipay(ctx context.Context, in *pb.Order) (*types.StringValue, error) {
-	return &types.StringValue{}, nil
+	v, err := biz.SignAlipay(in.Amount)
+	if err != nil {
+		return nil, err
+	}
+	return &types.StringValue{Value: v}, nil
 }
