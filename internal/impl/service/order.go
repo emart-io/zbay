@@ -67,7 +67,7 @@ func (s *OrdersImpl) Delete(ctx context.Context, in *pb.Order) (*types.Empty, er
 }
 
 func (s *OrdersImpl) SignAlipay(ctx context.Context, in *pb.Order) (*types.StringValue, error) {
-	v, err := biz.SignAlipay(in.Amount)
+	v, err := biz.SignAlipay(float32(in.Amount / 100))
 	if err != nil {
 		return nil, err
 	}
