@@ -24,6 +24,7 @@ message Commodity {
   Price price = 7;
   uint32 amount = 8;
   uint32 fare = 9;
+  repeated string tags = 14;
   string ownerId = 10;
   map<string,string> annotations = 11;
   google.protobuf.Timestamp created = 12;
