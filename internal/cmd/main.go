@@ -25,6 +25,7 @@ func main() {
 	pb.RegisterMessagesServer(s, &impl.MessageImpl{})
 	pb.RegisterOrdersServer(s, &impl.OrdersImpl{})
 	pb.RegisterAddressesServer(s, &impl.AddressImpl{})
+	pb.RegisterCouponsServer(s, &impl.CouponImpl{})
 
 	grpclog.Println("begin..." + port)
 	if err := s.Serve(lis); err != nil {
