@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 
-	"github.com/gogo/protobuf/types"
 	pb "github.com/emart.io/zbay/service/go"
-	log "google.golang.org/grpc/grpclog"
+	"github.com/gogo/protobuf/types"
+	log "github.com/sirupsen/logrus"
 )
 
 var (

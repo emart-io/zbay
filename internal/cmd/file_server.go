@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
+	log "github.com/sirupsen/logrus"
 	"io"
-	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 const (
@@ -24,9 +25,10 @@ func fileUploadHandler(w http.ResponseWriter, r *http.Request) {
 	//设置内存大小
 	r.ParseMultipartForm(32 << 20)
 	//创建上传目录
-	r.ParseForm()
-	dir := baseDir + "/" + r.FormValue("title")
-	os.Mkdir(dir, os.ModePerm)
+	paths := r.URL.Query()["paths"]
+	for i := range paths {
+		os.Mkdir(baseDir+"/"+strings.Join(paths[0:i+1], "/"), os.ModePerm)
+	}
 	//获取上传的文件组
 	files := r.MultipartForm.File["uploadfile"]
 	len := len(files)
@@ -35,17 +37,17 @@ func fileUploadHandler(w http.ResponseWriter, r *http.Request) {
 		file, err := files[i].Open()
 		defer file.Close()
 		if err != nil {
-			log.Fatal(err)
+			log.Errorln(err)
 		}
 
 		//创建上传文件
-		cur, err := os.Create(dir + "/" + files[i].Filename)
+		cur, err := os.Create(baseDir + "/" + strings.Join(paths, "/") + "/" + files[i].Filename)
 		defer cur.Close()
 		if err != nil {
-			log.Fatal(err)
+			log.Errorln(err)
 		}
 		io.Copy(cur, file)
-		fmt.Println(files[i].Filename, "uploaded")
+		log.Infoln(files[i].Filename, "uploaded")
 	}
 	//输出上传的文件名
 	fmt.Fprintf(w, "success!\n") //这个写入到w的是输出到客户端的

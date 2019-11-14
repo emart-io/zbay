@@ -10,7 +10,7 @@ import (
 	"encoding/json"
 	"encoding/pem"
 	"fmt"
-	"log"
+	log "github.com/sirupsen/logrus"
 	mr "math/rand"
 	"net/url"
 	"sort"
@@ -48,7 +48,7 @@ func SignAlipay(totalAmount float32) (string, error) {
 	data.Add("version", "1.0")
 	bc, err := json.Marshal(bizContent)
 	if err != nil {
-		log.Println(err)
+		log.Errorln(err)
 		return "", err
 	}
 	data.Add("biz_content", string(bc))
@@ -75,22 +75,22 @@ func sign(m url.Values) string {
 	}
 	b, err := rsaEncrypt([]byte(sign))
 	if err != nil {
-		log.Println(err)
+		log.Errorln(err)
 	}
-	log.Println("加密：", b)
-	log.Println("base加密：", base64.StdEncoding.EncodeToString(b))
+	log.Infoln("加密：", b)
+	log.Infoln("base加密：", base64.StdEncoding.EncodeToString(b))
 	return base64.StdEncoding.EncodeToString(b)
 }
 
 func rsaEncrypt(origData []byte) ([]byte, error) {
 	block, _ := pem.Decode([]byte(key.PRIVATE_KEY))
 	if block == nil {
-		log.Println("block空")
+		log.Errorln("block空")
 		return nil, nil
 	}
 	priv, err := x509.ParsePKCS1PrivateKey(block.Bytes)
 	if err != nil {
-		log.Println("无法还原私钥", err)
+		log.Errorln("无法还原私钥", err)
 		return nil, nil
 	}
 	h2 := sha256.New()
