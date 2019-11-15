@@ -78,3 +78,32 @@ func (s *UsersImpl) Login(ctx context.Context, in *pb.User) (*pb.User, error) {
 	}
 	return &user, nil
 }
+
+func (s *UsersImpl) Certificate(ctx context.Context, in *pb.User) (*pb.User, error) {
+	user, err := s.Get(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+	if in.Cert != nil {
+		if in.Cert.FullName != "" {
+			user.Cert.FullName = in.Cert.FullName
+		}
+		if in.Cert.IdCardNo != "" {
+			user.Cert.IdCardNo = in.Cert.IdCardNo
+		}
+		if in.Cert.IdCardFront != "" {
+			user.Cert.IdCardFront = in.Cert.IdCardFront
+		}
+		if in.Cert.IdCardBack != "" {
+			user.Cert.IdCardBack = in.Cert.IdCardBack
+		}
+		if in.Cert.LivePhoto != "" {
+			user.Cert.LivePhoto = in.Cert.LivePhoto
+		}
+		if err := db.Update(userTable, in.Id, user); err != nil {
+			return nil, err
+		}
+	}
+
+	return in, nil
+}

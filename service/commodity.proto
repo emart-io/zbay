@@ -1,7 +1,7 @@
 syntax = "proto3";
 
+import "user.proto";
 import "google/protobuf/empty.proto";
-//import "google/protobuf/wrappers.proto";
 import "google/protobuf/timestamp.proto";
 
 package zbay;
@@ -12,6 +12,14 @@ service Commodities {
   rpc Update(Commodity) returns (Commodity) {}
   rpc List(Commodity) returns (stream Commodity) {}
   rpc Delete(Commodity) returns (google.protobuf.Empty) {}
+}
+
+service Coupons {
+  rpc Add(Coupon) returns (Coupon) {}
+  rpc Get(Coupon) returns (Coupon) {}
+  rpc Update(Coupon) returns (Coupon) {}
+  rpc Delete(Coupon) returns (google.protobuf.Empty) {}
+  rpc List(User) returns (stream Coupon) {}
 }
 
 message Commodity {
@@ -39,4 +47,18 @@ message Price {
 message Medium {
   string image = 1;
   string video = 2;
+}
+
+message Coupon {
+  string id = 1;
+  string name = 2;
+  string commodityId = 3;
+  uint32 denomination = 4;
+  uint32 count = 5;
+  uint32 limit = 6;
+  google.protobuf.Timestamp begin = 7;
+  google.protobuf.Timestamp end = 8;
+  string owner = 9;
+  map<string,string> annotations = 10;  
+  google.protobuf.Timestamp created = 11;
 }

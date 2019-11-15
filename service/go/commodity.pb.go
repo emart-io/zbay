@@ -276,50 +276,187 @@ func (m *Medium) GetVideo() string {
 	return ""
 }
 
+type Coupon struct {
+	Id           string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name         string            `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	CommodityId  string            `protobuf:"bytes,3,opt,name=commodityId,proto3" json:"commodityId,omitempty"`
+	Denomination uint32            `protobuf:"varint,4,opt,name=denomination,proto3" json:"denomination,omitempty"`
+	Count        uint32            `protobuf:"varint,5,opt,name=count,proto3" json:"count,omitempty"`
+	Limit        uint32            `protobuf:"varint,6,opt,name=limit,proto3" json:"limit,omitempty"`
+	Begin        *types.Timestamp  `protobuf:"bytes,7,opt,name=begin,proto3" json:"begin,omitempty"`
+	End          *types.Timestamp  `protobuf:"bytes,8,opt,name=end,proto3" json:"end,omitempty"`
+	Owner        string            `protobuf:"bytes,9,opt,name=owner,proto3" json:"owner,omitempty"`
+	Annotations  map[string]string `protobuf:"bytes,10,rep,name=annotations,proto3" json:"annotations,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Created      *types.Timestamp  `protobuf:"bytes,11,opt,name=created,proto3" json:"created,omitempty"`
+}
+
+func (m *Coupon) Reset()         { *m = Coupon{} }
+func (m *Coupon) String() string { return proto.CompactTextString(m) }
+func (*Coupon) ProtoMessage()    {}
+func (*Coupon) Descriptor() ([]byte, []int) {
+	return fileDescriptor_5c83c2c1a2570b2a, []int{3}
+}
+func (m *Coupon) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Coupon) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Coupon.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Coupon) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Coupon.Merge(m, src)
+}
+func (m *Coupon) XXX_Size() int {
+	return m.Size()
+}
+func (m *Coupon) XXX_DiscardUnknown() {
+	xxx_messageInfo_Coupon.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Coupon proto.InternalMessageInfo
+
+func (m *Coupon) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *Coupon) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *Coupon) GetCommodityId() string {
+	if m != nil {
+		return m.CommodityId
+	}
+	return ""
+}
+
+func (m *Coupon) GetDenomination() uint32 {
+	if m != nil {
+		return m.Denomination
+	}
+	return 0
+}
+
+func (m *Coupon) GetCount() uint32 {
+	if m != nil {
+		return m.Count
+	}
+	return 0
+}
+
+func (m *Coupon) GetLimit() uint32 {
+	if m != nil {
+		return m.Limit
+	}
+	return 0
+}
+
+func (m *Coupon) GetBegin() *types.Timestamp {
+	if m != nil {
+		return m.Begin
+	}
+	return nil
+}
+
+func (m *Coupon) GetEnd() *types.Timestamp {
+	if m != nil {
+		return m.End
+	}
+	return nil
+}
+
+func (m *Coupon) GetOwner() string {
+	if m != nil {
+		return m.Owner
+	}
+	return ""
+}
+
+func (m *Coupon) GetAnnotations() map[string]string {
+	if m != nil {
+		return m.Annotations
+	}
+	return nil
+}
+
+func (m *Coupon) GetCreated() *types.Timestamp {
+	if m != nil {
+		return m.Created
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*Commodity)(nil), "zbay.Commodity")
 	proto.RegisterMapType((map[string]string)(nil), "zbay.Commodity.AnnotationsEntry")
 	proto.RegisterType((*Price)(nil), "zbay.Price")
 	proto.RegisterType((*Medium)(nil), "zbay.Medium")
+	proto.RegisterType((*Coupon)(nil), "zbay.Coupon")
+	proto.RegisterMapType((map[string]string)(nil), "zbay.Coupon.AnnotationsEntry")
 }
 
 func init() { proto.RegisterFile("commodity.proto", fileDescriptor_5c83c2c1a2570b2a) }
 
 var fileDescriptor_5c83c2c1a2570b2a = []byte{
-	// 513 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x53, 0xdd, 0x8a, 0xd3, 0x40,
-	0x14, 0x6e, 0xda, 0x34, 0xdd, 0x9e, 0xec, 0x1f, 0x83, 0x2c, 0x43, 0x84, 0x18, 0x73, 0x55, 0x41,
-	0xb2, 0xd2, 0x5d, 0x41, 0xbc, 0x10, 0x76, 0x75, 0x11, 0x41, 0x61, 0x09, 0xfa, 0x00, 0xd3, 0xe4,
-	0x6c, 0x18, 0x6c, 0x32, 0x21, 0x99, 0x28, 0xf1, 0x19, 0xbc, 0xf0, 0xb1, 0xbc, 0xdc, 0x4b, 0x2f,
-	0xa5, 0x7d, 0x05, 0x1f, 0x40, 0x66, 0x26, 0xa9, 0x52, 0x85, 0xed, 0xdd, 0x7c, 0xe7, 0x7c, 0xdf,
-	0x39, 0x5f, 0xce, 0x47, 0xe0, 0x28, 0x11, 0x79, 0x2e, 0x52, 0x2e, 0xdb, 0xa8, 0xac, 0x84, 0x14,
-	0xc4, 0xfe, 0xb2, 0x60, 0xad, 0x77, 0x3f, 0x13, 0x22, 0x5b, 0xe2, 0xa9, 0xae, 0x2d, 0x9a, 0x9b,
-	0x53, 0xcc, 0xcb, 0x9e, 0xe2, 0x3d, 0xd8, 0x6e, 0x4a, 0x9e, 0x63, 0x2d, 0x59, 0x5e, 0x1a, 0x42,
-	0xf8, 0xd5, 0x86, 0xe9, 0xcb, 0x7e, 0x2e, 0x39, 0x84, 0x21, 0x4f, 0xa9, 0x15, 0x58, 0xb3, 0x69,
-	0x3c, 0xe4, 0x29, 0xb9, 0x07, 0x63, 0xc9, 0xe5, 0x12, 0xe9, 0x50, 0x97, 0x0c, 0x20, 0x1e, 0xec,
-	0x25, 0x4c, 0x62, 0x26, 0xaa, 0x96, 0x8e, 0x74, 0x63, 0x83, 0x09, 0x85, 0x49, 0x22, 0x0a, 0x89,
-	0x85, 0xa4, 0xb6, 0x6e, 0xf5, 0x90, 0x84, 0x30, 0xce, 0x31, 0xe5, 0x8c, 0x8e, 0x83, 0xd1, 0xcc,
-	0x9d, 0xef, 0x47, 0xca, 0x7d, 0xf4, 0x0e, 0x53, 0xde, 0xe4, 0xb1, 0x69, 0x11, 0x02, 0x76, 0xc2,
-	0x65, 0x4b, 0x1d, 0x2d, 0xd5, 0x6f, 0xf2, 0x10, 0xc6, 0x65, 0xc5, 0x13, 0xa4, 0x93, 0xc0, 0x9a,
-	0xb9, 0x73, 0xd7, 0xe8, 0xae, 0x55, 0x29, 0x36, 0x1d, 0x72, 0x02, 0x0e, 0xcb, 0x45, 0x53, 0x48,
-	0xba, 0x17, 0x58, 0xb3, 0x83, 0xb8, 0x43, 0x6a, 0xdc, 0x0d, 0xab, 0x90, 0x4e, 0x75, 0x55, 0xbf,
-	0x55, 0x4d, 0xb2, 0xac, 0xa6, 0x87, 0xc1, 0x48, 0xad, 0x50, 0x6f, 0x65, 0x5a, 0x7c, 0x2e, 0xb0,
-	0x7a, 0x93, 0x52, 0x30, 0xa6, 0x3b, 0x48, 0x2e, 0xc1, 0x65, 0x45, 0x21, 0x24, 0x93, 0x5c, 0x14,
-	0x35, 0x75, 0xb5, 0xf5, 0xc0, 0x58, 0xd8, 0x9c, 0x2d, 0xba, 0xf8, 0x43, 0xb9, 0x2a, 0x64, 0xd5,
-	0xc6, 0x7f, 0x8b, 0xc8, 0x39, 0x4c, 0x92, 0x0a, 0x99, 0xc4, 0x94, 0xee, 0xeb, 0x4f, 0xf0, 0x22,
-	0x93, 0x4a, 0xd4, 0xa7, 0x12, 0xbd, 0xef, 0x53, 0x89, 0x7b, 0xaa, 0x52, 0x35, 0x65, 0xaa, 0x55,
-	0x07, 0x77, 0xab, 0x3a, 0xaa, 0xf7, 0x02, 0x8e, 0xb7, 0xcd, 0x90, 0x63, 0x18, 0x7d, 0xc4, 0xb6,
-	0x4b, 0x55, 0x3d, 0x55, 0xac, 0x9f, 0xd8, 0xb2, 0xd9, 0xc4, 0xaa, 0xc1, 0xf3, 0xe1, 0x33, 0x2b,
-	0x7c, 0x0a, 0xe3, 0xeb, 0xfe, 0xa4, 0x35, 0x2f, 0xb2, 0x25, 0x6a, 0x9d, 0x1d, 0x77, 0x48, 0x49,
-	0xb3, 0x4a, 0x34, 0xa5, 0x96, 0xda, 0xb1, 0x01, 0xe1, 0x39, 0x38, 0x26, 0x48, 0xd5, 0xe7, 0x39,
-	0xcb, 0xb0, 0x5b, 0x67, 0x80, 0x5e, 0xc8, 0x53, 0x14, 0x9b, 0x85, 0x0a, 0xcc, 0x7f, 0x59, 0xe0,
-	0xf6, 0x47, 0xe4, 0x58, 0x93, 0x47, 0x30, 0xba, 0x48, 0x53, 0x72, 0xb4, 0x75, 0x5e, 0x6f, 0xbb,
-	0x10, 0x0e, 0x14, 0xf5, 0x35, 0xca, 0x9d, 0xa8, 0x8f, 0xc1, 0xf9, 0xa0, 0xaf, 0xb3, 0x23, 0xdb,
-	0x7e, 0xcb, 0xeb, 0x9d, 0x26, 0x3f, 0xb1, 0xc8, 0x19, 0x38, 0xaf, 0x70, 0x89, 0xff, 0x9b, 0x7d,
-	0xf2, 0x4f, 0x5c, 0x57, 0xea, 0xbf, 0x0c, 0x07, 0x97, 0xf4, 0xfb, 0xca, 0xb7, 0x6e, 0x57, 0xbe,
-	0xf5, 0x73, 0xe5, 0x5b, 0xdf, 0xd6, 0xfe, 0xe0, 0x76, 0xed, 0x0f, 0x7e, 0xac, 0xfd, 0xc1, 0xc2,
-	0xd1, 0xdc, 0xb3, 0xdf, 0x01, 0x00, 0x00, 0xff, 0xff, 0x3d, 0xe8, 0x8b, 0x14, 0xea, 0x03, 0x00,
-	0x00,
+	// 696 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x54, 0xd1, 0x6a, 0x13, 0x4d,
+	0x14, 0xce, 0x26, 0x9b, 0xa4, 0x39, 0x9b, 0xb4, 0x65, 0xf8, 0x29, 0xc3, 0xfe, 0x18, 0xe3, 0x2a,
+	0x12, 0xa1, 0xa4, 0x21, 0xad, 0x20, 0x5e, 0x28, 0x6d, 0x2d, 0x52, 0x50, 0x28, 0x8b, 0x7d, 0x80,
+	0xcd, 0xce, 0x74, 0x19, 0xcc, 0xce, 0x2c, 0xbb, 0xb3, 0x4a, 0x7c, 0x06, 0x2f, 0x7c, 0x2c, 0xc1,
+	0x9b, 0x82, 0x37, 0x5e, 0x4a, 0xfb, 0x0a, 0x3e, 0x80, 0xcc, 0xcc, 0xee, 0xda, 0xa4, 0x1a, 0x03,
+	0xde, 0xcd, 0x77, 0xce, 0x77, 0xe6, 0x9c, 0x33, 0xdf, 0xb7, 0x0b, 0x5b, 0xa1, 0x88, 0x63, 0x41,
+	0x98, 0x9c, 0x8f, 0x92, 0x54, 0x48, 0x81, 0xec, 0x0f, 0xd3, 0x60, 0xee, 0x42, 0x9e, 0xd1, 0xd4,
+	0x44, 0xdc, 0xff, 0x23, 0x21, 0xa2, 0x19, 0xdd, 0xd3, 0x68, 0x9a, 0x5f, 0xec, 0xd1, 0x38, 0x29,
+	0xe9, 0xee, 0xdd, 0xe5, 0xa4, 0x64, 0x31, 0xcd, 0x64, 0x10, 0x27, 0x86, 0xe0, 0x7d, 0xb4, 0xa1,
+	0x73, 0x5c, 0xf6, 0x40, 0x9b, 0x50, 0x67, 0x04, 0x5b, 0x03, 0x6b, 0xd8, 0xf1, 0xeb, 0x8c, 0xa0,
+	0xff, 0xa0, 0x29, 0x99, 0x9c, 0x51, 0x5c, 0xd7, 0x21, 0x03, 0x90, 0x0b, 0x1b, 0x61, 0x20, 0x69,
+	0x24, 0xd2, 0x39, 0x6e, 0xe8, 0x44, 0x85, 0x11, 0x86, 0x76, 0x28, 0xb8, 0xa4, 0x5c, 0x62, 0x5b,
+	0xa7, 0x4a, 0x88, 0x3c, 0x68, 0xc6, 0x94, 0xb0, 0x00, 0x37, 0x07, 0x8d, 0xa1, 0x33, 0xe9, 0x8e,
+	0xd4, 0x26, 0xa3, 0xd7, 0x94, 0xb0, 0x3c, 0xf6, 0x4d, 0x0a, 0x21, 0xb0, 0x43, 0x26, 0xe7, 0xb8,
+	0xa5, 0x4b, 0xf5, 0x19, 0xdd, 0x83, 0x66, 0x92, 0xb2, 0x90, 0xe2, 0xf6, 0xc0, 0x1a, 0x3a, 0x13,
+	0xc7, 0xd4, 0x9d, 0xa9, 0x90, 0x6f, 0x32, 0x68, 0x07, 0x5a, 0x41, 0x2c, 0x72, 0x2e, 0xf1, 0xc6,
+	0xc0, 0x1a, 0xf6, 0xfc, 0x02, 0xa9, 0xeb, 0x2e, 0x82, 0x94, 0xe2, 0x8e, 0x8e, 0xea, 0xb3, 0x8a,
+	0xc9, 0x20, 0xca, 0xf0, 0xe6, 0xa0, 0xa1, 0x5a, 0xa8, 0xb3, 0x1a, 0x5a, 0xbc, 0xe7, 0x34, 0x3d,
+	0x25, 0x18, 0xcc, 0xd0, 0x05, 0x44, 0x47, 0xe0, 0x04, 0x9c, 0x0b, 0x19, 0x48, 0x26, 0x78, 0x86,
+	0x1d, 0x3d, 0xfa, 0xc0, 0x8c, 0x50, 0x3d, 0xdb, 0xe8, 0xf0, 0x17, 0xe5, 0x84, 0xcb, 0x74, 0xee,
+	0xdf, 0x2c, 0x42, 0x07, 0xd0, 0x0e, 0x53, 0x1a, 0x48, 0x4a, 0x70, 0x57, 0xaf, 0xe0, 0x8e, 0x8c,
+	0x2a, 0xa3, 0x52, 0x95, 0xd1, 0x9b, 0x52, 0x15, 0xbf, 0xa4, 0xaa, 0xaa, 0x3c, 0x21, 0xba, 0xaa,
+	0xf7, 0xf7, 0xaa, 0x82, 0xea, 0x3e, 0x83, 0xed, 0xe5, 0x61, 0xd0, 0x36, 0x34, 0xde, 0xd2, 0x79,
+	0xa1, 0xaa, 0x3a, 0x2a, 0x59, 0xdf, 0x05, 0xb3, 0xbc, 0x92, 0x55, 0x83, 0xa7, 0xf5, 0x27, 0x96,
+	0xf7, 0x18, 0x9a, 0x67, 0xe5, 0x93, 0x66, 0x8c, 0x47, 0x33, 0xaa, 0xeb, 0x6c, 0xbf, 0x40, 0xaa,
+	0x34, 0x4a, 0x45, 0x9e, 0xe8, 0x52, 0xdb, 0x37, 0xc0, 0x3b, 0x80, 0x96, 0x11, 0x52, 0xe5, 0x59,
+	0x1c, 0x44, 0xb4, 0x68, 0x67, 0x80, 0x6e, 0xc8, 0x08, 0x15, 0x55, 0x43, 0x05, 0xbc, 0x2f, 0x0d,
+	0x68, 0x1d, 0x8b, 0x3c, 0x11, 0xfc, 0x96, 0xf1, 0x10, 0xd8, 0x3c, 0x88, 0xcb, 0x01, 0xf5, 0x19,
+	0x0d, 0xc0, 0xa9, 0xbe, 0x86, 0x53, 0x52, 0x38, 0xef, 0x66, 0x08, 0x79, 0xd0, 0x25, 0x94, 0x8b,
+	0x98, 0x71, 0xbd, 0xbf, 0x76, 0x60, 0xcf, 0x5f, 0x88, 0xa9, 0x51, 0x42, 0x6d, 0x95, 0xa6, 0x4e,
+	0x1a, 0xa0, 0xa2, 0x33, 0x16, 0x33, 0xa9, 0x9d, 0xd7, 0xf3, 0x0d, 0x40, 0x63, 0x68, 0x4e, 0x69,
+	0xc4, 0x78, 0x61, 0xbd, 0x55, 0x0a, 0x18, 0x22, 0xda, 0x85, 0x06, 0xe5, 0x44, 0xdb, 0x70, 0x35,
+	0x5f, 0xd1, 0x54, 0x57, 0x6d, 0x34, 0x6d, 0xd0, 0x8e, 0x6f, 0x00, 0x7a, 0xbe, 0xe8, 0x39, 0xd0,
+	0x9e, 0xbb, 0x53, 0x7a, 0x4e, 0x3d, 0xd7, 0xfa, 0x86, 0x73, 0xd6, 0x36, 0xdc, 0xbf, 0x5a, 0x67,
+	0xf2, 0xc3, 0x02, 0xa7, 0xfc, 0x24, 0x18, 0xcd, 0xd0, 0x23, 0x68, 0x1c, 0x12, 0x82, 0xb6, 0x96,
+	0x3e, 0x16, 0x77, 0x39, 0xe0, 0xd5, 0x14, 0xf5, 0x25, 0x95, 0x6b, 0x51, 0x77, 0xa1, 0x75, 0xae,
+	0xbd, 0xbe, 0x26, 0xdb, 0x7e, 0xc5, 0xb2, 0xb5, 0x6e, 0x1e, 0x5b, 0x68, 0x1f, 0x5a, 0x2f, 0xe8,
+	0x8c, 0xfe, 0xee, 0xee, 0x9d, 0x5b, 0x2f, 0x78, 0xa2, 0xfe, 0xb2, 0x5e, 0x6d, 0xf2, 0xd5, 0x82,
+	0xb6, 0x51, 0x25, 0x43, 0xf7, 0xcd, 0xca, 0xdd, 0x9b, 0x5a, 0xb9, 0x0b, 0xc8, 0xab, 0x29, 0x92,
+	0x5a, 0x76, 0x35, 0xe9, 0x61, 0xb5, 0xe6, 0x6a, 0xde, 0xb8, 0x1a, 0x79, 0x91, 0xf7, 0xc7, 0x79,
+	0xd1, 0x83, 0xe2, 0x49, 0xc0, 0xf0, 0xcf, 0x33, 0x9a, 0x2e, 0xdf, 0x3a, 0xb6, 0x8e, 0xf0, 0xe7,
+	0xab, 0xbe, 0x75, 0x79, 0xd5, 0xb7, 0xbe, 0x5f, 0xf5, 0xad, 0x4f, 0xd7, 0xfd, 0xda, 0xe5, 0x75,
+	0xbf, 0xf6, 0xed, 0xba, 0x5f, 0x9b, 0xb6, 0xf4, 0x8d, 0xfb, 0x3f, 0x03, 0x00, 0x00, 0xff, 0xff,
+	0x9b, 0x1c, 0x44, 0xcd, 0x9a, 0x06, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -554,6 +691,230 @@ var _Commodities_serviceDesc = grpc.ServiceDesc{
 	Metadata: "commodity.proto",
 }
 
+// CouponsClient is the client API for Coupons service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type CouponsClient interface {
+	Add(ctx context.Context, in *Coupon, opts ...grpc.CallOption) (*Coupon, error)
+	Get(ctx context.Context, in *Coupon, opts ...grpc.CallOption) (*Coupon, error)
+	Update(ctx context.Context, in *Coupon, opts ...grpc.CallOption) (*Coupon, error)
+	Delete(ctx context.Context, in *Coupon, opts ...grpc.CallOption) (*types.Empty, error)
+	List(ctx context.Context, in *User, opts ...grpc.CallOption) (Coupons_ListClient, error)
+}
+
+type couponsClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewCouponsClient(cc *grpc.ClientConn) CouponsClient {
+	return &couponsClient{cc}
+}
+
+func (c *couponsClient) Add(ctx context.Context, in *Coupon, opts ...grpc.CallOption) (*Coupon, error) {
+	out := new(Coupon)
+	err := c.cc.Invoke(ctx, "/zbay.Coupons/Add", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *couponsClient) Get(ctx context.Context, in *Coupon, opts ...grpc.CallOption) (*Coupon, error) {
+	out := new(Coupon)
+	err := c.cc.Invoke(ctx, "/zbay.Coupons/Get", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *couponsClient) Update(ctx context.Context, in *Coupon, opts ...grpc.CallOption) (*Coupon, error) {
+	out := new(Coupon)
+	err := c.cc.Invoke(ctx, "/zbay.Coupons/Update", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *couponsClient) Delete(ctx context.Context, in *Coupon, opts ...grpc.CallOption) (*types.Empty, error) {
+	out := new(types.Empty)
+	err := c.cc.Invoke(ctx, "/zbay.Coupons/Delete", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *couponsClient) List(ctx context.Context, in *User, opts ...grpc.CallOption) (Coupons_ListClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_Coupons_serviceDesc.Streams[0], "/zbay.Coupons/List", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &couponsListClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Coupons_ListClient interface {
+	Recv() (*Coupon, error)
+	grpc.ClientStream
+}
+
+type couponsListClient struct {
+	grpc.ClientStream
+}
+
+func (x *couponsListClient) Recv() (*Coupon, error) {
+	m := new(Coupon)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+// CouponsServer is the server API for Coupons service.
+type CouponsServer interface {
+	Add(context.Context, *Coupon) (*Coupon, error)
+	Get(context.Context, *Coupon) (*Coupon, error)
+	Update(context.Context, *Coupon) (*Coupon, error)
+	Delete(context.Context, *Coupon) (*types.Empty, error)
+	List(*User, Coupons_ListServer) error
+}
+
+func RegisterCouponsServer(s *grpc.Server, srv CouponsServer) {
+	s.RegisterService(&_Coupons_serviceDesc, srv)
+}
+
+func _Coupons_Add_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Coupon)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CouponsServer).Add(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/zbay.Coupons/Add",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CouponsServer).Add(ctx, req.(*Coupon))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Coupons_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Coupon)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CouponsServer).Get(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/zbay.Coupons/Get",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CouponsServer).Get(ctx, req.(*Coupon))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Coupons_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Coupon)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CouponsServer).Update(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/zbay.Coupons/Update",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CouponsServer).Update(ctx, req.(*Coupon))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Coupons_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Coupon)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CouponsServer).Delete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/zbay.Coupons/Delete",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CouponsServer).Delete(ctx, req.(*Coupon))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Coupons_List_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(User)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(CouponsServer).List(m, &couponsListServer{stream})
+}
+
+type Coupons_ListServer interface {
+	Send(*Coupon) error
+	grpc.ServerStream
+}
+
+type couponsListServer struct {
+	grpc.ServerStream
+}
+
+func (x *couponsListServer) Send(m *Coupon) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+var _Coupons_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "zbay.Coupons",
+	HandlerType: (*CouponsServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Add",
+			Handler:    _Coupons_Add_Handler,
+		},
+		{
+			MethodName: "Get",
+			Handler:    _Coupons_Get_Handler,
+		},
+		{
+			MethodName: "Update",
+			Handler:    _Coupons_Update_Handler,
+		},
+		{
+			MethodName: "Delete",
+			Handler:    _Coupons_Delete_Handler,
+		},
+	},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "List",
+			Handler:       _Coupons_List_Handler,
+			ServerStreams: true,
+		},
+	},
+	Metadata: "commodity.proto",
+}
+
 func (m *Commodity) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -750,6 +1111,110 @@ func (m *Medium) MarshalTo(dAtA []byte) (int, error) {
 	return i, nil
 }
 
+func (m *Coupon) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Coupon) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if len(m.Id) > 0 {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Id)))
+		i += copy(dAtA[i:], m.Id)
+	}
+	if len(m.Name) > 0 {
+		dAtA[i] = 0x12
+		i++
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Name)))
+		i += copy(dAtA[i:], m.Name)
+	}
+	if len(m.CommodityId) > 0 {
+		dAtA[i] = 0x1a
+		i++
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.CommodityId)))
+		i += copy(dAtA[i:], m.CommodityId)
+	}
+	if m.Denomination != 0 {
+		dAtA[i] = 0x20
+		i++
+		i = encodeVarintCommodity(dAtA, i, uint64(m.Denomination))
+	}
+	if m.Count != 0 {
+		dAtA[i] = 0x28
+		i++
+		i = encodeVarintCommodity(dAtA, i, uint64(m.Count))
+	}
+	if m.Limit != 0 {
+		dAtA[i] = 0x30
+		i++
+		i = encodeVarintCommodity(dAtA, i, uint64(m.Limit))
+	}
+	if m.Begin != nil {
+		dAtA[i] = 0x3a
+		i++
+		i = encodeVarintCommodity(dAtA, i, uint64(m.Begin.Size()))
+		n4, err := m.Begin.MarshalTo(dAtA[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n4
+	}
+	if m.End != nil {
+		dAtA[i] = 0x42
+		i++
+		i = encodeVarintCommodity(dAtA, i, uint64(m.End.Size()))
+		n5, err := m.End.MarshalTo(dAtA[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n5
+	}
+	if len(m.Owner) > 0 {
+		dAtA[i] = 0x4a
+		i++
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Owner)))
+		i += copy(dAtA[i:], m.Owner)
+	}
+	if len(m.Annotations) > 0 {
+		for k, _ := range m.Annotations {
+			dAtA[i] = 0x52
+			i++
+			v := m.Annotations[k]
+			mapSize := 1 + len(k) + sovCommodity(uint64(len(k))) + 1 + len(v) + sovCommodity(uint64(len(v)))
+			i = encodeVarintCommodity(dAtA, i, uint64(mapSize))
+			dAtA[i] = 0xa
+			i++
+			i = encodeVarintCommodity(dAtA, i, uint64(len(k)))
+			i += copy(dAtA[i:], k)
+			dAtA[i] = 0x12
+			i++
+			i = encodeVarintCommodity(dAtA, i, uint64(len(v)))
+			i += copy(dAtA[i:], v)
+		}
+	}
+	if m.Created != nil {
+		dAtA[i] = 0x5a
+		i++
+		i = encodeVarintCommodity(dAtA, i, uint64(m.Created.Size()))
+		n6, err := m.Created.MarshalTo(dAtA[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n6
+	}
+	return i, nil
+}
+
 func encodeVarintCommodity(dAtA []byte, offset int, v uint64) int {
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
@@ -857,6 +1322,60 @@ func (m *Medium) Size() (n int) {
 	}
 	l = len(m.Video)
 	if l > 0 {
+		n += 1 + l + sovCommodity(uint64(l))
+	}
+	return n
+}
+
+func (m *Coupon) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Id)
+	if l > 0 {
+		n += 1 + l + sovCommodity(uint64(l))
+	}
+	l = len(m.Name)
+	if l > 0 {
+		n += 1 + l + sovCommodity(uint64(l))
+	}
+	l = len(m.CommodityId)
+	if l > 0 {
+		n += 1 + l + sovCommodity(uint64(l))
+	}
+	if m.Denomination != 0 {
+		n += 1 + sovCommodity(uint64(m.Denomination))
+	}
+	if m.Count != 0 {
+		n += 1 + sovCommodity(uint64(m.Count))
+	}
+	if m.Limit != 0 {
+		n += 1 + sovCommodity(uint64(m.Limit))
+	}
+	if m.Begin != nil {
+		l = m.Begin.Size()
+		n += 1 + l + sovCommodity(uint64(l))
+	}
+	if m.End != nil {
+		l = m.End.Size()
+		n += 1 + l + sovCommodity(uint64(l))
+	}
+	l = len(m.Owner)
+	if l > 0 {
+		n += 1 + l + sovCommodity(uint64(l))
+	}
+	if len(m.Annotations) > 0 {
+		for k, v := range m.Annotations {
+			_ = k
+			_ = v
+			mapEntrySize := 1 + len(k) + sovCommodity(uint64(len(k))) + 1 + len(v) + sovCommodity(uint64(len(v)))
+			n += mapEntrySize + 1 + sovCommodity(uint64(mapEntrySize))
+		}
+	}
+	if m.Created != nil {
+		l = m.Created.Size()
 		n += 1 + l + sovCommodity(uint64(l))
 	}
 	return n
@@ -1642,6 +2161,479 @@ func (m *Medium) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.Video = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipCommodity(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Coupon) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowCommodity
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Coupon: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Coupon: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommodity
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Id = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommodity
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Name = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CommodityId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommodity
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.CommodityId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Denomination", wireType)
+			}
+			m.Denomination = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommodity
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Denomination |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Count", wireType)
+			}
+			m.Count = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommodity
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Count |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 6:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Limit", wireType)
+			}
+			m.Limit = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommodity
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Limit |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 7:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Begin", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommodity
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Begin == nil {
+				m.Begin = &types.Timestamp{}
+			}
+			if err := m.Begin.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 8:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field End", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommodity
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.End == nil {
+				m.End = &types.Timestamp{}
+			}
+			if err := m.End.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 9:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Owner", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommodity
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Owner = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 10:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Annotations", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommodity
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Annotations == nil {
+				m.Annotations = make(map[string]string)
+			}
+			var mapkey string
+			var mapvalue string
+			for iNdEx < postIndex {
+				entryPreIndex := iNdEx
+				var wire uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return ErrIntOverflowCommodity
+					}
+					if iNdEx >= l {
+						return io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					wire |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				fieldNum := int32(wire >> 3)
+				if fieldNum == 1 {
+					var stringLenmapkey uint64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowCommodity
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						stringLenmapkey |= uint64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					intStringLenmapkey := int(stringLenmapkey)
+					if intStringLenmapkey < 0 {
+						return ErrInvalidLengthCommodity
+					}
+					postStringIndexmapkey := iNdEx + intStringLenmapkey
+					if postStringIndexmapkey < 0 {
+						return ErrInvalidLengthCommodity
+					}
+					if postStringIndexmapkey > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
+					iNdEx = postStringIndexmapkey
+				} else if fieldNum == 2 {
+					var stringLenmapvalue uint64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowCommodity
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						stringLenmapvalue |= uint64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					intStringLenmapvalue := int(stringLenmapvalue)
+					if intStringLenmapvalue < 0 {
+						return ErrInvalidLengthCommodity
+					}
+					postStringIndexmapvalue := iNdEx + intStringLenmapvalue
+					if postStringIndexmapvalue < 0 {
+						return ErrInvalidLengthCommodity
+					}
+					if postStringIndexmapvalue > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapvalue = string(dAtA[iNdEx:postStringIndexmapvalue])
+					iNdEx = postStringIndexmapvalue
+				} else {
+					iNdEx = entryPreIndex
+					skippy, err := skipCommodity(dAtA[iNdEx:])
+					if err != nil {
+						return err
+					}
+					if skippy < 0 {
+						return ErrInvalidLengthCommodity
+					}
+					if (iNdEx + skippy) > postIndex {
+						return io.ErrUnexpectedEOF
+					}
+					iNdEx += skippy
+				}
+			}
+			m.Annotations[mapkey] = mapvalue
+			iNdEx = postIndex
+		case 11:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Created", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCommodity
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthCommodity
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Created == nil {
+				m.Created = &types.Timestamp{}
+			}
+			if err := m.Created.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

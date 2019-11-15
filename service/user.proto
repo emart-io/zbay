@@ -12,6 +12,15 @@ service Users {
   rpc List (User) returns (stream User) {}
   rpc Delete (User) returns (google.protobuf.Empty) {}
   rpc Login (User) returns (User) {}
+  rpc Certificate (User) returns (User) {}
+}
+
+service Addresses {
+  rpc Add(Address) returns (Address) {}
+  rpc Get(Address) returns (Address) {}
+  rpc Update(Address) returns (Address) {}
+  rpc Delete(Address) returns (google.protobuf.Empty) {}
+  rpc List(User) returns (stream Address) {}
 }
 
 message User {
@@ -21,6 +30,26 @@ message User {
   string telephone = 4;
   string icon = 5;
   string signature = 6;
+  Certification cert = 9;
   map<string,string> annotations = 7;
   google.protobuf.Timestamp created = 8;  
+}
+
+message Certification {
+  string full_name = 1;
+  string id_card_no = 2;
+  string id_card_front = 3;
+  string id_card_back = 4;
+  string live_photo = 5;
+}
+
+message Address {
+  string id = 1;
+  string userId = 2;
+  string contact = 3;
+  string telephone = 4;
+  string location = 5;
+  bool default = 8;
+  map<string,string> annotations = 6;  
+  google.protobuf.Timestamp created = 7;  
 }
