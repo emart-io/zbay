@@ -50,7 +50,7 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.zbay.Certification = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.zbay.Certification.repeatedFields_, null);
 };
 goog.inherits(proto.zbay.Certification, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -560,6 +560,13 @@ proto.zbay.User.prototype.hasCreated = function() {
 
 
 
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.zbay.Certification.repeatedFields_ = [3];
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -593,9 +600,7 @@ proto.zbay.Certification.toObject = function(includeInstance, msg) {
   var f, obj = {
     fullName: jspb.Message.getFieldWithDefault(msg, 1, ""),
     idCardNo: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    idCardFront: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    idCardBack: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    livePhoto: jspb.Message.getFieldWithDefault(msg, 5, "")
+    imagesList: (f = jspb.Message.getRepeatedField(msg, 3)) == null ? undefined : f
   };
 
   if (includeInstance) {
@@ -642,15 +647,7 @@ proto.zbay.Certification.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setIdCardFront(value);
-      break;
-    case 4:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setIdCardBack(value);
-      break;
-    case 5:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setLivePhoto(value);
+      msg.addImages(value);
       break;
     default:
       reader.skipField();
@@ -695,24 +692,10 @@ proto.zbay.Certification.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getIdCardFront();
+  f = message.getImagesList();
   if (f.length > 0) {
-    writer.writeString(
+    writer.writeRepeatedString(
       3,
-      f
-    );
-  }
-  f = message.getIdCardBack();
-  if (f.length > 0) {
-    writer.writeString(
-      4,
-      f
-    );
-  }
-  f = message.getLivePhoto();
-  if (f.length > 0) {
-    writer.writeString(
-      5,
       f
     );
   }
@@ -730,7 +713,7 @@ Object.defineProperty(proto.zbay.Certification.prototype, "fullName", {
 
 
 /**
- * optional string full_name = 1;
+ * optional string fullName = 1;
  * @return {string}
  */
 proto.zbay.Certification.prototype.getFullName = function() {
@@ -755,7 +738,7 @@ Object.defineProperty(proto.zbay.Certification.prototype, "idCardNo", {
 
 
 /**
- * optional string id_card_no = 2;
+ * optional string idCardNo = 2;
  * @return {string}
  */
 proto.zbay.Certification.prototype.getIdCardNo = function() {
@@ -769,78 +752,45 @@ proto.zbay.Certification.prototype.setIdCardNo = function(value) {
 };
 
 
-Object.defineProperty(proto.zbay.Certification.prototype, "idCardFront", {
+Object.defineProperty(proto.zbay.Certification.prototype, "imagesList", {
   set: function(value) {
-    this.setIdCardFront(value);
+    this.setImagesList(value);
   },
   get: function() {
-    return this.getIdCardFront();
+    return this.getImagesList();
   },
 });
 
 
 /**
- * optional string id_card_front = 3;
- * @return {string}
+ * repeated string images = 3;
+ * @return {!Array<string>}
  */
-proto.zbay.Certification.prototype.getIdCardFront = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+proto.zbay.Certification.prototype.getImagesList = function() {
+  return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 3));
 };
 
 
-/** @param {string} value */
-proto.zbay.Certification.prototype.setIdCardFront = function(value) {
-  jspb.Message.setProto3StringField(this, 3, value);
+/** @param {!Array<string>} value */
+proto.zbay.Certification.prototype.setImagesList = function(value) {
+  jspb.Message.setField(this, 3, value || []);
 };
-
-
-Object.defineProperty(proto.zbay.Certification.prototype, "idCardBack", {
-  set: function(value) {
-    this.setIdCardBack(value);
-  },
-  get: function() {
-    return this.getIdCardBack();
-  },
-});
 
 
 /**
- * optional string id_card_back = 4;
- * @return {string}
+ * @param {string} value
+ * @param {number=} opt_index
  */
-proto.zbay.Certification.prototype.getIdCardBack = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+proto.zbay.Certification.prototype.addImages = function(value, opt_index) {
+  jspb.Message.addToRepeatedField(this, 3, value, opt_index);
 };
-
-
-/** @param {string} value */
-proto.zbay.Certification.prototype.setIdCardBack = function(value) {
-  jspb.Message.setProto3StringField(this, 4, value);
-};
-
-
-Object.defineProperty(proto.zbay.Certification.prototype, "livePhoto", {
-  set: function(value) {
-    this.setLivePhoto(value);
-  },
-  get: function() {
-    return this.getLivePhoto();
-  },
-});
 
 
 /**
- * optional string live_photo = 5;
- * @return {string}
+ * Clears the list making it empty but non-null.
  */
-proto.zbay.Certification.prototype.getLivePhoto = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
-};
-
-
-/** @param {string} value */
-proto.zbay.Certification.prototype.setLivePhoto = function(value) {
-  jspb.Message.setProto3StringField(this, 5, value);
+proto.zbay.Certification.prototype.clearImagesList = function() {
+  this.setImagesList([]);
 };
 
 

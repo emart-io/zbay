@@ -27,7 +27,7 @@ func main() {
 	pb.RegisterAddressesServer(s, &impl.AddressImpl{})
 	pb.RegisterCouponsServer(s, &impl.CouponImpl{})
 
-	log.Infoln("begin serve:" + port)
+	log.Infoln("listen:" + port)
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

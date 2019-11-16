@@ -36,11 +36,9 @@ message User {
 }
 
 message Certification {
-  string full_name = 1;
-  string id_card_no = 2;
-  string id_card_front = 3;
-  string id_card_back = 4;
-  string live_photo = 5;
+  string fullName = 1;
+  string idCardNo = 2;
+  repeated string images = 3;
 }
 
 message Address {

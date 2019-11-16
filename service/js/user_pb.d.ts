@@ -41,11 +41,11 @@ export namespace User {
 }
 
 export class Certification extends jspb.Message {
-  full_name: string;
-  id_card_no: string;
-  id_card_front: string;
-  id_card_back: string;
-  live_photo: string;
+  fullName: string;
+  idCardNo: string;
+  imagesList: Array<string>;
+  clearimagesList(): void;
+  addImages(value: string, index?: number): void;
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Certification.AsObject;
   static toObject(includeInstance: boolean, msg: Certification): Certification.AsObject;
@@ -56,11 +56,9 @@ export class Certification extends jspb.Message {
 
 export namespace Certification {
   export type AsObject = {
-    fullName: string,
-    idCardNo: string,
-    idCardFront: string,
-    idCardBack: string,
-    livePhoto: string,
+    fullname: string,
+    idcardno: string,
+    imagesList: Array<string>,
   }
 }
 
