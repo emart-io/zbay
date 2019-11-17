@@ -44,8 +44,12 @@ func (s *CommoditiesImpl) Update(ctx context.Context, in *pb.Commodity) (*pb.Com
 }
 
 func (s *CommoditiesImpl) List(in *pb.Commodity, stream pb.Commodities_ListServer) error {
+	clause := ""
+	if in.OwnerId != "" {
+		clause = " WHERE data->'$.ownerId'='" + in.OwnerId + "'"
+	}
 	commodities := []*pb.Commodity{}
-	if err := db.List(commodityTable, &commodities, " order by data->'$.created.seconds' desc"); err != nil {
+	if err := db.List(commodityTable, &commodities, clause, " ORDER BY data->'$.created.seconds' DESC"); err != nil {
 		return err
 	}
 
