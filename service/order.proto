@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "user.proto";
+import "commodity.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
 import "google/protobuf/timestamp.proto";
@@ -19,9 +20,9 @@ service Orders {
 
 message Order {
   string id = 1;
-  string commodityId = 2;
+  Commodity snapshot = 12;
   string userId = 3;
-  Position destination = 4;
+  Address destination = 4;
   uint32 quantity = 5;
   uint64 amount = 6;
   string status = 7;
@@ -29,12 +30,6 @@ message Order {
   PayInfo payInfo = 9;
   map<string,string> annotations = 10;  
   google.protobuf.Timestamp created = 11;  
-}
-
-message Position {
-  string name = 1;
-  string location = 2;
-  string address = 3;
 }
 
 message PayInfo {
