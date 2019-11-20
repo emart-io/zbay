@@ -23,14 +23,14 @@ func init() {
 	for i := 1; i <= 5; i++ {
 		DB, err = sql.Open("mysql", dburl)
 		if err != nil {
-			log.Println("Connect failed: ", dburl, err, i)
+			log.Errorln("Connect failed: ", dburl, err, i)
 			time.Sleep(time.Second * 5)
 			continue
 		} else {
 			break
 		}
 	}
-	log.Println("DB init completely: ", dburl)
+	log.Debugln("DB init completely: ", dburl)
 	DB.SetMaxIdleConns(0)
 }
 
@@ -140,7 +140,7 @@ func List(table string, result interface{}, clause ...string) error {
 			query = query + " " + v
 		}
 	}
-	log.Println(query)
+	log.Debugln(query)
 	rows, err := DB.Query(query)
 	if err != nil {
 		return err

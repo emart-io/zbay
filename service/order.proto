@@ -28,6 +28,7 @@ message Order {
   string status = 7;
   string comment = 8;
   PayInfo payInfo = 9;
+  string expressNo = 13;
   map<string,string> annotations = 10;  
   google.protobuf.Timestamp created = 11;  
 }

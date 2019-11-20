@@ -37,7 +37,13 @@ func (s *OrdersImpl) Update(ctx context.Context, in *pb.Order) (*pb.Order, error
 	if err != nil {
 		return nil, err
 	}
-	order.Status = in.Status
+	if in.Status != "" {
+		order.Status = in.Status
+	}
+	if in.ExpressNo != "" {
+		order.ExpressNo = in.ExpressNo
+	}
+
 	if err := db.Update(orderTable, in.Id, order); err != nil {
 		return nil, err
 	}
@@ -45,8 +51,12 @@ func (s *OrdersImpl) Update(ctx context.Context, in *pb.Order) (*pb.Order, error
 }
 
 func (s *OrdersImpl) List(in *pb.User, stream pb.Orders_ListServer) error {
+	clause := ""
+	if in.Id != "" {
+		clause = "WHERE data->'$.snapshot.ownerId'='" + in.Id + "'"
+	}
 	orders := []*pb.Order{}
-	if err := db.List(orderTable, &orders, " order by data->'$.created.seconds' desc"); err != nil {
+	if err := db.List(orderTable, &orders, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
 		return err
 	}
 
