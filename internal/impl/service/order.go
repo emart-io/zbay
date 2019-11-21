@@ -40,8 +40,12 @@ func (s *OrdersImpl) Update(ctx context.Context, in *pb.Order) (*pb.Order, error
 	if in.Status != "" {
 		order.Status = in.Status
 	}
-	if in.ExpressNo != "" {
-		order.ExpressNo = in.ExpressNo
+	if in.Express != nil {
+		order.Express = in.Express
+	}
+
+	if in.Comment != "" {
+		order.Comment = in.Comment
 	}
 
 	if err := db.Update(orderTable, in.Id, order); err != nil {
