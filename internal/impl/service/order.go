@@ -56,7 +56,7 @@ func (s *OrdersImpl) Update(ctx context.Context, in *pb.Order) (*pb.Order, error
 
 func (s *OrdersImpl) List(in *pb.User, stream pb.Orders_ListServer) error {
 	clause := ""
-	if in.Id != "" {
+	if !biz.IsAdmin(in) {
 		clause = "WHERE data->'$.snapshot.ownerId'='" + in.Id + "'"
 	}
 	orders := []*pb.Order{}

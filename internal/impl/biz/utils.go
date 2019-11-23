@@ -2,6 +2,7 @@ package biz
 
 import (
 	"fmt"
+	pb "github.com/emart.io/zbay/service/go"
 )
 
 func DistanceSQL(lon string, lat string) string {
@@ -34,4 +35,11 @@ ORDER BY
 	juli ASC ) as orders_juli`
 	fmt.Println(sqlQuery)
 	return sqlQuery
+}
+
+func IsAdmin(user *pb.User) bool {
+	if (user.Id == "15901251201") || (user.Id == "13488762245") {
+		return true
+	}
+	return false
 }

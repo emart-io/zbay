@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-
 	"github.com/emart.io/zbay/internal/impl/db"
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/gogo/protobuf/types"
@@ -48,8 +47,9 @@ func (s *AddressImpl) Update(ctx context.Context, in *pb.Address) (*pb.Address, 
 }
 
 func (s *AddressImpl) List(in *pb.User, stream pb.Addresses_ListServer) error {
+	clause := "WHERE data->'$.userId'='" + in.Id + "'"
 	addresses := []*pb.Address{}
-	if err := db.List(addressTable, &addresses, " order by data->'$.created.seconds' desc"); err != nil {
+	if err := db.List(addressTable, &addresses, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
 		return err
 	}
 

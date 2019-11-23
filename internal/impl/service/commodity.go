@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 
+	"github.com/emart.io/zbay/internal/impl/biz"
 	"github.com/emart.io/zbay/internal/impl/db"
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/gogo/protobuf/types"
@@ -45,7 +46,7 @@ func (s *CommoditiesImpl) Update(ctx context.Context, in *pb.Commodity) (*pb.Com
 
 func (s *CommoditiesImpl) List(in *pb.Commodity, stream pb.Commodities_ListServer) error {
 	clause := ""
-	if in.OwnerId != "" {
+	if !biz.IsAdmin(&pb.User{Id: in.OwnerId}) {
 		clause = "WHERE data->'$.ownerId'='" + in.OwnerId + "'"
 	}
 	commodities := []*pb.Commodity{}
