@@ -2,11 +2,11 @@ package service
 
 import (
 	"context"
-
 	"github.com/emart.io/zbay/internal/impl/biz"
 	"github.com/emart.io/zbay/internal/impl/db"
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/gogo/protobuf/types"
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -44,14 +44,37 @@ func (s *CommoditiesImpl) Update(ctx context.Context, in *pb.Commodity) (*pb.Com
 	return in, nil
 }
 
-func (s *CommoditiesImpl) List(in *pb.Commodity, stream pb.Commodities_ListServer) error {
+func (s *CommoditiesImpl) List(in *pb.User, stream pb.Commodities_ListServer) error {
 	clause := ""
-	if !biz.IsAdmin(&pb.User{Id: in.OwnerId}) {
-		clause = "WHERE data->'$.ownerId'='" + in.OwnerId + "'"
+	if !biz.IsAdmin(in) {
+		clause = "WHERE data->'$.ownerId'='" + in.Id + "'"
 	}
 	commodities := []*pb.Commodity{}
 	if err := db.List(commodityTable, &commodities, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
 		return err
+	}
+
+	for _, v := range commodities {
+		if err := stream.Send(v); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (s *CommoditiesImpl) Search(in *types.StringValue, stream pb.Commodities_SearchServer) error {
+	log.Infoln(in.Value)
+	clause := "WHERE data->'$.category' LIKE '%" + in.Value + "%' OR " + " data->'$.title' LIKE '%" + in.Value + "%'"
+	commodities := []*pb.Commodity{}
+	if err := db.List(commodityTable, &commodities, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
+		return err
+	}
+	if len(commodities) == 0 {
+		log.Infoln("commodities==0", "begin no clause query")
+		if err := db.List(commodityTable, &commodities, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
+			return err
+		}
 	}
 
 	for _, v := range commodities {

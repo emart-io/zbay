@@ -2,6 +2,7 @@ syntax = "proto3";
 
 import "user.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
 import "google/protobuf/timestamp.proto";
 
 package zbay;
@@ -10,7 +11,8 @@ service Commodities {
   rpc Add(Commodity) returns (Commodity) {}
   rpc Get(Commodity) returns (Commodity) {}
   rpc Update(Commodity) returns (Commodity) {}
-  rpc List(Commodity) returns (stream Commodity) {}
+  rpc List(User) returns (stream Commodity) {}
+  rpc Search(google.protobuf.StringValue) returns (stream Commodity) {}
   rpc Delete(Commodity) returns (google.protobuf.Empty) {}
 }
 
