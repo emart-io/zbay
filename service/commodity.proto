@@ -31,25 +31,27 @@ message Commodity {
   string content = 4;
   repeated Medium media = 5;  
   string city = 6;
-  Price price = 7;
-  uint32 amount = 8;
-  uint32 fare = 9;
-  repeated string tags = 14;
+  repeated Price prices = 7;
+  uint32 inventory = 15;
+  uint32 expressFare = 8;
+  repeated string tags = 9;
   string ownerId = 10;
-  string status = 15;
-  map<string,string> annotations = 11;
-  google.protobuf.Timestamp created = 12;
-  google.protobuf.Timestamp updated = 13;
+  string status = 11;
+  map<string,string> annotations = 12;
+  google.protobuf.Timestamp created = 13;
+  google.protobuf.Timestamp updated = 14;
 }
 
 message Price {
-  uint64 single = 1;
-  uint64 group = 2;
+  string name = 1;
+  // ¥0.00
+  string value = 2;
 }
 
 message Medium {
   string image = 1;
   string video = 2;
+  bool isFirst = 3;
 }
 
 message Coupon {
