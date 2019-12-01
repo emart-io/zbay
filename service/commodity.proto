@@ -45,7 +45,8 @@ message Commodity {
 message Price {
   string name = 1;
   // ¥0.00
-  string value = 2;
+  string single = 2;
+  string group = 3;
 }
 
 message Medium {

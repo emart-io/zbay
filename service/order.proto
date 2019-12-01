@@ -13,7 +13,8 @@ service Orders {
   rpc Get(Order) returns (Order) {}
   rpc Update(Order) returns (Order) {}
   rpc Delete(Order) returns (google.protobuf.Empty) {}
-  rpc List(User) returns (stream Order) {}
+  rpc ListByUser(User) returns (stream Order) {}
+  rpc ListByStatus(Order) returns (stream Order) {}
   // amount required
   rpc SignAlipay(Order) returns (google.protobuf.StringValue) {}
 }
@@ -21,6 +22,8 @@ service Orders {
 message Order {
   string id = 1;
   Commodity snapshot = 12;
+  Groupon groupon = 15;
+  Price price = 13;
   string userId = 3;
   Address destination = 4;
   uint32 quantity = 5;
@@ -37,6 +40,10 @@ message PayInfo {
   //alipay|weixin
   string type = 1;
   string payResult = 2;
+}
+
+message Groupon {
+  repeated string userIds = 1;
 }
 
 message Express {
