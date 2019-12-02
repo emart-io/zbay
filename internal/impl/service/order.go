@@ -77,7 +77,7 @@ func (s *OrdersImpl) ListByUser(in *pb.User, stream pb.Orders_ListByUserServer) 
 	return nil
 }
 
-func (s *OrdersImpl) ListByStatus(in *pb.Order, stream pb.Orders_ListByStatusServer) error {
+func (s *OrdersImpl) ListByOrder(in *pb.Order, stream pb.Orders_ListByOrderServer) error {
 	orders := []*pb.Order{}
 	clause := "WHERE data->'$.snapshot.id'='" + in.Snapshot.Id + "' AND data->'$.status'='" + in.Status + "'"
 	if err := db.List(orderTable, &orders, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil && err != sql.ErrNoRows {

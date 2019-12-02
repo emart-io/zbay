@@ -14,7 +14,7 @@ service Orders {
   rpc Update(Order) returns (Order) {}
   rpc Delete(Order) returns (google.protobuf.Empty) {}
   rpc ListByUser(User) returns (stream Order) {}
-  rpc ListByStatus(Order) returns (stream Order) {}
+  rpc ListByOrder(Order) returns (stream Order) {}
   // amount required
   rpc SignAlipay(Order) returns (google.protobuf.StringValue) {}
 }
@@ -43,7 +43,7 @@ message PayInfo {
 }
 
 message Groupon {
-  repeated string userIds = 1;
+  repeated string orderIds = 1;
 }
 
 message Express {
