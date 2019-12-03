@@ -58,10 +58,26 @@ func (s *OrdersImpl) Update(ctx context.Context, in *pb.Order) (*pb.Order, error
 	return in, nil
 }
 
-func (s *OrdersImpl) ListByUser(in *pb.User, stream pb.Orders_ListByUserServer) error {
-	clause := ""
-	if !biz.IsAdmin(in) {
-		clause = "WHERE data->'$.snapshot.ownerId'='" + in.Id + "'"
+func (s *OrdersImpl) ListByOrder(in *pb.Order, stream pb.Orders_ListByOrderServer) error {
+	orders := []*pb.Order{}
+	clause := "WHERE data->'$.snapshot.id'='" + in.Snapshot.Id + "' AND data->'$.status'='" + in.Status + "'"
+	if err := db.List(orderTable, &orders, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil && err != sql.ErrNoRows {
+		return err
+	}
+
+	for _, v := range orders {
+		if err := stream.Send(v); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (s *OrdersImpl) ListForBuyer(in *pb.ListQuery, stream pb.Orders_ListForBuyerServer) error {
+	clause := "WHERE data->'$.status' LIKE '%" + in.Status + "%'"
+	if !biz.IsAdmin(in.User) {
+		clause = clause + " AND data->'$.userId'='" + in.User.Id + "'"
 	}
 	orders := []*pb.Order{}
 	if err := db.List(orderTable, &orders, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
@@ -77,10 +93,13 @@ func (s *OrdersImpl) ListByUser(in *pb.User, stream pb.Orders_ListByUserServer) 
 	return nil
 }
 
-func (s *OrdersImpl) ListByOrder(in *pb.Order, stream pb.Orders_ListByOrderServer) error {
+func (s *OrdersImpl) ListForSeller(in *pb.ListQuery, stream pb.Orders_ListForSellerServer) error {
+	clause := "WHERE data->'$.status' LIKE '%" + in.Status + "%'"
+	if !biz.IsAdmin(in.User) {
+		clause = clause + " AND data->'$.snapshot.ownerId'='" + in.User.Id + "'"
+	}
 	orders := []*pb.Order{}
-	clause := "WHERE data->'$.snapshot.id'='" + in.Snapshot.Id + "' AND data->'$.status'='" + in.Status + "'"
-	if err := db.List(orderTable, &orders, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil && err != sql.ErrNoRows {
+	if err := db.List(orderTable, &orders, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
 		return err
 	}
 

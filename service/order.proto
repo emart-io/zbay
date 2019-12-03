@@ -12,11 +12,11 @@ service Orders {
   rpc Add(Order) returns (Order) {}
   rpc Get(Order) returns (Order) {}
   rpc Update(Order) returns (Order) {}
-  rpc Delete(Order) returns (google.protobuf.Empty) {}
-  rpc ListByUser(User) returns (stream Order) {}
+  rpc Delete(Order) returns (google.protobuf.Empty) {}  
   rpc ListByOrder(Order) returns (stream Order) {}
-  // amount required
-  rpc SignAlipay(Order) returns (google.protobuf.StringValue) {}
+  rpc ListForBuyer(ListQuery) returns (stream Order) {}
+  rpc ListForSeller(ListQuery) returns (stream Order) {}  
+  rpc SignAlipay(Order) returns (google.protobuf.StringValue) {} // amount required
 }
 
 message Order {
@@ -49,4 +49,9 @@ message Groupon {
 message Express {
   string company = 1;
   string number = 2;
+}
+
+message ListQuery {
+  User user = 1;
+  string status = 2;
 }
