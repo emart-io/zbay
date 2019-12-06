@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-
 	"github.com/emart.io/zbay/internal/impl/db"
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/gogo/protobuf/types"
@@ -37,10 +36,20 @@ func (s *CouponImpl) Update(ctx context.Context, in *pb.Coupon) (*pb.Coupon, err
 		return nil, err
 	}
 
-	//coupon.Default = in.Default
-	//coupon.Contact = in.Contact
-	//coupon.Telephone = in.Telephone
-	//coupon.Location = in.Location
+	if in.Name != "" {
+		coupon.Name = in.Name
+	}
+
+	if in.Denomination != 0 {
+		coupon.Denomination = in.Denomination
+	}
+	if in.Count != 0 {
+		coupon.Count = in.Count
+	}
+	if in.Limit != 0 {
+		coupon.Limit = in.Limit
+	}
+
 	if err := db.Update(couponTable, in.Id, coupon); err != nil {
 		return nil, err
 	}
@@ -49,7 +58,8 @@ func (s *CouponImpl) Update(ctx context.Context, in *pb.Coupon) (*pb.Coupon, err
 
 func (s *CouponImpl) List(in *pb.User, stream pb.Coupons_ListServer) error {
 	coupons := []*pb.Coupon{}
-	if err := db.List(couponTable, &coupons, " order by data->'$.created.seconds' desc"); err != nil {
+	clause := "WHERE data->'$.ownerId'='" + in.Id + "'"
+	if err := db.List(couponTable, &coupons, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
 		return err
 	}
 
