@@ -140,7 +140,7 @@ func List(table string, result interface{}, clause ...string) error {
 			query = query + " " + v
 		}
 	}
-	log.Debugln(query)
+	//log.Debugln(query)
 	rows, err := DB.Query(query)
 	if err != nil {
 		return err
@@ -227,28 +227,5 @@ func Delete(table, id string) error {
 func DeleteTx(tx *sql.Tx, table, id string) error {
 	sql := "DELETE FROM " + table + " WHERE data->'$.id'='" + id + "'"
 	_, err := tx.Exec(sql)
-	return err
-}
-
-func UpdateUUId(table, uuId string, kvs map[string]interface{}) error {
-	union := ""
-	for key, v := range kvs { //key should be [json-path], e.g:$.id
-		switch value := v.(type) {
-		case string:
-			union = union + ",'" + key + "','" + value + "'"
-		case int, int32, int64, uint, uint32, uint64:
-			union = union + ",'" + key + "'," + fmt.Sprint(value)
-		default:
-			log.Printf("unknown type: %+v", v)
-		}
-	}
-	sql := "UPDATE " + table + " SET data=" + "JSON_SET(data" + union + ") WHERE data->'$.uu_id'='" + uuId + "'"
-	_, err := DB.Exec(sql)
-	return err
-}
-
-func DeleteUUId(table, uuId string) error {
-	sql := "DELETE FROM " + table + " WHERE data->'$.uu_id'='" + uuId + "'"
-	_, err := DB.Exec(sql)
 	return err
 }

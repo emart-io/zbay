@@ -2,10 +2,11 @@ package service
 
 import (
 	"context"
-
+	"github.com/emart.io/zbay/internal/impl/db"
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/gogo/protobuf/types"
 	log "github.com/sirupsen/logrus"
+	"strings"
 )
 
 var (
@@ -13,7 +14,63 @@ var (
 	pubsubQueues = make(map[string][]chan *pb.Topic)
 )
 
+const (
+	messageTable = "message"
+)
+
 type MessageImpl struct{}
+
+func (s *MessageImpl) Add(ctx context.Context, in *pb.Message) (*pb.Message, error) {
+	in.Id = types.TimestampNow().String()
+	if err := db.Insert(messageTable, in); err != nil {
+		return nil, err
+	}
+
+	return in, nil
+}
+
+func (s *MessageImpl) List(in *pb.Message, stream pb.Messages_ListServer) error {
+	clause := "WHERE data->'$.to'='" + in.To + "' OR " + " data->'$.from'='" + in.From + "'"
+	messages := []*pb.Message{}
+	if err := db.List(messageTable, &messages, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
+		return err
+	}
+
+	for _, v := range messages {
+		if err := stream.Send(v); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (s *MessageImpl) GroupBy(in *pb.User, stream pb.Messages_GroupByServer) error {
+	query := "SELECT data->'$.from' FROM " + messageTable + " WHERE data->'$.to'='" + in.Id + "' GROUP BY data->'$.from'"
+	log.Infoln(query)
+	messages := []*pb.Message{}
+	rows, err := db.DB.Query(query)
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		from := ""
+		rows.Scan(&from)
+		from = strings.Trim(from, "\"")
+		if from != "" {
+			messages = append(messages, &pb.Message{From: from})
+		}
+	}
+
+	for _, v := range messages {
+		if err := stream.Send(v); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
 
 func (s *MessageImpl) Send(ctx context.Context, in *pb.Message) (*types.Empty, error) {
 	if p2pQueues[in.To] == nil {

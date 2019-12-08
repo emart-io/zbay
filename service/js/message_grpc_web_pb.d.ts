@@ -13,6 +13,23 @@ export class MessagesClient {
                credentials: null | { [index: string]: string; },
                options: null | { [index: string]: string; });
 
+  add(
+    request: Message,
+    metadata: grpcWeb.Metadata | undefined,
+    callback: (err: grpcWeb.Error,
+               response: Message) => void
+  ): grpcWeb.ClientReadableStream<Message>;
+
+  list(
+    request: Message,
+    metadata?: grpcWeb.Metadata
+  ): grpcWeb.ClientReadableStream<Message>;
+
+  groupBy(
+    request: user_pb.User,
+    metadata?: grpcWeb.Metadata
+  ): grpcWeb.ClientReadableStream<Message>;
+
   send(
     request: Message,
     metadata: grpcWeb.Metadata | undefined,
@@ -43,6 +60,21 @@ export class MessagesPromiseClient {
   constructor (hostname: string,
                credentials: null | { [index: string]: string; },
                options: null | { [index: string]: string; });
+
+  add(
+    request: Message,
+    metadata?: grpcWeb.Metadata
+  ): Promise<Message>;
+
+  list(
+    request: Message,
+    metadata?: grpcWeb.Metadata
+  ): grpcWeb.ClientReadableStream<Message>;
+
+  groupBy(
+    request: user_pb.User,
+    metadata?: grpcWeb.Metadata
+  ): grpcWeb.ClientReadableStream<Message>;
 
   send(
     request: Message,
