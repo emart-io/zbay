@@ -31,6 +31,7 @@ message User {
   string icon = 5;
   string signature = 6;
   Certification cert = 9;
+  repeated Shop shops = 10;
   map<string,string> annotations = 7;
   google.protobuf.Timestamp created = 8;  
 }
@@ -50,4 +51,9 @@ message Address {
   bool default = 8;
   map<string,string> annotations = 6;  
   google.protobuf.Timestamp created = 7;  
+}
+
+message Shop {
+  string id = 1;
+  string name = 2;
 }

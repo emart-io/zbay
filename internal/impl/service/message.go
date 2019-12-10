@@ -30,7 +30,8 @@ func (s *MessageImpl) Add(ctx context.Context, in *pb.Message) (*pb.Message, err
 }
 
 func (s *MessageImpl) List(in *pb.Message, stream pb.Messages_ListServer) error {
-	clause := "WHERE data->'$.to'='" + in.To + "' OR " + " data->'$.from'='" + in.From + "'"
+	clause := "WHERE (data->'$.to'='" + in.To + "' AND " + " data->'$.from'='" + in.From + "')" +
+		" OR (data->'$.to'='" + in.From + "' AND " + " data->'$.from'='" + in.To + "')"
 	messages := []*pb.Message{}
 	if err := db.List(messageTable, &messages, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
 		return err
@@ -47,7 +48,6 @@ func (s *MessageImpl) List(in *pb.Message, stream pb.Messages_ListServer) error 
 
 func (s *MessageImpl) GroupBy(in *pb.User, stream pb.Messages_GroupByServer) error {
 	query := "SELECT data->'$.from' FROM " + messageTable + " WHERE data->'$.to'='" + in.Id + "' GROUP BY data->'$.from'"
-	log.Infoln(query)
 	messages := []*pb.Message{}
 	rows, err := db.DB.Query(query)
 	if err != nil {

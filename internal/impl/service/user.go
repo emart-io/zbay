@@ -42,6 +42,9 @@ func (s *UsersImpl) Update(ctx context.Context, in *pb.User) (*pb.User, error) {
 	if in.Signature != "" {
 		user.Signature = in.Signature
 	}
+	if in.Shops != nil {
+		user.Shops = in.Shops
+	}
 	if err := db.Update(userTable, in.Id, user); err != nil {
 		return nil, err
 	}

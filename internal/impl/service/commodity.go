@@ -37,7 +37,25 @@ func (s *CommoditiesImpl) Update(ctx context.Context, in *pb.Commodity) (*pb.Com
 	if err != nil {
 		return nil, err
 	}
-	commodity.Content = in.Content
+	if in.Title != "" {
+		commodity.Title = in.Title
+	}
+	if in.Category != "" {
+		commodity.Category = in.Category
+	}
+	if in.Content != "" {
+		commodity.Content = in.Content
+	}
+	if in.Prices != nil {
+		commodity.Prices = in.Prices
+	}
+	if in.Tags != nil {
+		commodity.Tags = in.Tags
+	}
+	if in.Status != "" {
+		commodity.Status = in.Status
+	}
+	in.Updated = types.TimestampNow()
 	if err := db.Update(commodityTable, in.Id, commodity); err != nil {
 		return nil, err
 	}
