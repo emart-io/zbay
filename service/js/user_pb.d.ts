@@ -102,6 +102,7 @@ export namespace Address {
 export class Shop extends jspb.Message {
   id: string;
   name: string;
+  description: string;
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Shop.AsObject;
   static toObject(includeInstance: boolean, msg: Shop): Shop.AsObject;
@@ -114,6 +115,7 @@ export namespace Shop {
   export type AsObject = {
     id: string,
     name: string,
+    description: string,
   }
 }
 

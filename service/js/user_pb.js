@@ -1336,7 +1336,8 @@ proto.zbay.Shop.prototype.toObject = function(opt_includeInstance) {
 proto.zbay.Shop.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    name: jspb.Message.getFieldWithDefault(msg, 2, "")
+    name: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    description: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -1381,6 +1382,10 @@ proto.zbay.Shop.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {string} */ (reader.readString());
       msg.setName(value);
       break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setDescription(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1421,6 +1426,13 @@ proto.zbay.Shop.serializeBinaryToWriter = function(message, writer) {
   if (f.length > 0) {
     writer.writeString(
       2,
+      f
+    );
+  }
+  f = message.getDescription();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
       f
     );
   }
@@ -1474,6 +1486,31 @@ proto.zbay.Shop.prototype.getName = function() {
 /** @param {string} value */
 proto.zbay.Shop.prototype.setName = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+Object.defineProperty(proto.zbay.Shop.prototype, "description", {
+  set: function(value) {
+    this.setDescription(value);
+  },
+  get: function() {
+    return this.getDescription();
+  },
+});
+
+
+/**
+ * optional string description = 3;
+ * @return {string}
+ */
+proto.zbay.Shop.prototype.getDescription = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/** @param {string} value */
+proto.zbay.Shop.prototype.setDescription = function(value) {
+  jspb.Message.setProto3StringField(this, 3, value);
 };
 
 

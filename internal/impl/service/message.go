@@ -22,6 +22,7 @@ type MessageImpl struct{}
 
 func (s *MessageImpl) Add(ctx context.Context, in *pb.Message) (*pb.Message, error) {
 	in.Id = types.TimestampNow().String()
+	in.Created = types.TimestampNow()
 	if err := db.Insert(messageTable, in); err != nil {
 		return nil, err
 	}
@@ -33,7 +34,7 @@ func (s *MessageImpl) List(in *pb.Message, stream pb.Messages_ListServer) error 
 	clause := "WHERE (data->'$.to'='" + in.To + "' AND " + " data->'$.from'='" + in.From + "')" +
 		" OR (data->'$.to'='" + in.From + "' AND " + " data->'$.from'='" + in.To + "')"
 	messages := []*pb.Message{}
-	if err := db.List(messageTable, &messages, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
+	if err := db.List(messageTable, &messages, clause, "ORDER BY data->'$.created.seconds' ASC"); err != nil {
 		return err
 	}
 

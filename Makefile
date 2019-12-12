@@ -45,7 +45,7 @@ generate-js:
 	@echo Generate-js successfully.
 
 build:generate
-	go build -ldflags='-linkmode external -extldflags -static $(LD_FLAGS)' -o bundles/$(SERVICE) internal/cmd/*.go
+	go build -ldflags='$(LD_FLAGS)' -o bundles/$(SERVICE) internal/cmd/*.go
 
 image:build
 	docker build -t $(IMG_HUB)/$(SERVICE):$(TAG) .
