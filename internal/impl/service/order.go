@@ -7,6 +7,7 @@ import (
 	"github.com/emart.io/zbay/internal/impl/db"
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/gogo/protobuf/types"
+	"google.golang.org/grpc"
 )
 
 const (
@@ -38,6 +39,14 @@ func (s *OrdersImpl) Update(ctx context.Context, in *pb.Order) (*pb.Order, error
 		return nil, err
 	}
 	if in.Status != "" {
+		if order.Status == "待收货" && in.Status == "待评价" {
+			conn, _ := grpc.Dial("localhost", grpc.WithInsecure())
+			pb.NewAccountsClient(conn).Add(ctx, &pb.Account{
+				UserId:  order.Snapshot.OwnerId,
+				Amount:  int64(order.Amount),
+				OrderId: order.Id,
+			})
+		}
 		order.Status = in.Status
 	}
 	if in.Express != nil {

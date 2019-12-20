@@ -26,6 +26,7 @@ func main() {
 	pb.RegisterOrdersServer(s, &impl.OrdersImpl{})
 	pb.RegisterAddressesServer(s, &impl.AddressImpl{})
 	pb.RegisterCouponsServer(s, &impl.CouponImpl{})
+	pb.RegisterAccountsServer(s, &impl.AccountImpl{})
 
 	log.Infoln("listen:" + port)
 	if err := s.Serve(lis); err != nil {
