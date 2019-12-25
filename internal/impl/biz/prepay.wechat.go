@@ -63,9 +63,9 @@ func wxpayCalcSign(mReq map[string]interface{}, key string) (sign string) {
 
 func WechatPayParams(order *pb.Order) (*pb.WechatPayParams, error) {
 	var yourReq UnifyOrderReq
-	yourReq.Appid = "wx28aa8762d098fa7f" //微信开放平台我们创建出来的app的app id
+	yourReq.Appid = wechatAppId //微信开放平台我们创建出来的app的app id
 	yourReq.Body = "订单费用"
-	yourReq.Mch_id = "1571295871"
+	yourReq.Mch_id = wechatMchId
 	yourReq.Nonce_str = fmt.Sprint(time.Now().Unix())
 	yourReq.Notify_url = "www.yourserver.com/wxpayNotify"
 	yourReq.Trade_type = "APP"

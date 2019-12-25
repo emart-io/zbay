@@ -33,7 +33,7 @@ func SignAlipay(totalAmount float32) (string, error) {
 	}
 
 	data := url.Values{}
-	data.Add("app_id", "2019121169872457")
+	data.Add("app_id", alipayAppId)
 	data.Add("method", "alipay.trade.app.pay")
 	// if returnUrl != "" {
 	// 	data.Add("return_url",returnUrl) }
@@ -81,7 +81,7 @@ func sign(m url.Values) string {
 }
 
 func rsaEncrypt(origData []byte) ([]byte, error) {
-	block, _ := pem.Decode([]byte(privateKey))
+	block, _ := pem.Decode([]byte(alipayPrivateKey))
 	if block == nil {
 		log.Errorln("block空")
 		return nil, nil
