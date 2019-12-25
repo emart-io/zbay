@@ -16,13 +16,14 @@ service Orders {
   rpc ListByOrder(Order) returns (stream Order) {}
   rpc ListForBuyer(ListQuery) returns (stream Order) {}
   rpc ListForSeller(ListQuery) returns (stream Order) {}  
-  rpc SignAlipay(Order) returns (google.protobuf.StringValue) {} // amount required
 }
 
 service Accounts {
   rpc Add(Account) returns (Account) {}  
   rpc List(User) returns (stream Account) {}
   rpc Total(Account) returns (Account) {}
+  rpc SignAlipay(Order) returns (google.protobuf.StringValue) {} // amount required
+  rpc PrepayWechat(Order) returns (WechatPayParams) {} // amount required
 }
 
 message Account {
@@ -55,6 +56,14 @@ message PayInfo {
   //alipay|weixin
   string type = 1;
   string payResult = 2;
+}
+
+message WechatPayParams {
+  string partnerid = 1;
+  string prepayid = 2;
+  string noncestr = 3;
+  string timestamp = 4;
+  string sign = 5;
 }
 
 message Groupon {

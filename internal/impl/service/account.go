@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"github.com/emart.io/zbay/internal/impl/biz"
 	"github.com/emart.io/zbay/internal/impl/db"
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/gogo/protobuf/types"
@@ -48,4 +49,16 @@ func (s *AccountImpl) List(in *pb.User, stream pb.Accounts_ListServer) error {
 		}
 	}
 	return nil
+}
+
+func (s *AccountImpl) SignAlipay(ctx context.Context, in *pb.Order) (*types.StringValue, error) {
+	v, err := biz.SignAlipay(float32(in.Amount) / 100)
+	if err != nil {
+		return nil, err
+	}
+	return &types.StringValue{Value: v}, nil
+}
+
+func (s *AccountImpl) PrepayWechat(ctx context.Context, in *pb.Order) (*pb.WechatPayParams, error) {
+	return biz.WechatPayParams(in)
 }

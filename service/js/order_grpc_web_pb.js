@@ -467,61 +467,6 @@ proto.zbay.OrdersPromiseClient.prototype.listForSeller =
 
 
 /**
- * @const
- * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.zbay.Order,
- *   !proto.google.protobuf.StringValue>}
- */
-const methodInfo_Orders_SignAlipay = new grpc.web.AbstractClientBase.MethodInfo(
-  google_protobuf_wrappers_pb.StringValue,
-  /** @param {!proto.zbay.Order} request */
-  function(request) {
-    return request.serializeBinary();
-  },
-  google_protobuf_wrappers_pb.StringValue.deserializeBinary
-);
-
-
-/**
- * @param {!proto.zbay.Order} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.Error, ?proto.google.protobuf.StringValue)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.StringValue>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.zbay.OrdersClient.prototype.signAlipay =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/zbay.Orders/SignAlipay',
-      request,
-      metadata || {},
-      methodInfo_Orders_SignAlipay,
-      callback);
-};
-
-
-/**
- * @param {!proto.zbay.Order} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.google.protobuf.StringValue>}
- *     A native promise that resolves to the response
- */
-proto.zbay.OrdersPromiseClient.prototype.signAlipay =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/zbay.Orders/SignAlipay',
-      request,
-      metadata || {},
-      methodInfo_Orders_SignAlipay);
-};
-
-
-/**
  * @param {string} hostname
  * @param {?Object} credentials
  * @param {?Object} options
@@ -750,6 +695,116 @@ proto.zbay.AccountsPromiseClient.prototype.total =
       request,
       metadata || {},
       methodInfo_Accounts_Total);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.zbay.Order,
+ *   !proto.google.protobuf.StringValue>}
+ */
+const methodInfo_Accounts_SignAlipay = new grpc.web.AbstractClientBase.MethodInfo(
+  google_protobuf_wrappers_pb.StringValue,
+  /** @param {!proto.zbay.Order} request */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_wrappers_pb.StringValue.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.zbay.Order} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.google.protobuf.StringValue)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.StringValue>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.zbay.AccountsClient.prototype.signAlipay =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/zbay.Accounts/SignAlipay',
+      request,
+      metadata || {},
+      methodInfo_Accounts_SignAlipay,
+      callback);
+};
+
+
+/**
+ * @param {!proto.zbay.Order} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.google.protobuf.StringValue>}
+ *     A native promise that resolves to the response
+ */
+proto.zbay.AccountsPromiseClient.prototype.signAlipay =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/zbay.Accounts/SignAlipay',
+      request,
+      metadata || {},
+      methodInfo_Accounts_SignAlipay);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.zbay.Order,
+ *   !proto.zbay.WechatPayParams>}
+ */
+const methodInfo_Accounts_PrepayWechat = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.zbay.WechatPayParams,
+  /** @param {!proto.zbay.Order} request */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.zbay.WechatPayParams.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.zbay.Order} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.zbay.WechatPayParams)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.zbay.WechatPayParams>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.zbay.AccountsClient.prototype.prepayWechat =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/zbay.Accounts/PrepayWechat',
+      request,
+      metadata || {},
+      methodInfo_Accounts_PrepayWechat,
+      callback);
+};
+
+
+/**
+ * @param {!proto.zbay.Order} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.zbay.WechatPayParams>}
+ *     A native promise that resolves to the response
+ */
+proto.zbay.AccountsPromiseClient.prototype.prepayWechat =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/zbay.Accounts/PrepayWechat',
+      request,
+      metadata || {},
+      methodInfo_Accounts_PrepayWechat);
 };
 
 
