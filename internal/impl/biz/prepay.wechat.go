@@ -63,15 +63,15 @@ func wxpayCalcSign(mReq map[string]interface{}, key string) (sign string) {
 
 func WechatPayParams(order *pb.Order) (*pb.WechatPayParams, error) {
 	var yourReq UnifyOrderReq
-	yourReq.Appid = wechatAppId //微信开放平台我们创建出来的app的app id
+	yourReq.Appid = wechatAppId
 	yourReq.Body = "订单费用"
 	yourReq.Mch_id = wechatMchId
 	yourReq.Nonce_str = fmt.Sprint(time.Now().Unix())
 	yourReq.Notify_url = "www.yourserver.com/wxpayNotify"
 	yourReq.Trade_type = "APP"
 	yourReq.Spbill_create_ip = "10.0.0.1"
-	yourReq.Total_fee = int(order.Amount) //单位是分，这里是1毛钱
-	yourReq.Out_trade_no = "wechat-" + fmt.Sprint(time.Now().Unix()) + fmt.Sprint(rand.Intn(10))
+	yourReq.Total_fee = int(order.Amount) //单位是分
+	yourReq.Out_trade_no = fmt.Sprint(time.Now().UnixNano()) + fmt.Sprint(rand.Intn(10))
 
 	var m map[string]interface{}
 	m = make(map[string]interface{}, 0)

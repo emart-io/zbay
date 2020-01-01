@@ -40,9 +40,22 @@ func (s *OrdersImpl) Update(ctx context.Context, in *pb.Order) (*pb.Order, error
 	}
 	if in.Status != "" {
 		if order.Status == "待收货" && in.Status == "待评价" {
-			conn, _ := grpc.Dial("localhost", grpc.WithInsecure())
+			conn, _ := grpc.Dial("localhost:50051", grpc.WithInsecure())
 			pb.NewAccountsClient(conn).Add(ctx, &pb.Account{
 				UserId:  order.Snapshot.OwnerId,
+				Amount:  int64(order.Amount),
+				OrderId: order.Id,
+			})
+		}
+		if order.Status == "退款中" && in.Status == "已退款" {
+			conn, _ := grpc.Dial("localhost:50051", grpc.WithInsecure())
+			pb.NewAccountsClient(conn).Add(ctx, &pb.Account{
+				UserId:  order.Snapshot.OwnerId,
+				Amount:  int64(-order.Amount),
+				OrderId: order.Id,
+			})
+			pb.NewAccountsClient(conn).Add(ctx, &pb.Account{
+				UserId:  order.UserId,
 				Amount:  int64(order.Amount),
 				OrderId: order.Id,
 			})
