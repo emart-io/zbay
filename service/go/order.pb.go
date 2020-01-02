@@ -117,7 +117,7 @@ type Order struct {
 	Destination *Address   `protobuf:"bytes,4,opt,name=destination,proto3" json:"destination,omitempty"`
 	Quantity    uint32     `protobuf:"varint,5,opt,name=quantity,proto3" json:"quantity,omitempty"`
 	Amount      uint64     `protobuf:"varint,6,opt,name=amount,proto3" json:"amount,omitempty"`
-	// 待成团|待发货|待收货|待评价|退款中|已退款
+	// 待成团|待发货|待收货|待评价|待退款|已退款
 	Status      string            `protobuf:"bytes,7,opt,name=status,proto3" json:"status,omitempty"`
 	Comment     string            `protobuf:"bytes,8,opt,name=comment,proto3" json:"comment,omitempty"`
 	PayInfo     *PayInfo          `protobuf:"bytes,9,opt,name=payInfo,proto3" json:"payInfo,omitempty"`

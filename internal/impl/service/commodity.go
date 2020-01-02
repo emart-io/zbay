@@ -83,14 +83,15 @@ func (s *CommoditiesImpl) List(in *pb.User, stream pb.Commodities_ListServer) er
 
 func (s *CommoditiesImpl) Search(in *types.StringValue, stream pb.Commodities_SearchServer) error {
 	log.Infoln(in.Value)
-	clause := "WHERE data->'$.category' LIKE '%" + in.Value + "%' OR " + " data->'$.title' LIKE '%" + in.Value + "%'"
+	clause := "WHERE (data->'$.category' LIKE '%" + in.Value + "%' OR " + " data->'$.title' LIKE '%" + in.Value + "%')" +
+		" AND data->'$.status' IS NULL OR data->'$.status'<>'已下线'"
 	commodities := []*pb.Commodity{}
 	if err := db.List(commodityTable, &commodities, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
 		return err
 	}
 	if len(commodities) == 0 {
 		log.Infoln("commodities==0", "begin no clause query")
-		if err := db.List(commodityTable, &commodities, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
+		if err := db.List(commodityTable, &commodities, "WHERE data->'$.status' IS NULL OR data->'$.status'<>'已下线'", "ORDER BY data->'$.created.seconds' DESC"); err != nil {
 			return err
 		}
 	}

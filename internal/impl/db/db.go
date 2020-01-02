@@ -140,7 +140,7 @@ func List(table string, result interface{}, clause ...string) error {
 			query = query + " " + v
 		}
 	}
-	//log.Debugln(query)
+	log.Infoln(query)
 	rows, err := DB.Query(query)
 	if err != nil {
 		return err

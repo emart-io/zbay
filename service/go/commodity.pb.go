@@ -25,17 +25,18 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion2 // please upgrade the proto package
 
 type Commodity struct {
-	Id          string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Title       string            `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
-	Category    string            `protobuf:"bytes,3,opt,name=category,proto3" json:"category,omitempty"`
-	Content     string            `protobuf:"bytes,4,opt,name=content,proto3" json:"content,omitempty"`
-	Media       []*Medium         `protobuf:"bytes,5,rep,name=media,proto3" json:"media,omitempty"`
-	City        string            `protobuf:"bytes,6,opt,name=city,proto3" json:"city,omitempty"`
-	Prices      []*Price          `protobuf:"bytes,7,rep,name=prices,proto3" json:"prices,omitempty"`
-	Inventory   uint32            `protobuf:"varint,15,opt,name=inventory,proto3" json:"inventory,omitempty"`
-	ExpressFare uint32            `protobuf:"varint,8,opt,name=expressFare,proto3" json:"expressFare,omitempty"`
-	Tags        []string          `protobuf:"bytes,9,rep,name=tags,proto3" json:"tags,omitempty"`
-	OwnerId     string            `protobuf:"bytes,10,opt,name=ownerId,proto3" json:"ownerId,omitempty"`
+	Id          string    `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Title       string    `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Category    string    `protobuf:"bytes,3,opt,name=category,proto3" json:"category,omitempty"`
+	Content     string    `protobuf:"bytes,4,opt,name=content,proto3" json:"content,omitempty"`
+	Media       []*Medium `protobuf:"bytes,5,rep,name=media,proto3" json:"media,omitempty"`
+	City        string    `protobuf:"bytes,6,opt,name=city,proto3" json:"city,omitempty"`
+	Prices      []*Price  `protobuf:"bytes,7,rep,name=prices,proto3" json:"prices,omitempty"`
+	Inventory   uint32    `protobuf:"varint,15,opt,name=inventory,proto3" json:"inventory,omitempty"`
+	ExpressFare uint32    `protobuf:"varint,8,opt,name=expressFare,proto3" json:"expressFare,omitempty"`
+	Tags        []string  `protobuf:"bytes,9,rep,name=tags,proto3" json:"tags,omitempty"`
+	OwnerId     string    `protobuf:"bytes,10,opt,name=ownerId,proto3" json:"ownerId,omitempty"`
+	// 已下线
 	Status      string            `protobuf:"bytes,11,opt,name=status,proto3" json:"status,omitempty"`
 	Annotations map[string]string `protobuf:"bytes,12,rep,name=annotations,proto3" json:"annotations,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	Created     *types.Timestamp  `protobuf:"bytes,13,opt,name=created,proto3" json:"created,omitempty"`

@@ -36,6 +36,7 @@ message Commodity {
   uint32 expressFare = 8;
   repeated string tags = 9;
   string ownerId = 10;
+  // 已下线
   string status = 11;
   map<string,string> annotations = 12;
   google.protobuf.Timestamp created = 13;

@@ -47,7 +47,7 @@ func (s *OrdersImpl) Update(ctx context.Context, in *pb.Order) (*pb.Order, error
 				OrderId: order.Id,
 			})
 		}
-		if order.Status == "退款中" && in.Status == "已退款" {
+		if order.Status == "待退款" && in.Status == "已退款" {
 			conn, _ := grpc.Dial("localhost:50051", grpc.WithInsecure())
 			pb.NewAccountsClient(conn).Add(ctx, &pb.Account{
 				UserId:  order.Snapshot.OwnerId,
