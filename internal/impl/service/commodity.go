@@ -7,6 +7,7 @@ import (
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/gogo/protobuf/types"
 	log "github.com/sirupsen/logrus"
+	"os"
 )
 
 const (
@@ -38,6 +39,7 @@ func (s *CommoditiesImpl) Update(ctx context.Context, in *pb.Commodity) (*pb.Com
 		return nil, err
 	}
 	if in.Title != "" {
+		os.Rename("/uploads/"+in.OwnerId+"/"+commodity.Title, "/uploads/"+in.OwnerId+"/"+in.Title)
 		commodity.Title = in.Title
 	}
 	if in.Category != "" {
@@ -84,14 +86,14 @@ func (s *CommoditiesImpl) List(in *pb.User, stream pb.Commodities_ListServer) er
 func (s *CommoditiesImpl) Search(in *types.StringValue, stream pb.Commodities_SearchServer) error {
 	log.Infoln(in.Value)
 	clause := "WHERE (data->'$.category' LIKE '%" + in.Value + "%' OR " + " data->'$.title' LIKE '%" + in.Value + "%')" +
-		" AND data->'$.status' IS NULL OR data->'$.status'<>'已下线'"
+		" AND data->'$.status'='已上线'"
 	commodities := []*pb.Commodity{}
 	if err := db.List(commodityTable, &commodities, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
 		return err
 	}
 	if len(commodities) == 0 {
 		log.Infoln("commodities==0", "begin no clause query")
-		if err := db.List(commodityTable, &commodities, "WHERE data->'$.status' IS NULL OR data->'$.status'<>'已下线'", "ORDER BY data->'$.created.seconds' DESC"); err != nil {
+		if err := db.List(commodityTable, &commodities, "WHERE data->'$.status'='已上线'", "ORDER BY data->'$.created.seconds' DESC"); err != nil {
 			return err
 		}
 	}
