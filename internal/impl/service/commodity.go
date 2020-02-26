@@ -39,7 +39,7 @@ func (s *CommoditiesImpl) Update(ctx context.Context, in *pb.Commodity) (*pb.Com
 		return nil, err
 	}
 	if in.Title != "" {
-		os.Rename("/uploads/"+in.OwnerId+"/"+commodity.Title, "/uploads/"+in.OwnerId+"/"+in.Title)
+		os.Rename("/uploads/"+commodity.OwnerId+"/"+commodity.Title, "/uploads/"+commodity.OwnerId+"/"+in.Title)
 		commodity.Title = in.Title
 	}
 	if in.Category != "" {
@@ -108,8 +108,13 @@ func (s *CommoditiesImpl) Search(in *types.StringValue, stream pb.Commodities_Se
 }
 
 func (s *CommoditiesImpl) Delete(ctx context.Context, in *pb.Commodity) (*types.Empty, error) {
+	commodity, err := s.Get(ctx, in)
+	if err != nil {
+		return nil, err
+	}
 	if err := db.Delete(commodityTable, in.Id); err != nil {
 		return nil, err
 	}
+	os.RemoveAll("/uploads/" + commodity.OwnerId + "/" + commodity.Title)
 	return &types.Empty{}, nil
 }

@@ -59,8 +59,8 @@ run:image
 
 envoy:
 	docker build -t $(IMG_HUB)/envoy:$(TAG) -f envoy.Dockerfile .
-#	docker push $(IMG_HUB)/envoy:$(TAG)
-	docker service create --name envoy --network devel -p 80:80 $(IMG_HUB)/envoy:$(TAG)
+	docker push $(IMG_HUB)/envoy:$(TAG)
+#	docker service create --name envoy --network devel -p 80:80 $(IMG_HUB)/envoy:$(TAG)
 
 mysql:
 	-docker service create --name mysql_emart --network devel --mount type=bind,source=/home/daniel/.emart_mysqldata,destination=/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=emart mysql:5.7.24

@@ -22,8 +22,8 @@ service Accounts {
   rpc Add(Account) returns (Account) {}  
   rpc List(User) returns (stream Account) {}
   rpc Total(Account) returns (Account) {}
-  rpc SignAlipay(Order) returns (google.protobuf.StringValue) {} // amount required
-  rpc PrepayWechat(Order) returns (WechatPayParams) {} // amount required
+  rpc Alipay(PayMap) returns (PayMap) {} // amount required
+  rpc WechatPay(PayMap) returns (PayMap) {} // amount required
 }
 
 message Account {
@@ -33,6 +33,11 @@ message Account {
   string orderId = 4;
   google.protobuf.Timestamp created = 5;
   map<string,string> annotations = 6;  
+}
+
+message PayMap {
+  string url = 1;
+  map<string,string> kv = 2;
 }
 
 message Order {
@@ -60,11 +65,14 @@ message PayInfo {
 }
 
 message WechatPayParams {
+  string appid = 7;
   string partnerid = 1;
   string prepayid = 2;
   string noncestr = 3;
   string timestamp = 4;
   string sign = 5;
+  string mwebUrl = 6;
+  string outTradeNo = 8;
 }
 
 message Groupon {

@@ -2,10 +2,13 @@ package service
 
 import (
 	"context"
+
 	"github.com/emart.io/zbay/internal/impl/biz"
 	"github.com/emart.io/zbay/internal/impl/db"
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/gogo/protobuf/types"
+	log "github.com/sirupsen/logrus"
+	"google.golang.org/grpc/metadata"
 )
 
 const (
@@ -51,14 +54,13 @@ func (s *AccountImpl) List(in *pb.User, stream pb.Accounts_ListServer) error {
 	return nil
 }
 
-func (s *AccountImpl) SignAlipay(ctx context.Context, in *pb.Order) (*types.StringValue, error) {
-	v, err := biz.SignAlipay(float32(in.Amount) / 100)
-	if err != nil {
-		return nil, err
-	}
-	return &types.StringValue{Value: v}, nil
+func (s *AccountImpl) Alipay(ctx context.Context, in *pb.PayMap) (*pb.PayMap, error) {
+	return biz.AlipayRequest(in)
 }
 
-func (s *AccountImpl) PrepayWechat(ctx context.Context, in *pb.Order) (*pb.WechatPayParams, error) {
-	return biz.WechatPayParams(in)
+func (s *AccountImpl) WechatPay(ctx context.Context, in *pb.PayMap) (*pb.PayMap, error) {
+	md, _ := metadata.FromIncomingContext(ctx)
+	ip := md.Get("x-forwarded-for")
+	log.Infoln(md, ip)
+	return biz.PayRequest(in, ip[0])
 }

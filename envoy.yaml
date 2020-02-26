@@ -5,8 +5,7 @@ admin:
 
 static_resources:
   listeners:
-    - name: listener_0
-      address:
+    - address:
         socket_address: { address: 0.0.0.0, port_value: 80 }
       filter_chains:
         - filters:
@@ -14,6 +13,26 @@ static_resources:
               config:
                 codec_type: auto
                 stat_prefix: ingress_http
+                route_config:
+                  virtual_hosts:
+                    - name: local_service
+                      domains: ["*"]
+                      routes:
+                        - match: { prefix: "/" }
+                          redirect:
+                            path_redirect: "/"
+                            https_redirect: true
+                http_filters:
+                  - name: envoy.router
+    - address:
+        socket_address: { address: 0.0.0.0, port_value: 443 }
+      filter_chains:
+        - filters:
+            - name: envoy.http_connection_manager
+              config:
+                codec_type: auto
+                stat_prefix: ingress_http
+                use_remote_address: true
                 route_config:
                   name: local_route
                   virtual_hosts:
@@ -49,6 +68,13 @@ static_resources:
                   - name: envoy.grpc_web
                   - name: envoy.cors
                   - name: envoy.router
+          tls_context:
+            common_tls_context:
+              tls_certificates:
+                - certificate_chain:
+                    filename: "/etc/fullchain.pem"
+                  private_key:
+                    filename: "/etc/privkey.pem"
   clusters:
     - name: zbay_service
       connect_timeout: 0.25s

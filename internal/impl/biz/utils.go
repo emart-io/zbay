@@ -2,8 +2,18 @@ package biz
 
 import (
 	"fmt"
+
 	pb "github.com/emart.io/zbay/service/go"
+	"google.golang.org/grpc"
 )
+
+func Connection() *grpc.ClientConn {
+	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+	if err != nil {
+		panic(err)
+	}
+	return conn
+}
 
 func DistanceSQL(lon string, lat string) string {
 	sqlQuery := `

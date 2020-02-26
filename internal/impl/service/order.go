@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"database/sql"
+
 	"github.com/emart.io/zbay/internal/impl/biz"
 	"github.com/emart.io/zbay/internal/impl/db"
 	pb "github.com/emart.io/zbay/service/go"
@@ -22,6 +23,14 @@ func (s *OrdersImpl) Add(ctx context.Context, in *pb.Order) (*pb.Order, error) {
 	if err := db.Insert(orderTable, in); err != nil {
 		return nil, err
 	}
+	// send message to seller
+	if in.Status == "待发货" {
+		pb.NewMessagesClient(biz.Connection()).Add(ctx, &pb.Message{
+			From:    in.UserId,
+			To:      in.Snapshot.OwnerId,
+			Content: "[系统自动发送]:用户" + in.UserId + "，已经购买" + in.Snapshot.Title + "，请注意安排发货哦~",
+		})
+	}
 	return in, nil
 }
 
@@ -40,24 +49,31 @@ func (s *OrdersImpl) Update(ctx context.Context, in *pb.Order) (*pb.Order, error
 	}
 	if in.Status != "" {
 		if order.Status == "待收货" && in.Status == "待评价" {
-			conn, _ := grpc.Dial("localhost:50051", grpc.WithInsecure())
-			pb.NewAccountsClient(conn).Add(ctx, &pb.Account{
+			pb.NewAccountsClient(biz.Connection()).Add(ctx, &pb.Account{
 				UserId:  order.Snapshot.OwnerId,
 				Amount:  int64(order.Amount),
 				OrderId: order.Id,
 			})
 		}
 		if order.Status == "待退款" && in.Status == "已退款" {
-			conn, _ := grpc.Dial("localhost:50051", grpc.WithInsecure())
-			pb.NewAccountsClient(conn).Add(ctx, &pb.Account{
+			pb.NewAccountsClient(biz.Connection()).Add(ctx, &pb.Account{
 				UserId:  order.Snapshot.OwnerId,
 				Amount:  int64(-order.Amount),
 				OrderId: order.Id,
 			})
-			pb.NewAccountsClient(conn).Add(ctx, &pb.Account{
+			pb.NewAccountsClient(biz.Connection()).Add(ctx, &pb.Account{
 				UserId:  order.UserId,
 				Amount:  int64(order.Amount),
 				OrderId: order.Id,
+			})
+		}
+		// send message to seller
+		if in.Status == "待发货" {
+			conn, _ := grpc.Dial("localhost:50051", grpc.WithInsecure())
+			pb.NewMessagesClient(conn).Add(ctx, &pb.Message{
+				From:    order.UserId,
+				To:      order.Snapshot.OwnerId,
+				Content: "[系统自动发送]:用户" + order.UserId + "，已经购买" + order.Snapshot.Title + "，请注意安排发货哦~",
 			})
 		}
 		order.Status = in.Status
