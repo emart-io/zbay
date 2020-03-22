@@ -24,6 +24,15 @@ service Coupons {
   rpc List(User) returns (stream Coupon) {}
 }
 
+//商品评论
+service Comments {
+  rpc Add(Comment) returns (Comment) {}
+  rpc Get(Comment) returns (Comment) {}
+  rpc Update(Comment) returns (Comment) {}
+  rpc Delete(Comment) returns (google.protobuf.Empty) {}
+  rpc List(Commodity) returns (stream Comment) {}
+}
+
 message Commodity {
   string id = 1;
   string title = 2;
@@ -68,4 +77,15 @@ message Coupon {
   string owner = 9;
   map<string,string> annotations = 10;  
   google.protobuf.Timestamp created = 11;
+}
+
+message Comment {
+  string id = 1;
+  string commodityId = 2;
+  string content = 3;
+  repeated string keywords = 4;
+  uint32 star = 5;
+  string owner = 6;
+  map<string,string> annotations = 7;  
+  google.protobuf.Timestamp created = 8;
 }
