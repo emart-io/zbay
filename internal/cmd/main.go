@@ -28,6 +28,7 @@ func main() {
 	pb.RegisterCouponsServer(s, &impl.CouponImpl{})
 	pb.RegisterAccountsServer(s, &impl.AccountImpl{})
 	pb.RegisterCommentsServer(s, &impl.CommentImpl{})
+	pb.RegisterMemosServer(s, &impl.MemoImpl{})
 
 	log.Infoln("listen:" + port)
 	if err := s.Serve(lis); err != nil {

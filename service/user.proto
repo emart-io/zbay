@@ -23,6 +23,15 @@ service Addresses {
   rpc List(User) returns (stream Address) {}
 }
 
+//随手记
+service Memos {
+  rpc Add(Memo) returns (Memo) {}
+  rpc Get(Memo) returns (Memo) {}
+  rpc Update(Memo) returns (Memo) {}
+  rpc Delete(Memo) returns (google.protobuf.Empty) {}
+  rpc List(User) returns (stream Memo) {}
+}
+
 message User {
   string id = 1;
   string name = 2;
@@ -57,4 +66,14 @@ message Shop {
   string id = 1;
   string name = 2;
   string description = 3;
+}
+
+message Memo {
+  string id = 1;
+  string userId = 2;
+  string title = 3;
+  string content = 4;
+  map<string,string> annotations = 5;  
+  google.protobuf.Timestamp created = 6;
+  google.protobuf.Timestamp updated = 7;
 }
