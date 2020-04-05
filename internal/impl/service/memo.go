@@ -43,7 +43,7 @@ func (s *MemoImpl) Update(ctx context.Context, in *pb.Memo) (*pb.Memo, error) {
 	if in.Content != "" {
 		memo.Content = in.Content
 	}
-
+	memo.Updated = types.TimestampNow()
 	if err := db.Update(memoTable, in.Id, memo); err != nil {
 		return nil, err
 	}

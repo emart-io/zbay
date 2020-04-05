@@ -124,6 +124,7 @@ export class Memo extends jspb.Message {
   userId: string;
   title: string;
   content: string;
+  location: string;
   annotationsMap: jspb.Map<string, string>;
   clearannotationsMap(): void;
   created: google_protobuf_timestamp_pb.Timestamp | undefined;
@@ -146,6 +147,7 @@ export namespace Memo {
     userid: string,
     title: string,
     content: string,
+    location: string,
     annotationsMap: Array<[string, string]>,
     created?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     updated?: google_protobuf_timestamp_pb.Timestamp.AsObject,

@@ -73,6 +73,7 @@ message Memo {
   string userId = 2;
   string title = 3;
   string content = 4;
+  string location = 8;
   map<string,string> annotations = 5;  
   google.protobuf.Timestamp created = 6;
   google.protobuf.Timestamp updated = 7;

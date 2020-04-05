@@ -1572,6 +1572,7 @@ proto.zbay.Memo.toObject = function(includeInstance, msg) {
     userId: jspb.Message.getFieldWithDefault(msg, 2, ""),
     title: jspb.Message.getFieldWithDefault(msg, 3, ""),
     content: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    location: jspb.Message.getFieldWithDefault(msg, 8, ""),
     annotationsMap: (f = msg.getAnnotationsMap()) ? f.toObject(includeInstance, undefined) : [],
     created: (f = msg.getCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     updated: (f = msg.getUpdated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
@@ -1626,6 +1627,10 @@ proto.zbay.Memo.deserializeBinaryFromReader = function(msg, reader) {
     case 4:
       var value = /** @type {string} */ (reader.readString());
       msg.setContent(value);
+      break;
+    case 8:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setLocation(value);
       break;
     case 5:
       var value = msg.getAnnotationsMap();
@@ -1697,6 +1702,13 @@ proto.zbay.Memo.serializeBinaryToWriter = function(message, writer) {
   if (f.length > 0) {
     writer.writeString(
       4,
+      f
+    );
+  }
+  f = message.getLocation();
+  if (f.length > 0) {
+    writer.writeString(
+      8,
       f
     );
   }
@@ -1820,6 +1832,31 @@ proto.zbay.Memo.prototype.getContent = function() {
 /** @param {string} value */
 proto.zbay.Memo.prototype.setContent = function(value) {
   jspb.Message.setProto3StringField(this, 4, value);
+};
+
+
+Object.defineProperty(proto.zbay.Memo.prototype, "location", {
+  set: function(value) {
+    this.setLocation(value);
+  },
+  get: function() {
+    return this.getLocation();
+  },
+});
+
+
+/**
+ * optional string location = 8;
+ * @return {string}
+ */
+proto.zbay.Memo.prototype.getLocation = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
+};
+
+
+/** @param {string} value */
+proto.zbay.Memo.prototype.setLocation = function(value) {
+  jspb.Message.setProto3StringField(this, 8, value);
 };
 
 
