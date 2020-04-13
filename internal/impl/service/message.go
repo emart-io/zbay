@@ -2,11 +2,12 @@ package service
 
 import (
 	"context"
+	"strings"
+
 	"github.com/emart.io/zbay/internal/impl/db"
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/gogo/protobuf/types"
 	log "github.com/sirupsen/logrus"
-	"strings"
 )
 
 var (
@@ -48,8 +49,8 @@ func (s *MessageImpl) List(in *pb.Message, stream pb.Messages_ListServer) error 
 }
 
 func (s *MessageImpl) GroupBy(in *pb.User, stream pb.Messages_GroupByServer) error {
+	db.DB.Exec("CREATE TABLE IF NOT EXISTS " + messageTable + " (data JSON)")
 	query := "SELECT data->'$.from' FROM " + messageTable + " WHERE data->'$.to'='" + in.Id + "' GROUP BY data->'$.from'"
-	messages := []*pb.Message{}
 	rows, err := db.DB.Query(query)
 	if err != nil {
 		return err
@@ -60,13 +61,10 @@ func (s *MessageImpl) GroupBy(in *pb.User, stream pb.Messages_GroupByServer) err
 		rows.Scan(&from)
 		from = strings.Trim(from, "\"")
 		if from != "" {
-			messages = append(messages, &pb.Message{From: from})
-		}
-	}
-
-	for _, v := range messages {
-		if err := stream.Send(v); err != nil {
-			return err
+			if err := stream.Send(&pb.Message{From: from}); err != nil {
+				log.Errorln(err)
+				//return err
+			}
 		}
 	}
 

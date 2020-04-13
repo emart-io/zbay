@@ -1,12 +1,11 @@
-docker network create --driver=overlay devel
+docker network create --driver=overlay best
 
+docker service create --name mysql_emart --network best --mount type=bind,source=/root/.emart_mysqldata,destination=/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=emart mysql:5.7.24
 
-docker service create --name mysql_emart --network devel --mount type=bind,source=/root/.emart_mysqldata,destination=/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=emart mysql:5.7.24
+docker service create --name zbay --network best --mount type=bind,source=/root/emart_uploads,destination=/uploads jmzwcn/zbay:20200328-2257
 
-docker service create --name zbay --network devel --mount type=bind,source=/root/emart_uploads,destination=/uploads jmzwcn/zbay:20191022-0821
+docker service create --name envoy --network best -p 80:80 -p443:443 jmzwcn/envoy:20200215-2045
 
-docker service create --name envoy --network devel -p 80:80 -p443:443 jmzwcn/envoy:20191022-0814
-
-#docker service create --name web --network devel jmzwcn/web:20190616-2155
+#docker service create --name web --network best jmzwcn/web:20200413-2147
 
 
