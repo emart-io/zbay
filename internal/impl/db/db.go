@@ -4,10 +4,11 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	log "github.com/sirupsen/logrus"
 	"reflect"
 	"strings"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -47,7 +48,7 @@ func ToJSON(obj interface{}) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	replacer := strings.NewReplacer("\\n", "\\\\n", "\\r", "\\\\r", "\"", "\\\"", "'", "\\'")
+	replacer := strings.NewReplacer("\"", "\\\"", "\\b", "\\\\b", "\\f", "\\\\f", "\\n", "\\\\n", "\\r", "\\\\r", "\\t", "\\\\t", "'", "\\'")
 	return replacer.Replace(string(jsonStr)), nil
 }
 

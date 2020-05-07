@@ -72,9 +72,9 @@ static_resources:
             common_tls_context:
               tls_certificates:
                 - certificate_chain:
-                    filename: "/etc/fullchain.pem"
+                    filename: "/etc/fullchain.cer"
                   private_key:
-                    filename: "/etc/privkey.pem"
+                    filename: "/etc/iyou.city.key"
   clusters:
     - name: zbay_service
       connect_timeout: 0.25s
