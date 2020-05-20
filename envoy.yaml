@@ -55,7 +55,7 @@ static_resources:
                             max_grpc_timeout: 0s
                         - match: { prefix: "/" }
                           route:
-                            cluster: web_service
+                            cluster: pwa_service
                       cors:
                         allow_origin:
                           - "*"
@@ -102,11 +102,11 @@ static_resources:
         - socket_address:
             address: zbay
             port_value: 9090
-    - name: web_service
+    - name: pwa_service
       connect_timeout: 10s
       type: logical_dns
       lb_policy: round_robin
       hosts:
         - socket_address:
-            address: web
+            address: pwa
             port_value: 80
