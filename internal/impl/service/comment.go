@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/emart.io/zbay/internal/impl/db"
 	pb "github.com/emart.io/zbay/service/go"
@@ -16,7 +15,7 @@ const (
 type CommentImpl struct{}
 
 func (s *CommentImpl) Add(ctx context.Context, in *pb.Comment) (*pb.Comment, error) {
-	in.Id = fmt.Sprint(types.TimestampNow().Seconds, types.TimestampNow().Nanos)
+	in.Id = types.TimestampNow().String()
 	in.Created = types.TimestampNow()
 	if err := db.Insert(commentTable, in); err != nil {
 		return nil, err

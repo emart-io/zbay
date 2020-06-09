@@ -2,12 +2,14 @@ package service
 
 import (
 	"context"
+	"fmt"
+	"os"
+
 	"github.com/emart.io/zbay/internal/impl/biz"
 	"github.com/emart.io/zbay/internal/impl/db"
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/gogo/protobuf/types"
 	log "github.com/sirupsen/logrus"
-	"os"
 )
 
 const (
@@ -17,7 +19,7 @@ const (
 type CommoditiesImpl struct{}
 
 func (s *CommoditiesImpl) Add(ctx context.Context, in *pb.Commodity) (*pb.Commodity, error) {
-	in.Id = types.TimestampNow().String()
+	in.Id = fmt.Sprint(types.TimestampNow().Seconds)
 	in.Created = types.TimestampNow()
 	if err := db.Insert(commodityTable, in); err != nil {
 		return nil, err
