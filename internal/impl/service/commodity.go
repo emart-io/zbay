@@ -19,8 +19,9 @@ const (
 type CommoditiesImpl struct{}
 
 func (s *CommoditiesImpl) Add(ctx context.Context, in *pb.Commodity) (*pb.Commodity, error) {
-	in.Id = fmt.Sprint(types.TimestampNow().Seconds)
-	in.Created = types.TimestampNow()
+	now := types.TimestampNow()
+	in.Id = fmt.Sprint(now.Seconds) + "-" + fmt.Sprint(now.Nanos)
+	in.Created = now
 	if err := db.Insert(commodityTable, in); err != nil {
 		return nil, err
 	}
