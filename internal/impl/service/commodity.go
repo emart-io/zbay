@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"os"
 
 	"github.com/emart.io/zbay/internal/impl/biz"
@@ -19,9 +18,8 @@ const (
 type CommoditiesImpl struct{}
 
 func (s *CommoditiesImpl) Add(ctx context.Context, in *pb.Commodity) (*pb.Commodity, error) {
-	now := types.TimestampNow()
-	in.Id = fmt.Sprint(now.Seconds) + "-" + fmt.Sprint(now.Nanos)
-	in.Created = now
+	in.Id = biz.UUID()
+	in.Created = types.TimestampNow()
 	if err := db.Insert(commodityTable, in); err != nil {
 		return nil, err
 	}

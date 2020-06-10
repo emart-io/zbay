@@ -4,8 +4,14 @@ import (
 	"fmt"
 
 	pb "github.com/emart.io/zbay/service/go"
+	"github.com/gogo/protobuf/types"
 	"google.golang.org/grpc"
 )
+
+func UUID() string {
+	now := types.TimestampNow()
+	return fmt.Sprint(now.Seconds) + "-" + fmt.Sprint(now.Nanos)
+}
 
 func Connection() *grpc.ClientConn {
 	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
