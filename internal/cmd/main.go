@@ -19,6 +19,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
+
 	s := grpc.NewServer()
 	pb.RegisterCommoditiesServer(s, &impl.CommoditiesImpl{})
 	pb.RegisterUsersServer(s, &impl.UsersImpl{})

@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/emart.io/zbay/internal/impl/db"
+	"github.com/emart.io/zbay/internal/impl/biz/db"
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/gogo/protobuf/types"
 	log "github.com/sirupsen/logrus"

@@ -5,7 +5,7 @@ import (
 	"database/sql"
 
 	"github.com/emart.io/zbay/internal/impl/biz"
-	"github.com/emart.io/zbay/internal/impl/db"
+	"github.com/emart.io/zbay/internal/impl/biz/db"
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/gogo/protobuf/types"
 	"google.golang.org/grpc"

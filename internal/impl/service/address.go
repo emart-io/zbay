@@ -2,7 +2,8 @@ package service
 
 import (
 	"context"
-	"github.com/emart.io/zbay/internal/impl/db"
+
+	"github.com/emart.io/zbay/internal/impl/biz/db"
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/gogo/protobuf/types"
 )
