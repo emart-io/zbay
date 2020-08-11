@@ -4,7 +4,7 @@ docker service create --name mysql_emart --network best --mount type=bind,source
 
 docker service create --name zbay --network best --mount type=bind,source=/root/emart_uploads,destination=/uploads jmzwcn/zbay:20200328-2257
 
-docker service create --name envoy --network best -p 80:80 -p443:443 jmzwcn/envoy:20200520-2105
+docker service create --name envoy --network best -p 80:80 -p443:443 jmzwcn/envoy:20200811-2222
 
 #docker service create --name pwa --network best jmzwcn/pwa:20200520-2101
 
