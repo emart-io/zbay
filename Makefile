@@ -39,7 +39,7 @@ generate-js:
 	@-mkdir service/js > /dev/null 2>&1  || true
 	@protoc -I./service service/*.proto \
 	--js_out=import_style=commonjs:service/js \
-	--grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:service/js
+	--grpc-web_out=import_style=commonjs+dts,mode=grpcweb:service/js
 	cp -rf service/js/* ../pwa/src/sdk
 #	cp -rf service/js/* ../web/src/sdk
 	@echo Generate-js successfully.
