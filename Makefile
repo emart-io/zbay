@@ -1,6 +1,7 @@
 # Variables
 SERVICE=zbay
 IMG_HUB?=docker.io/jmzwcn
+PROTOC=PATH=$(PATH):$(PWD)/vendors protoc
 # Version information
 VERSION=1.0.0
 REVISION=${shell git rev-parse --short HEAD}
@@ -24,7 +25,7 @@ prepare:
 generate:generate-js generate-go
 
 generate-go:
-	@protoc -I./service --gogofaster_out=\
+	@$(PROTOC) -I./service --gogofaster_out=\
 	Mgoogle/protobuf/any.proto=github.com/gogo/protobuf/types,\
 	Mgoogle/protobuf/duration.proto=github.com/gogo/protobuf/types,\
 	Mgoogle/protobuf/struct.proto=github.com/gogo/protobuf/types,\
@@ -36,12 +37,10 @@ generate-go:
 	@echo Generate-go successfully.
 
 generate-js:
-	@-mkdir service/js > /dev/null 2>&1  || true
-	@protoc -I./service service/*.proto \
+	@$(PROTOC) -I./service service/*.proto \
 	--js_out=import_style=commonjs:service/js \
 	--grpc-web_out=import_style=commonjs+dts,mode=grpcweb:service/js
 	cp -rf service/js/* ../pwa/src/sdk
-#	cp -rf service/js/* ../web/src/sdk
 	@echo Generate-js successfully.
 
 build:generate
