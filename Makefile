@@ -1,7 +1,7 @@
 # Variables
 SERVICE=zbay
 IMG_HUB?=docker.io/jmzwcn
-PROTOC=PATH=$(PATH):$(PWD)/vendors protoc
+PROTOC=PATH=$(PATH):$(PWD)/third_party protoc
 # Version information
 VERSION=1.0.0
 REVISION=${shell git rev-parse --short HEAD}

@@ -9,8 +9,11 @@ import (
 	proto "github.com/gogo/protobuf/proto"
 	types "github.com/gogo/protobuf/types"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	io "io"
 	math "math"
+	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -22,7 +25,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.GoGoProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type Commodity struct {
 	Id          string    `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -57,7 +60,7 @@ func (m *Commodity) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return xxx_messageInfo_Commodity.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
-		n, err := m.MarshalTo(b)
+		n, err := m.MarshalToSizedBuffer(b)
 		if err != nil {
 			return nil, err
 		}
@@ -202,7 +205,7 @@ func (m *Price) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return xxx_messageInfo_Price.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
-		n, err := m.MarshalTo(b)
+		n, err := m.MarshalToSizedBuffer(b)
 		if err != nil {
 			return nil, err
 		}
@@ -262,7 +265,7 @@ func (m *Medium) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return xxx_messageInfo_Medium.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
-		n, err := m.MarshalTo(b)
+		n, err := m.MarshalToSizedBuffer(b)
 		if err != nil {
 			return nil, err
 		}
@@ -330,7 +333,7 @@ func (m *Coupon) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return xxx_messageInfo_Coupon.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
-		n, err := m.MarshalTo(b)
+		n, err := m.MarshalToSizedBuffer(b)
 		if err != nil {
 			return nil, err
 		}
@@ -451,7 +454,7 @@ func (m *Comment) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return xxx_messageInfo_Comment.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
-		n, err := m.MarshalTo(b)
+		n, err := m.MarshalToSizedBuffer(b)
 		if err != nil {
 			return nil, err
 		}
@@ -737,6 +740,29 @@ type CommoditiesServer interface {
 	Delete(context.Context, *Commodity) (*types.Empty, error)
 }
 
+// UnimplementedCommoditiesServer can be embedded to have forward compatible implementations.
+type UnimplementedCommoditiesServer struct {
+}
+
+func (*UnimplementedCommoditiesServer) Add(ctx context.Context, req *Commodity) (*Commodity, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Add not implemented")
+}
+func (*UnimplementedCommoditiesServer) Get(ctx context.Context, req *Commodity) (*Commodity, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+}
+func (*UnimplementedCommoditiesServer) Update(ctx context.Context, req *Commodity) (*Commodity, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+}
+func (*UnimplementedCommoditiesServer) List(req *User, srv Commodities_ListServer) error {
+	return status.Errorf(codes.Unimplemented, "method List not implemented")
+}
+func (*UnimplementedCommoditiesServer) Search(req *types.StringValue, srv Commodities_SearchServer) error {
+	return status.Errorf(codes.Unimplemented, "method Search not implemented")
+}
+func (*UnimplementedCommoditiesServer) Delete(ctx context.Context, req *Commodity) (*types.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+
 func RegisterCommoditiesServer(s *grpc.Server, srv CommoditiesServer) {
 	s.RegisterService(&_Commodities_serviceDesc, srv)
 }
@@ -987,6 +1013,26 @@ type CouponsServer interface {
 	List(*User, Coupons_ListServer) error
 }
 
+// UnimplementedCouponsServer can be embedded to have forward compatible implementations.
+type UnimplementedCouponsServer struct {
+}
+
+func (*UnimplementedCouponsServer) Add(ctx context.Context, req *Coupon) (*Coupon, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Add not implemented")
+}
+func (*UnimplementedCouponsServer) Get(ctx context.Context, req *Coupon) (*Coupon, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+}
+func (*UnimplementedCouponsServer) Update(ctx context.Context, req *Coupon) (*Coupon, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+}
+func (*UnimplementedCouponsServer) Delete(ctx context.Context, req *Coupon) (*types.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+func (*UnimplementedCouponsServer) List(req *User, srv Coupons_ListServer) error {
+	return status.Errorf(codes.Unimplemented, "method List not implemented")
+}
+
 func RegisterCouponsServer(s *grpc.Server, srv CouponsServer) {
 	s.RegisterService(&_Coupons_serviceDesc, srv)
 }
@@ -1211,6 +1257,26 @@ type CommentsServer interface {
 	List(*Commodity, Comments_ListServer) error
 }
 
+// UnimplementedCommentsServer can be embedded to have forward compatible implementations.
+type UnimplementedCommentsServer struct {
+}
+
+func (*UnimplementedCommentsServer) Add(ctx context.Context, req *Comment) (*Comment, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Add not implemented")
+}
+func (*UnimplementedCommentsServer) Get(ctx context.Context, req *Comment) (*Comment, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+}
+func (*UnimplementedCommentsServer) Update(ctx context.Context, req *Comment) (*Comment, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+}
+func (*UnimplementedCommentsServer) Delete(ctx context.Context, req *Comment) (*types.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+func (*UnimplementedCommentsServer) List(req *Commodity, srv Comments_ListServer) error {
+	return status.Errorf(codes.Unimplemented, "method List not implemented")
+}
+
 func RegisterCommentsServer(s *grpc.Server, srv CommentsServer) {
 	s.RegisterService(&_Comments_serviceDesc, srv)
 }
@@ -1342,7 +1408,7 @@ var _Comments_serviceDesc = grpc.ServiceDesc{
 func (m *Commodity) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1350,145 +1416,161 @@ func (m *Commodity) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *Commodity) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Commodity) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Id) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Id)))
-		i += copy(dAtA[i:], m.Id)
+	if m.Inventory != 0 {
+		i = encodeVarintCommodity(dAtA, i, uint64(m.Inventory))
+		i--
+		dAtA[i] = 0x78
 	}
-	if len(m.Title) > 0 {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Title)))
-		i += copy(dAtA[i:], m.Title)
-	}
-	if len(m.Category) > 0 {
-		dAtA[i] = 0x1a
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Category)))
-		i += copy(dAtA[i:], m.Category)
-	}
-	if len(m.Content) > 0 {
-		dAtA[i] = 0x22
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Content)))
-		i += copy(dAtA[i:], m.Content)
-	}
-	if len(m.Media) > 0 {
-		for _, msg := range m.Media {
-			dAtA[i] = 0x2a
-			i++
-			i = encodeVarintCommodity(dAtA, i, uint64(msg.Size()))
-			n, err := msg.MarshalTo(dAtA[i:])
+	if m.Updated != nil {
+		{
+			size, err := m.Updated.MarshalToSizedBuffer(dAtA[:i])
 			if err != nil {
 				return 0, err
 			}
-			i += n
+			i -= size
+			i = encodeVarintCommodity(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x72
+	}
+	if m.Created != nil {
+		{
+			size, err := m.Created.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintCommodity(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x6a
+	}
+	if len(m.Annotations) > 0 {
+		for k := range m.Annotations {
+			v := m.Annotations[k]
+			baseI := i
+			i -= len(v)
+			copy(dAtA[i:], v)
+			i = encodeVarintCommodity(dAtA, i, uint64(len(v)))
+			i--
+			dAtA[i] = 0x12
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintCommodity(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintCommodity(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0x62
 		}
 	}
-	if len(m.City) > 0 {
-		dAtA[i] = 0x32
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.City)))
-		i += copy(dAtA[i:], m.City)
+	if len(m.Status) > 0 {
+		i -= len(m.Status)
+		copy(dAtA[i:], m.Status)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Status)))
+		i--
+		dAtA[i] = 0x5a
 	}
-	if len(m.Prices) > 0 {
-		for _, msg := range m.Prices {
-			dAtA[i] = 0x3a
-			i++
-			i = encodeVarintCommodity(dAtA, i, uint64(msg.Size()))
-			n, err := msg.MarshalTo(dAtA[i:])
-			if err != nil {
-				return 0, err
-			}
-			i += n
+	if len(m.OwnerId) > 0 {
+		i -= len(m.OwnerId)
+		copy(dAtA[i:], m.OwnerId)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.OwnerId)))
+		i--
+		dAtA[i] = 0x52
+	}
+	if len(m.Tags) > 0 {
+		for iNdEx := len(m.Tags) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.Tags[iNdEx])
+			copy(dAtA[i:], m.Tags[iNdEx])
+			i = encodeVarintCommodity(dAtA, i, uint64(len(m.Tags[iNdEx])))
+			i--
+			dAtA[i] = 0x4a
 		}
 	}
 	if m.ExpressFare != 0 {
-		dAtA[i] = 0x40
-		i++
 		i = encodeVarintCommodity(dAtA, i, uint64(m.ExpressFare))
+		i--
+		dAtA[i] = 0x40
 	}
-	if len(m.Tags) > 0 {
-		for _, s := range m.Tags {
-			dAtA[i] = 0x4a
-			i++
-			l = len(s)
-			for l >= 1<<7 {
-				dAtA[i] = uint8(uint64(l)&0x7f | 0x80)
-				l >>= 7
-				i++
+	if len(m.Prices) > 0 {
+		for iNdEx := len(m.Prices) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Prices[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintCommodity(dAtA, i, uint64(size))
 			}
-			dAtA[i] = uint8(l)
-			i++
-			i += copy(dAtA[i:], s)
+			i--
+			dAtA[i] = 0x3a
 		}
 	}
-	if len(m.OwnerId) > 0 {
-		dAtA[i] = 0x52
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.OwnerId)))
-		i += copy(dAtA[i:], m.OwnerId)
+	if len(m.City) > 0 {
+		i -= len(m.City)
+		copy(dAtA[i:], m.City)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.City)))
+		i--
+		dAtA[i] = 0x32
 	}
-	if len(m.Status) > 0 {
-		dAtA[i] = 0x5a
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Status)))
-		i += copy(dAtA[i:], m.Status)
-	}
-	if len(m.Annotations) > 0 {
-		for k, _ := range m.Annotations {
-			dAtA[i] = 0x62
-			i++
-			v := m.Annotations[k]
-			mapSize := 1 + len(k) + sovCommodity(uint64(len(k))) + 1 + len(v) + sovCommodity(uint64(len(v)))
-			i = encodeVarintCommodity(dAtA, i, uint64(mapSize))
-			dAtA[i] = 0xa
-			i++
-			i = encodeVarintCommodity(dAtA, i, uint64(len(k)))
-			i += copy(dAtA[i:], k)
-			dAtA[i] = 0x12
-			i++
-			i = encodeVarintCommodity(dAtA, i, uint64(len(v)))
-			i += copy(dAtA[i:], v)
+	if len(m.Media) > 0 {
+		for iNdEx := len(m.Media) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Media[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintCommodity(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x2a
 		}
 	}
-	if m.Created != nil {
-		dAtA[i] = 0x6a
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(m.Created.Size()))
-		n1, err := m.Created.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n1
+	if len(m.Content) > 0 {
+		i -= len(m.Content)
+		copy(dAtA[i:], m.Content)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Content)))
+		i--
+		dAtA[i] = 0x22
 	}
-	if m.Updated != nil {
-		dAtA[i] = 0x72
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(m.Updated.Size()))
-		n2, err := m.Updated.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n2
+	if len(m.Category) > 0 {
+		i -= len(m.Category)
+		copy(dAtA[i:], m.Category)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Category)))
+		i--
+		dAtA[i] = 0x1a
 	}
-	if m.Inventory != 0 {
-		dAtA[i] = 0x78
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(m.Inventory))
+	if len(m.Title) > 0 {
+		i -= len(m.Title)
+		copy(dAtA[i:], m.Title)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Title)))
+		i--
+		dAtA[i] = 0x12
 	}
-	return i, nil
+	if len(m.Id) > 0 {
+		i -= len(m.Id)
+		copy(dAtA[i:], m.Id)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Id)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
 }
 
 func (m *Price) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1496,35 +1578,43 @@ func (m *Price) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *Price) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Price) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Name) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Name)))
-		i += copy(dAtA[i:], m.Name)
+	if len(m.Group) > 0 {
+		i -= len(m.Group)
+		copy(dAtA[i:], m.Group)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Group)))
+		i--
+		dAtA[i] = 0x1a
 	}
 	if len(m.Single) > 0 {
-		dAtA[i] = 0x12
-		i++
+		i -= len(m.Single)
+		copy(dAtA[i:], m.Single)
 		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Single)))
-		i += copy(dAtA[i:], m.Single)
+		i--
+		dAtA[i] = 0x12
 	}
-	if len(m.Group) > 0 {
-		dAtA[i] = 0x1a
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Group)))
-		i += copy(dAtA[i:], m.Group)
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0xa
 	}
-	return i, nil
+	return len(dAtA) - i, nil
 }
 
 func (m *Medium) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1532,39 +1622,46 @@ func (m *Medium) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *Medium) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Medium) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Image) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Image)))
-		i += copy(dAtA[i:], m.Image)
-	}
-	if len(m.Video) > 0 {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Video)))
-		i += copy(dAtA[i:], m.Video)
-	}
 	if m.IsFirst {
-		dAtA[i] = 0x18
-		i++
+		i--
 		if m.IsFirst {
 			dAtA[i] = 1
 		} else {
 			dAtA[i] = 0
 		}
-		i++
+		i--
+		dAtA[i] = 0x18
 	}
-	return i, nil
+	if len(m.Video) > 0 {
+		i -= len(m.Video)
+		copy(dAtA[i:], m.Video)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Video)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Image) > 0 {
+		i -= len(m.Image)
+		copy(dAtA[i:], m.Image)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Image)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
 }
 
 func (m *Coupon) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1572,103 +1669,120 @@ func (m *Coupon) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *Coupon) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Coupon) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Id) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Id)))
-		i += copy(dAtA[i:], m.Id)
-	}
-	if len(m.Name) > 0 {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Name)))
-		i += copy(dAtA[i:], m.Name)
-	}
-	if len(m.CommodityId) > 0 {
-		dAtA[i] = 0x1a
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.CommodityId)))
-		i += copy(dAtA[i:], m.CommodityId)
-	}
-	if m.Denomination != 0 {
-		dAtA[i] = 0x20
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(m.Denomination))
-	}
-	if m.Count != 0 {
-		dAtA[i] = 0x28
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(m.Count))
-	}
-	if m.Limit != 0 {
-		dAtA[i] = 0x30
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(m.Limit))
-	}
-	if m.Begin != nil {
-		dAtA[i] = 0x3a
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(m.Begin.Size()))
-		n3, err := m.Begin.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
+	if m.Created != nil {
+		{
+			size, err := m.Created.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintCommodity(dAtA, i, uint64(size))
 		}
-		i += n3
-	}
-	if m.End != nil {
-		dAtA[i] = 0x42
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(m.End.Size()))
-		n4, err := m.End.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n4
-	}
-	if len(m.Owner) > 0 {
-		dAtA[i] = 0x4a
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Owner)))
-		i += copy(dAtA[i:], m.Owner)
+		i--
+		dAtA[i] = 0x5a
 	}
 	if len(m.Annotations) > 0 {
-		for k, _ := range m.Annotations {
-			dAtA[i] = 0x52
-			i++
+		for k := range m.Annotations {
 			v := m.Annotations[k]
-			mapSize := 1 + len(k) + sovCommodity(uint64(len(k))) + 1 + len(v) + sovCommodity(uint64(len(v)))
-			i = encodeVarintCommodity(dAtA, i, uint64(mapSize))
-			dAtA[i] = 0xa
-			i++
-			i = encodeVarintCommodity(dAtA, i, uint64(len(k)))
-			i += copy(dAtA[i:], k)
-			dAtA[i] = 0x12
-			i++
+			baseI := i
+			i -= len(v)
+			copy(dAtA[i:], v)
 			i = encodeVarintCommodity(dAtA, i, uint64(len(v)))
-			i += copy(dAtA[i:], v)
+			i--
+			dAtA[i] = 0x12
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintCommodity(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintCommodity(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0x52
 		}
 	}
-	if m.Created != nil {
-		dAtA[i] = 0x5a
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(m.Created.Size()))
-		n5, err := m.Created.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n5
+	if len(m.Owner) > 0 {
+		i -= len(m.Owner)
+		copy(dAtA[i:], m.Owner)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Owner)))
+		i--
+		dAtA[i] = 0x4a
 	}
-	return i, nil
+	if m.End != nil {
+		{
+			size, err := m.End.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintCommodity(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x42
+	}
+	if m.Begin != nil {
+		{
+			size, err := m.Begin.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintCommodity(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x3a
+	}
+	if m.Limit != 0 {
+		i = encodeVarintCommodity(dAtA, i, uint64(m.Limit))
+		i--
+		dAtA[i] = 0x30
+	}
+	if m.Count != 0 {
+		i = encodeVarintCommodity(dAtA, i, uint64(m.Count))
+		i--
+		dAtA[i] = 0x28
+	}
+	if m.Denomination != 0 {
+		i = encodeVarintCommodity(dAtA, i, uint64(m.Denomination))
+		i--
+		dAtA[i] = 0x20
+	}
+	if len(m.CommodityId) > 0 {
+		i -= len(m.CommodityId)
+		copy(dAtA[i:], m.CommodityId)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.CommodityId)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Id) > 0 {
+		i -= len(m.Id)
+		copy(dAtA[i:], m.Id)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Id)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
 }
 
 func (m *Comment) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1676,92 +1790,101 @@ func (m *Comment) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *Comment) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Comment) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Id) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Id)))
-		i += copy(dAtA[i:], m.Id)
-	}
-	if len(m.CommodityId) > 0 {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.CommodityId)))
-		i += copy(dAtA[i:], m.CommodityId)
-	}
-	if len(m.Content) > 0 {
-		dAtA[i] = 0x1a
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Content)))
-		i += copy(dAtA[i:], m.Content)
-	}
-	if len(m.Keywords) > 0 {
-		for _, s := range m.Keywords {
-			dAtA[i] = 0x22
-			i++
-			l = len(s)
-			for l >= 1<<7 {
-				dAtA[i] = uint8(uint64(l)&0x7f | 0x80)
-				l >>= 7
-				i++
+	if m.Created != nil {
+		{
+			size, err := m.Created.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
 			}
-			dAtA[i] = uint8(l)
-			i++
-			i += copy(dAtA[i:], s)
+			i -= size
+			i = encodeVarintCommodity(dAtA, i, uint64(size))
 		}
-	}
-	if m.Star != 0 {
-		dAtA[i] = 0x28
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(m.Star))
-	}
-	if len(m.Owner) > 0 {
-		dAtA[i] = 0x32
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Owner)))
-		i += copy(dAtA[i:], m.Owner)
+		i--
+		dAtA[i] = 0x42
 	}
 	if len(m.Annotations) > 0 {
-		for k, _ := range m.Annotations {
-			dAtA[i] = 0x3a
-			i++
+		for k := range m.Annotations {
 			v := m.Annotations[k]
-			mapSize := 1 + len(k) + sovCommodity(uint64(len(k))) + 1 + len(v) + sovCommodity(uint64(len(v)))
-			i = encodeVarintCommodity(dAtA, i, uint64(mapSize))
-			dAtA[i] = 0xa
-			i++
-			i = encodeVarintCommodity(dAtA, i, uint64(len(k)))
-			i += copy(dAtA[i:], k)
-			dAtA[i] = 0x12
-			i++
+			baseI := i
+			i -= len(v)
+			copy(dAtA[i:], v)
 			i = encodeVarintCommodity(dAtA, i, uint64(len(v)))
-			i += copy(dAtA[i:], v)
+			i--
+			dAtA[i] = 0x12
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintCommodity(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintCommodity(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0x3a
 		}
 	}
-	if m.Created != nil {
-		dAtA[i] = 0x42
-		i++
-		i = encodeVarintCommodity(dAtA, i, uint64(m.Created.Size()))
-		n6, err := m.Created.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n6
+	if len(m.Owner) > 0 {
+		i -= len(m.Owner)
+		copy(dAtA[i:], m.Owner)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Owner)))
+		i--
+		dAtA[i] = 0x32
 	}
-	return i, nil
+	if m.Star != 0 {
+		i = encodeVarintCommodity(dAtA, i, uint64(m.Star))
+		i--
+		dAtA[i] = 0x28
+	}
+	if len(m.Keywords) > 0 {
+		for iNdEx := len(m.Keywords) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.Keywords[iNdEx])
+			copy(dAtA[i:], m.Keywords[iNdEx])
+			i = encodeVarintCommodity(dAtA, i, uint64(len(m.Keywords[iNdEx])))
+			i--
+			dAtA[i] = 0x22
+		}
+	}
+	if len(m.Content) > 0 {
+		i -= len(m.Content)
+		copy(dAtA[i:], m.Content)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Content)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.CommodityId) > 0 {
+		i -= len(m.CommodityId)
+		copy(dAtA[i:], m.CommodityId)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.CommodityId)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Id) > 0 {
+		i -= len(m.Id)
+		copy(dAtA[i:], m.Id)
+		i = encodeVarintCommodity(dAtA, i, uint64(len(m.Id)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
 }
 
 func encodeVarintCommodity(dAtA []byte, offset int, v uint64) int {
+	offset -= sovCommodity(v)
+	base := offset
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
 		v >>= 7
 		offset++
 	}
 	dAtA[offset] = uint8(v)
-	return offset + 1
+	return base
 }
 func (m *Commodity) Size() (n int) {
 	if m == nil {
@@ -1982,14 +2105,7 @@ func (m *Comment) Size() (n int) {
 }
 
 func sovCommodity(x uint64) (n int) {
-	for {
-		n++
-		x >>= 7
-		if x == 0 {
-			break
-		}
-	}
-	return n
+	return (math_bits.Len64(x|1) + 6) / 7
 }
 func sozCommodity(x uint64) (n int) {
 	return sovCommodity(uint64((x << 1) ^ uint64((int64(x) >> 63))))
@@ -3765,6 +3881,7 @@ func (m *Comment) Unmarshal(dAtA []byte) error {
 func skipCommodity(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
+	depth := 0
 	for iNdEx < l {
 		var wire uint64
 		for shift := uint(0); ; shift += 7 {
@@ -3796,10 +3913,8 @@ func skipCommodity(dAtA []byte) (n int, err error) {
 					break
 				}
 			}
-			return iNdEx, nil
 		case 1:
 			iNdEx += 8
-			return iNdEx, nil
 		case 2:
 			var length int
 			for shift := uint(0); ; shift += 7 {
@@ -3820,55 +3935,30 @@ func skipCommodity(dAtA []byte) (n int, err error) {
 				return 0, ErrInvalidLengthCommodity
 			}
 			iNdEx += length
-			if iNdEx < 0 {
-				return 0, ErrInvalidLengthCommodity
-			}
-			return iNdEx, nil
 		case 3:
-			for {
-				var innerWire uint64
-				var start int = iNdEx
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return 0, ErrIntOverflowCommodity
-					}
-					if iNdEx >= l {
-						return 0, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					innerWire |= (uint64(b) & 0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				innerWireType := int(innerWire & 0x7)
-				if innerWireType == 4 {
-					break
-				}
-				next, err := skipCommodity(dAtA[start:])
-				if err != nil {
-					return 0, err
-				}
-				iNdEx = start + next
-				if iNdEx < 0 {
-					return 0, ErrInvalidLengthCommodity
-				}
-			}
-			return iNdEx, nil
+			depth++
 		case 4:
-			return iNdEx, nil
+			if depth == 0 {
+				return 0, ErrUnexpectedEndOfGroupCommodity
+			}
+			depth--
 		case 5:
 			iNdEx += 4
-			return iNdEx, nil
 		default:
 			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
 		}
+		if iNdEx < 0 {
+			return 0, ErrInvalidLengthCommodity
+		}
+		if depth == 0 {
+			return iNdEx, nil
+		}
 	}
-	panic("unreachable")
+	return 0, io.ErrUnexpectedEOF
 }
 
 var (
-	ErrInvalidLengthCommodity = fmt.Errorf("proto: negative length found during unmarshaling")
-	ErrIntOverflowCommodity   = fmt.Errorf("proto: integer overflow")
+	ErrInvalidLengthCommodity        = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowCommodity          = fmt.Errorf("proto: integer overflow")
+	ErrUnexpectedEndOfGroupCommodity = fmt.Errorf("proto: unexpected end of group")
 )
