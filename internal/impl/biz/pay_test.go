@@ -45,3 +45,8 @@ func TestWechatQuery(t *testing.T) {
 	//fmt.Println(i)
 	t.Error("end")
 }
+
+func TestSendSMS(t *testing.T) {
+	SendSMS("", "短信测试", "地址")
+	t.Error("done")
+}

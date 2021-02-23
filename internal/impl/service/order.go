@@ -31,6 +31,7 @@ func (s *OrdersImpl) Add(ctx context.Context, in *pb.Order) (*pb.Order, error) {
 			Content: "[系统自动发送]:用户" + in.UserId + "，已经购买" + in.Snapshot.Title + "，请注意安排发货哦~",
 		})
 	}
+	biz.SendSMS(in.Snapshot.OwnerId, in.Snapshot.Title, in.Destination.Location)
 	return in, nil
 }
 

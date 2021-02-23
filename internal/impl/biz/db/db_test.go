@@ -7,23 +7,24 @@ import (
 )
 
 func TestPrimaryKey(t *testing.T) {
-	checkTable("test")
-	DB.Exec("drop table test")
+	//checkTable("test")
+	//DB.Exec("drop table test")
 }
 
 func TestJsonEscape(t *testing.T) {
 	goods := Goods{Id: "iii"}
 	goods.Desc = "~!@#$%^&*()_+{}|:\";',./<>?'"
-	fmt.Println(goods.Desc)
-	if err := Insert("test1", goods); err != nil {
-		t.Error(err)
-	}
+	fmt.Println(ToJSON(goods))
+	// if err := Insert("test1", goods); err != nil {
+	// 	t.Error(err)
+	// }
 	var g1 Goods
-	if err := GetById("test1", "iii", &g1); err != nil {
-		t.Error(err)
-	}
+	// if err := GetById("test1", "iii", &g1); err != nil {
+	// 	t.Error(err)
+	// }
 	fmt.Println(g1.Desc)
-	DB.Exec("drop table test1")
+	//DB.Exec("drop table test1")
+	t.Error("done")
 }
 
 type Goods struct {
