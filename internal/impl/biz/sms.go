@@ -29,7 +29,7 @@ func SendSMS(to, title, address string) {
 
 	request.PhoneNumberSet = common.StringPtrs([]string{to})
 	request.TemplateParamSet = common.StringPtrs([]string{title, address})
-	request.SmsSdkAppid = common.StringPtr("1400488217")
+	request.SmsSdkAppid = common.StringPtr(smsAppId)
 	request.Sign = common.StringPtr("土产直卖")
 	request.TemplateID = common.StringPtr("875567")
 

@@ -47,6 +47,6 @@ func TestWechatQuery(t *testing.T) {
 }
 
 func TestSendSMS(t *testing.T) {
-	SendSMS("", "短信测试", "地址")
+	SendSMS("", "短信测试你啊活佛撒娇发萨阿四方萨福鼎", "地址你好活佛阿斯蒂芬撒娇发拉萨发")
 	t.Error("done")
 }
