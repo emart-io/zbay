@@ -15,10 +15,10 @@ func SendSMS(to, title, address string) {
 	to = "+8615901251201"
 	// https://cloud.tencent.com/document/product/382/13301
 	if len([]rune(title)) > 12 {
-		title = title[0:23]
+		title = string([]rune(title)[0:12])
 	}
 	if len([]rune(address)) > 12 {
-		address = address[0:23]
+		address = string([]rune(address)[0:12])
 	}
 	credential := common.NewCredential(smsSecretId, smsSecretKey)
 	cpf := profile.NewClientProfile()
