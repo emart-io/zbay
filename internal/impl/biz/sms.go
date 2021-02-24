@@ -13,6 +13,13 @@ import (
 func SendSMS(to, title, address string) {
 	// TODO
 	to = "+8615901251201"
+	// https://cloud.tencent.com/document/product/382/13301
+	if len([]rune(title)) > 12 {
+		title = title[0:11]
+	}
+	if len([]rune(address)) > 12 {
+		address = address[0:11]
+	}
 	credential := common.NewCredential(
 		"AKIDcLnzIhWza7m9Ghlc8QO7dy4pMiq2iTMy",
 		"ECqDhxTkmDPOBqW3MUP9LI17yZwwGLRH",
