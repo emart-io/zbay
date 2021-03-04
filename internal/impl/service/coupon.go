@@ -60,7 +60,7 @@ func (s *CouponImpl) Update(ctx context.Context, in *pb.Coupon) (*pb.Coupon, err
 func (s *CouponImpl) List(in *pb.User, stream pb.Coupons_ListServer) error {
 	coupons := []*pb.Coupon{}
 	clause := "WHERE data->'$.owner'='" + in.Id + "'"
-	if err := db.List(couponTable, &coupons, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
+	if err := db.List(couponTable, &coupons, clause, "ORDER BY data->'$.created' DESC"); err != nil {
 		return err
 	}
 

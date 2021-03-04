@@ -57,7 +57,7 @@ func (s *CommentImpl) Update(ctx context.Context, in *pb.Comment) (*pb.Comment, 
 func (s *CommentImpl) List(in *pb.Commodity, stream pb.Comments_ListServer) error {
 	comments := []*pb.Comment{}
 	clause := "WHERE data->'$.commodityId'='" + in.Id + "'"
-	if err := db.List(commentTable, &comments, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
+	if err := db.List(commentTable, &comments, clause, "ORDER BY data->'$.created' DESC"); err != nil {
 		return err
 	}
 

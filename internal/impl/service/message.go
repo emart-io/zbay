@@ -35,7 +35,7 @@ func (s *MessageImpl) List(in *pb.Message, stream pb.Messages_ListServer) error 
 	clause := "WHERE (data->'$.to'='" + in.To + "' AND " + " data->'$.from'='" + in.From + "')" +
 		" OR (data->'$.to'='" + in.From + "' AND " + " data->'$.from'='" + in.To + "')"
 	messages := []*pb.Message{}
-	if err := db.List(messageTable, &messages, clause, "ORDER BY data->'$.created.seconds' ASC"); err != nil {
+	if err := db.List(messageTable, &messages, clause, "ORDER BY data->'$.created' ASC"); err != nil {
 		return err
 	}
 

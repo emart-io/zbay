@@ -53,7 +53,7 @@ func (s *UsersImpl) Update(ctx context.Context, in *pb.User) (*pb.User, error) {
 
 func (s *UsersImpl) List(in *pb.User, stream pb.Users_ListServer) error {
 	users := []*pb.User{}
-	if err := db.List(userTable, &users, " order by data->'$.created.seconds' desc"); err != nil {
+	if err := db.List(userTable, &users, " order by data->'$.created' desc"); err != nil {
 		return err
 	}
 

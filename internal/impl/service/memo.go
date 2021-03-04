@@ -53,7 +53,7 @@ func (s *MemoImpl) Update(ctx context.Context, in *pb.Memo) (*pb.Memo, error) {
 func (s *MemoImpl) List(in *pb.User, stream pb.Memos_ListServer) error {
 	clause := "WHERE data->'$.userId'='" + in.Id + "'"
 	memoes := []*pb.Memo{}
-	if err := db.List(memoTable, &memoes, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
+	if err := db.List(memoTable, &memoes, clause, "ORDER BY data->'$.created' DESC"); err != nil {
 		return err
 	}
 

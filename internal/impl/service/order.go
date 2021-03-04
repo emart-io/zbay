@@ -100,7 +100,7 @@ func (s *OrdersImpl) Update(ctx context.Context, in *pb.Order) (*pb.Order, error
 func (s *OrdersImpl) ListByOrder(in *pb.Order, stream pb.Orders_ListByOrderServer) error {
 	orders := []*pb.Order{}
 	clause := "WHERE data->'$.snapshot.id'='" + in.Snapshot.Id + "' AND data->'$.status'='" + in.Status + "'"
-	if err := db.List(orderTable, &orders, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil && err != sql.ErrNoRows {
+	if err := db.List(orderTable, &orders, clause, "ORDER BY data->'$.created' DESC"); err != nil && err != sql.ErrNoRows {
 		return err
 	}
 
@@ -119,7 +119,7 @@ func (s *OrdersImpl) ListForBuyer(in *pb.ListQuery, stream pb.Orders_ListForBuye
 		clause = clause + " AND data->'$.userId'='" + in.User.Id + "'"
 	}
 	orders := []*pb.Order{}
-	if err := db.List(orderTable, &orders, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
+	if err := db.List(orderTable, &orders, clause, "ORDER BY data->'$.created' DESC"); err != nil {
 		return err
 	}
 
@@ -138,7 +138,7 @@ func (s *OrdersImpl) ListForSeller(in *pb.ListQuery, stream pb.Orders_ListForSel
 		clause = clause + " AND data->'$.snapshot.ownerId'='" + in.User.Id + "'"
 	}
 	orders := []*pb.Order{}
-	if err := db.List(orderTable, &orders, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
+	if err := db.List(orderTable, &orders, clause, "ORDER BY data->'$.created' DESC"); err != nil {
 		return err
 	}
 

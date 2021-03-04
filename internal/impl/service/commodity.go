@@ -71,7 +71,7 @@ func (s *CommoditiesImpl) List(in *pb.User, stream pb.Commodities_ListServer) er
 		clause = "WHERE data->'$.ownerId'='" + in.Id + "'"
 	}
 	commodities := []*pb.Commodity{}
-	if err := db.List(commodityTable, &commodities, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
+	if err := db.List(commodityTable, &commodities, clause, "ORDER BY data->'$.created' DESC"); err != nil {
 		return err
 	}
 
@@ -89,12 +89,12 @@ func (s *CommoditiesImpl) Search(in *types.StringValue, stream pb.Commodities_Se
 	clause := "WHERE (data->'$.category' LIKE '%" + in.Value + "%' OR " + " data->'$.title' LIKE '%" + in.Value + "%')" +
 		" AND data->'$.status'='已上线'"
 	commodities := []*pb.Commodity{}
-	if err := db.List(commodityTable, &commodities, clause, "ORDER BY data->'$.created.seconds' DESC"); err != nil {
+	if err := db.List(commodityTable, &commodities, clause, "ORDER BY data->'$.created' DESC"); err != nil {
 		return err
 	}
 	if len(commodities) == 0 {
 		log.Infoln("commodities==0", "begin no clause query")
-		if err := db.List(commodityTable, &commodities, "WHERE data->'$.status'='已上线'", "ORDER BY data->'$.created.seconds' DESC"); err != nil {
+		if err := db.List(commodityTable, &commodities, "WHERE data->'$.status'='已上线'", "ORDER BY data->'$.created' DESC"); err != nil {
 			return err
 		}
 	}
