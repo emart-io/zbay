@@ -2,15 +2,15 @@ package db
 
 import (
 	"database/sql"
-	"encoding/json"
 	"fmt"
 	"reflect"
 	"strings"
 	"time"
 
-	log "github.com/sirupsen/logrus"
-
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gogo/protobuf/jsonpb"
+	"github.com/gogo/protobuf/proto"
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -43,8 +43,8 @@ func checkTable(table string) error {
 	return nil
 }
 
-func ToJSON(obj interface{}) (string, error) {
-	jsonStr, err := json.Marshal(obj)
+func ToJSON(obj proto.Message) (string, error) {
+	jsonStr, err := (&jsonpb.Marshaler{}).MarshalToString(obj)
 	if err != nil {
 		return "", err
 	}
@@ -52,7 +52,7 @@ func ToJSON(obj interface{}) (string, error) {
 	return replacer.Replace(string(jsonStr)), nil
 }
 
-func Insert(table string, obj interface{}) error {
+func Insert(table string, obj proto.Message) error {
 	tx, err := DB.Begin()
 	if err != nil {
 		return err
@@ -68,7 +68,7 @@ func Insert(table string, obj interface{}) error {
 	return nil
 }
 
-func InsertTx(tx *sql.Tx, table string, obj interface{}) error {
+func InsertTx(tx *sql.Tx, table string, obj proto.Message) error {
 	checkTable(table)
 	strValue, err := ToJSON(obj)
 	if err != nil {
@@ -78,30 +78,32 @@ func InsertTx(tx *sql.Tx, table string, obj interface{}) error {
 	return err
 }
 
-func InsertIfNotExist(table, id string, obj interface{}) error {
-	var o interface{}
-	if GetById(table, id, &o) == sql.ErrNoRows {
+func InsertIfNotExist(table, id string, obj proto.Message) error {
+	//var o interface{}
+	o := reflect.New(reflect.TypeOf(obj).Elem()).Interface().(proto.Message)
+	if GetById(table, id, o) == sql.ErrNoRows {
 		return Insert(table, obj)
 	}
 	return nil
 }
 
 //Update||Insert
-func Upsert(table, id string, obj interface{}) error {
-	var o interface{}
-	err := GetById(table, id, &o)
+func Upsert(table, id string, obj proto.Message) error {
+	//var o interface{}
+	o := reflect.New(reflect.TypeOf(obj).Elem()).Interface().(proto.Message)
+	err := GetById(table, id, o)
 	if err == sql.ErrNoRows {
 		return Insert(table, obj)
 	}
 	return Update(table, id, obj)
 }
 
-func GetById(table string, id string, obj interface{}) error {
+func GetById(table string, id string, obj proto.Message) error {
 	return Get(table, map[string]interface{}{"$.id": id}, obj)
 }
 
 //https://dev.mysql.com/doc/refman/5.7/en/json.html#json-paths
-func Get(table string, kvs map[string]interface{}, obj interface{}) error {
+func Get(table string, kvs map[string]interface{}, obj proto.Message) error {
 	checkTable(table)
 	union := ""
 	for k, value := range kvs { //key should be [json-path], e.g:$.id
@@ -117,7 +119,7 @@ func Get(table string, kvs map[string]interface{}, obj interface{}) error {
 	query := "SELECT * FROM " + table + " WHERE " + strings.TrimPrefix(union, "AND")
 	jsonStr := ""
 	if err := DB.QueryRow(query).Scan(&jsonStr); err == nil {
-		if err := json.Unmarshal([]byte(jsonStr), &obj); err != nil {
+		if err := jsonpb.UnmarshalString(jsonStr, obj); err != nil {
 			return err
 		}
 	} else {
@@ -154,16 +156,16 @@ func List(table string, result interface{}, clause ...string) error {
 		if err != nil {
 			return err
 		}
-		elemp := reflect.New(elemt)
-		json.Unmarshal([]byte(jsonStr), elemp.Interface())
-		slicev = reflect.Append(slicev, elemp.Elem())
+		elemp := reflect.New(elemt.Elem())
+		jsonpb.UnmarshalString(jsonStr, elemp.Interface().(proto.Message))
+		slicev = reflect.Append(slicev, elemp)
 		i++
 	}
 	resultv.Elem().Set(slicev.Slice(0, i))
 	return nil
 }
 
-func Update(table, id string, newObj interface{}) error {
+func Update(table, id string, newObj proto.Message) error {
 	tx, err := DB.Begin()
 	if err != nil {
 		return err
@@ -181,7 +183,7 @@ func Update(table, id string, newObj interface{}) error {
 	return nil
 }
 
-func UpdateTx(tx *sql.Tx, table, id string, newObj interface{}) error {
+func UpdateTx(tx *sql.Tx, table, id string, newObj proto.Message) error {
 	if err := DeleteTx(tx, table, id); err != nil {
 		return err
 	}

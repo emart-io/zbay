@@ -14,7 +14,7 @@ func TestPrimaryKey(t *testing.T) {
 func TestJsonEscape(t *testing.T) {
 	goods := Goods{Id: "iii"}
 	goods.Desc = "~!@#$%^&*()_+{}|:\";',./<>?'"
-	fmt.Println(ToJSON(goods))
+	//fmt.Println(ToJSON(goods))
 	// if err := Insert("test1", goods); err != nil {
 	// 	t.Error(err)
 	// }
