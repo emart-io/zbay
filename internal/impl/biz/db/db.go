@@ -49,7 +49,7 @@ func ToJSON(obj proto.Message) (string, error) {
 		return "", err
 	}
 	replacer := strings.NewReplacer("\"", "\\\"", "\\b", "\\\\b", "\\f", "\\\\f", "\\n", "\\\\n", "\\r", "\\\\r", "\\t", "\\\\t", "'", "\\'")
-	return replacer.Replace(string(jsonStr)), nil
+	return replacer.Replace(jsonStr), nil
 }
 
 func Insert(table string, obj proto.Message) error {
