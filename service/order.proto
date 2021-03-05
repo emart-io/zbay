@@ -22,7 +22,8 @@ service Accounts {
   rpc List(User) returns (stream Account) {}
   rpc Total(Account) returns (Account) {}
   rpc Alipay(PayMap) returns (PayMap) {} // amount required
-  rpc WechatPay(PayMap) returns (PayMap) {} // amount required
+  rpc WechatHtml5Pay(PayMap) returns (PayMap) {} // amount required
+  rpc WechatJSPay(PayMap) returns (PayMap) {} // amount required
 }
 
 message Account {

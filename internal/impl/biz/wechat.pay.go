@@ -15,13 +15,14 @@ import (
 	pb "github.com/emart.io/zbay/service/go"
 )
 
-func PayRequest(pm *pb.PayMap, ip string) (*pb.PayMap, error) {
+// UnifiedRequest ... 统一下单
+func UnifiedRequest(pm *pb.PayMap, ip string) (*pb.PayMap, error) {
 	pm.Kv["appid"] = wechatAppId
 	pm.Kv["mch_id"] = wechatMchId
 	pm.Kv["nonce_str"] = fmt.Sprint(time.Now().Unix())
 	pm.Kv["spbill_create_ip"] = ip
 
-	pm.Kv["sign"] = wxpayCalcSign(pm.Kv, wechatKey)
+	pm.Kv["sign"] = WXpayCalcSign(pm.Kv)
 
 	bytes_req, err := xml.Marshal(StringMap(pm.Kv))
 	if err != nil {
@@ -71,8 +72,8 @@ func PayRequest(pm *pb.PayMap, ip string) (*pb.PayMap, error) {
 	return &xmlResp, nil
 }
 
-func wxpayCalcSign(mReq map[string]string, key string) (sign string) {
-	fmt.Println("微信支付签名计算, API KEY:", key)
+func WXpayCalcSign(mReq map[string]string) (sign string) {
+	fmt.Println("微信支付签名计算, API KEY:", wechatKey)
 	//STEP 1, 对key进行升序排序.
 	sorted_keys := make([]string, 0)
 	for k := range mReq {
@@ -91,8 +92,8 @@ func wxpayCalcSign(mReq map[string]string, key string) (sign string) {
 	}
 
 	//STEP3, 在键值对的最后加上key=API_KEY
-	if key != "" {
-		signStrings = signStrings + "key=" + key
+	if wechatKey != "" {
+		signStrings = signStrings + "key=" + wechatKey
 	}
 
 	//STEP4, 进行MD5签名并且将所有字符转为大写.
