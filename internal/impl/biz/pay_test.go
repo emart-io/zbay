@@ -23,7 +23,7 @@ func TestWechatPrepay(t *testing.T) {
 	pm.Kv["out_trade_no"] = "casdfasdfe"
 
 	pm.Url = "https://api.mch.weixin.qq.com/pay/unifiedorder"
-	paras, err := PayRequest(&pm, "192.168.1.1")
+	paras, err := UnifiedRequest(&pm, "192.168.1.1")
 	if err != nil {
 		t.Error(err)
 	}
@@ -37,7 +37,7 @@ func TestWechatQuery(t *testing.T) {
 	pm.Kv["out_trade_no"] = "casdfasdfe"
 
 	pm.Url = "https://api.mch.weixin.qq.com/pay/orderquery"
-	paras, err := PayRequest(&pm, "192.168.1.1")
+	paras, err := UnifiedRequest(&pm, "192.168.1.1")
 	if err != nil {
 		t.Error(err)
 	}
