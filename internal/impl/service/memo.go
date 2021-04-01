@@ -5,18 +5,21 @@ import (
 
 	"github.com/emart.io/zbay/internal/impl/biz/db"
 	pb "github.com/emart.io/zbay/service/go"
-	"github.com/gogo/protobuf/types"
+	"google.golang.org/protobuf/types/known/emptypb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 const (
 	memoTable = "memoes"
 )
 
-type MemoImpl struct{}
+type MemoImpl struct {
+	pb.UnimplementedMemosServer
+}
 
 func (s *MemoImpl) Add(ctx context.Context, in *pb.Memo) (*pb.Memo, error) {
-	in.Id = types.TimestampNow().String()
-	in.Created = types.TimestampNow()
+	in.Id = timestamppb.Now().String()
+	in.Created = timestamppb.Now()
 	if err := db.Insert(memoTable, in); err != nil {
 		return nil, err
 	}
@@ -43,7 +46,7 @@ func (s *MemoImpl) Update(ctx context.Context, in *pb.Memo) (*pb.Memo, error) {
 	if in.Content != "" {
 		memo.Content = in.Content
 	}
-	memo.Updated = types.TimestampNow()
+	memo.Updated = timestamppb.Now()
 	if err := db.Update(memoTable, in.Id, memo); err != nil {
 		return nil, err
 	}
@@ -66,9 +69,9 @@ func (s *MemoImpl) List(in *pb.User, stream pb.Memos_ListServer) error {
 	return nil
 }
 
-func (s *MemoImpl) Delete(ctx context.Context, in *pb.Memo) (*types.Empty, error) {
+func (s *MemoImpl) Delete(ctx context.Context, in *pb.Memo) (*emptypb.Empty, error) {
 	if err := db.Delete(memoTable, in.Id); err != nil {
 		return nil, err
 	}
-	return &types.Empty{}, nil
+	return &emptypb.Empty{}, nil
 }

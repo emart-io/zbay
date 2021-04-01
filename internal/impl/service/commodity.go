@@ -7,19 +7,23 @@ import (
 	"github.com/emart.io/zbay/internal/impl/biz"
 	"github.com/emart.io/zbay/internal/impl/biz/db"
 	pb "github.com/emart.io/zbay/service/go"
-	"github.com/gogo/protobuf/types"
 	log "github.com/sirupsen/logrus"
+	"google.golang.org/protobuf/types/known/emptypb"
+	"google.golang.org/protobuf/types/known/timestamppb"
+	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 const (
 	commodityTable = "commodities"
 )
 
-type CommoditiesImpl struct{}
+type CommoditiesImpl struct {
+	pb.UnimplementedCommoditiesServer
+}
 
 func (s *CommoditiesImpl) Add(ctx context.Context, in *pb.Commodity) (*pb.Commodity, error) {
 	in.Id = biz.UUID()
-	in.Created = types.TimestampNow()
+	in.Created = timestamppb.Now()
 	if err := db.Insert(commodityTable, in); err != nil {
 		return nil, err
 	}
@@ -58,7 +62,7 @@ func (s *CommoditiesImpl) Update(ctx context.Context, in *pb.Commodity) (*pb.Com
 	if in.Status != "" {
 		commodity.Status = in.Status
 	}
-	in.Updated = types.TimestampNow()
+	in.Updated = timestamppb.Now()
 	if err := db.Update(commodityTable, in.Id, commodity); err != nil {
 		return nil, err
 	}
@@ -84,7 +88,7 @@ func (s *CommoditiesImpl) List(in *pb.User, stream pb.Commodities_ListServer) er
 	return nil
 }
 
-func (s *CommoditiesImpl) Search(in *types.StringValue, stream pb.Commodities_SearchServer) error {
+func (s *CommoditiesImpl) Search(in *wrapperspb.StringValue, stream pb.Commodities_SearchServer) error {
 	log.Infoln(in.Value)
 	clause := "WHERE (data->'$.category' LIKE '%" + in.Value + "%' OR " + " data->'$.title' LIKE '%" + in.Value + "%')" +
 		" AND data->'$.status'='已上线'"
@@ -108,7 +112,7 @@ func (s *CommoditiesImpl) Search(in *types.StringValue, stream pb.Commodities_Se
 	return nil
 }
 
-func (s *CommoditiesImpl) Delete(ctx context.Context, in *pb.Commodity) (*types.Empty, error) {
+func (s *CommoditiesImpl) Delete(ctx context.Context, in *pb.Commodity) (*emptypb.Empty, error) {
 	commodity, err := s.Get(ctx, in)
 	if err != nil {
 		return nil, err
@@ -117,5 +121,5 @@ func (s *CommoditiesImpl) Delete(ctx context.Context, in *pb.Commodity) (*types.
 		return nil, err
 	}
 	os.RemoveAll("/uploads/" + commodity.OwnerId + "/" + commodity.Title)
-	return &types.Empty{}, nil
+	return &emptypb.Empty{}, nil
 }

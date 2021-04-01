@@ -6,7 +6,7 @@ import "google/protobuf/wrappers.proto";
 import "google/protobuf/timestamp.proto";
 
 package zbay;
-
+option go_package="service/go;zbay";
 service Commodities {
   rpc Add(Commodity) returns (Commodity) {}
   rpc Get(Commodity) returns (Commodity) {}

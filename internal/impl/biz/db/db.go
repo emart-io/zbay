@@ -8,9 +8,9 @@ import (
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/gogo/protobuf/jsonpb"
-	"github.com/gogo/protobuf/proto"
 	log "github.com/sirupsen/logrus"
+	"google.golang.org/protobuf/encoding/protojson"
+	"google.golang.org/protobuf/proto"
 )
 
 const (
@@ -44,12 +44,22 @@ func checkTable(table string) error {
 }
 
 func ToJSON(obj proto.Message) (string, error) {
-	jsonStr, err := (&jsonpb.Marshaler{}).MarshalToString(obj)
+	jsonStr, err := (&protojson.MarshalOptions{}).Marshal(obj)
 	if err != nil {
 		return "", err
 	}
-	replacer := strings.NewReplacer("\"", "\\\"", "\\b", "\\\\b", "\\f", "\\\\f", "\\n", "\\\\n", "\\r", "\\\\r", "\\t", "\\\\t", "'", "\\'")
-	return replacer.Replace(jsonStr), nil
+	// https://dev.mysql.com/doc/refman/5.7/en/json-modification-functions.html#json-unquote-character-escape-sequences
+	replacer := strings.NewReplacer(
+		"\"", "\\\"",
+		"\\b", "\\\\b",
+		"\\f", "\\\\f",
+		"\\n", "\\\\n",
+		"\\r", "\\\\r",
+		"\\t", "\\\\t",
+		"'", "\\'",
+		"\\\\", "",
+	)
+	return replacer.Replace(string(jsonStr)), nil
 }
 
 func Insert(table string, obj proto.Message) error {
@@ -119,7 +129,7 @@ func Get(table string, kvs map[string]interface{}, obj proto.Message) error {
 	query := "SELECT * FROM " + table + " WHERE " + strings.TrimPrefix(union, "AND")
 	jsonStr := ""
 	if err := DB.QueryRow(query).Scan(&jsonStr); err == nil {
-		if err := jsonpb.UnmarshalString(jsonStr, obj); err != nil {
+		if err := protojson.Unmarshal([]byte(jsonStr), obj); err != nil {
 			return err
 		}
 	} else {
@@ -157,7 +167,7 @@ func List(table string, result interface{}, clause ...string) error {
 			return err
 		}
 		elemp := reflect.New(elemt.Elem())
-		jsonpb.UnmarshalString(jsonStr, elemp.Interface().(proto.Message))
+		protojson.Unmarshal([]byte(jsonStr), elemp.Interface().(proto.Message))
 		slicev = reflect.Append(slicev, elemp)
 		i++
 	}

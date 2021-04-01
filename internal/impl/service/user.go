@@ -5,18 +5,21 @@ import (
 
 	"github.com/emart.io/zbay/internal/impl/biz/db"
 	pb "github.com/emart.io/zbay/service/go"
-	"github.com/gogo/protobuf/types"
+	"google.golang.org/protobuf/types/known/emptypb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 const (
 	userTable = "users"
 )
 
-type UsersImpl struct{}
+type UsersImpl struct {
+	pb.UnimplementedUsersServer
+}
 
 func (s *UsersImpl) Add(ctx context.Context, in *pb.User) (*pb.User, error) {
 	in.Id = in.Telephone
-	in.Created = types.TimestampNow()
+	in.Created = timestamppb.Now() // timestamppb.Now()
 	if err := db.Insert(userTable, in); err != nil {
 		return nil, err
 	}
@@ -66,11 +69,11 @@ func (s *UsersImpl) List(in *pb.User, stream pb.Users_ListServer) error {
 	return nil
 }
 
-func (s *UsersImpl) Delete(ctx context.Context, in *pb.User) (*types.Empty, error) {
+func (s *UsersImpl) Delete(ctx context.Context, in *pb.User) (*emptypb.Empty, error) {
 	if err := db.Delete(userTable, in.Id); err != nil {
 		return nil, err
 	}
-	return &types.Empty{}, nil
+	return &emptypb.Empty{}, nil
 }
 
 func (s *UsersImpl) Login(ctx context.Context, in *pb.User) (*pb.User, error) {

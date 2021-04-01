@@ -5,18 +5,21 @@ import (
 
 	"github.com/emart.io/zbay/internal/impl/biz/db"
 	pb "github.com/emart.io/zbay/service/go"
-	"github.com/gogo/protobuf/types"
+	"google.golang.org/protobuf/types/known/emptypb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 const (
 	couponTable = "coupons"
 )
 
-type CouponImpl struct{}
+type CouponImpl struct {
+	pb.UnimplementedCouponsServer
+}
 
 func (s *CouponImpl) Add(ctx context.Context, in *pb.Coupon) (*pb.Coupon, error) {
-	in.Id = types.TimestampNow().String()
-	in.Created = types.TimestampNow()
+	in.Id = timestamppb.Now().String()
+	in.Created = timestamppb.Now()
 	if err := db.Insert(couponTable, in); err != nil {
 		return nil, err
 	}
@@ -73,9 +76,9 @@ func (s *CouponImpl) List(in *pb.User, stream pb.Coupons_ListServer) error {
 	return nil
 }
 
-func (s *CouponImpl) Delete(ctx context.Context, in *pb.Coupon) (*types.Empty, error) {
+func (s *CouponImpl) Delete(ctx context.Context, in *pb.Coupon) (*emptypb.Empty, error) {
 	if err := db.Delete(couponTable, in.Id); err != nil {
 		return nil, err
 	}
-	return &types.Empty{}, nil
+	return &emptypb.Empty{}, nil
 }

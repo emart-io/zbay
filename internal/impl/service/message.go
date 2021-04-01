@@ -6,8 +6,9 @@ import (
 
 	"github.com/emart.io/zbay/internal/impl/biz/db"
 	pb "github.com/emart.io/zbay/service/go"
-	"github.com/gogo/protobuf/types"
 	log "github.com/sirupsen/logrus"
+	"google.golang.org/protobuf/types/known/emptypb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 var (
@@ -19,11 +20,13 @@ const (
 	messageTable = "message"
 )
 
-type MessageImpl struct{}
+type MessageImpl struct {
+	pb.UnimplementedMessagesServer
+}
 
 func (s *MessageImpl) Add(ctx context.Context, in *pb.Message) (*pb.Message, error) {
-	in.Id = types.TimestampNow().String()
-	in.Created = types.TimestampNow()
+	in.Id = timestamppb.Now().String()
+	in.Created = timestamppb.Now()
 	if err := db.Insert(messageTable, in); err != nil {
 		return nil, err
 	}
@@ -71,7 +74,7 @@ func (s *MessageImpl) GroupBy(in *pb.User, stream pb.Messages_GroupByServer) err
 	return nil
 }
 
-func (s *MessageImpl) Send(ctx context.Context, in *pb.Message) (*types.Empty, error) {
+func (s *MessageImpl) Send(ctx context.Context, in *pb.Message) (*emptypb.Empty, error) {
 	if p2pQueues[in.To] == nil {
 		p2pQueues[in.To] = make(chan *pb.Message, 100)
 	}
@@ -80,7 +83,7 @@ func (s *MessageImpl) Send(ctx context.Context, in *pb.Message) (*types.Empty, e
 		p2pQueues[in.To] <- in
 	}()
 
-	return &types.Empty{}, nil
+	return &emptypb.Empty{}, nil
 }
 
 func (s *MessageImpl) Receive(in *pb.User, stream pb.Messages_ReceiveServer) error {
@@ -98,7 +101,7 @@ func (s *MessageImpl) Receive(in *pb.User, stream pb.Messages_ReceiveServer) err
 	return nil
 }
 
-func (s *MessageImpl) Publish(ctx context.Context, in *pb.Topic) (*types.Empty, error) {
+func (s *MessageImpl) Publish(ctx context.Context, in *pb.Topic) (*emptypb.Empty, error) {
 	if pubsubQueues[in.GroupId] == nil {
 		pubsubQueues[in.GroupId] = []chan *pb.Topic{}
 	}
@@ -109,7 +112,7 @@ func (s *MessageImpl) Publish(ctx context.Context, in *pb.Topic) (*types.Empty, 
 		}
 	}()
 
-	return &types.Empty{}, nil
+	return &emptypb.Empty{}, nil
 }
 
 func (s *MessageImpl) Subscribe(in *pb.Topic, stream pb.Messages_SubscribeServer) error {

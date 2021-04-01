@@ -5,18 +5,21 @@ import (
 
 	"github.com/emart.io/zbay/internal/impl/biz/db"
 	pb "github.com/emart.io/zbay/service/go"
-	"github.com/gogo/protobuf/types"
+	"google.golang.org/protobuf/types/known/emptypb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 const (
 	commentTable = "comments"
 )
 
-type CommentImpl struct{}
+type CommentImpl struct {
+	pb.UnimplementedCommentsServer
+}
 
 func (s *CommentImpl) Add(ctx context.Context, in *pb.Comment) (*pb.Comment, error) {
-	in.Id = types.TimestampNow().String()
-	in.Created = types.TimestampNow()
+	in.Id = timestamppb.Now().String()
+	in.Created = timestamppb.Now()
 	if err := db.Insert(commentTable, in); err != nil {
 		return nil, err
 	}
@@ -70,9 +73,9 @@ func (s *CommentImpl) List(in *pb.Commodity, stream pb.Comments_ListServer) erro
 	return nil
 }
 
-func (s *CommentImpl) Delete(ctx context.Context, in *pb.Comment) (*types.Empty, error) {
+func (s *CommentImpl) Delete(ctx context.Context, in *pb.Comment) (*emptypb.Empty, error) {
 	if err := db.Delete(commentTable, in.Id); err != nil {
 		return nil, err
 	}
-	return &types.Empty{}, nil
+	return &emptypb.Empty{}, nil
 }

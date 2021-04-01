@@ -7,20 +7,22 @@ import (
 	"github.com/emart.io/zbay/internal/impl/biz"
 	"github.com/emart.io/zbay/internal/impl/biz/db"
 	pb "github.com/emart.io/zbay/service/go"
-	"github.com/gogo/protobuf/types"
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc/metadata"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 const (
 	accountTable = "accounts"
 )
 
-type AccountImpl struct{}
+type AccountImpl struct {
+	pb.UnimplementedAccountsServer
+}
 
 func (s *AccountImpl) Add(ctx context.Context, in *pb.Account) (*pb.Account, error) {
-	in.Id = types.TimestampNow().String()
-	in.Created = types.TimestampNow()
+	in.Id = timestamppb.Now().String()
+	in.Created = timestamppb.Now()
 	if err := db.Insert(accountTable, in); err != nil {
 		return nil, err
 	}
@@ -77,7 +79,7 @@ func (s *AccountImpl) WechatJSPay(ctx context.Context, in *pb.PayMap) (*pb.PayMa
 	// https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7&index=6
 	jsRequest := make(map[string]string)
 	jsRequest["appId"] = pm.Kv["appid"]
-	jsRequest["timeStamp"] = fmt.Sprint(types.TimestampNow().Seconds)
+	jsRequest["timeStamp"] = fmt.Sprint(timestamppb.Now().Seconds)
 	jsRequest["nonceStr"] = pm.Kv["nonce_str"]
 	jsRequest["package"] = "prepay_id=" + pm.Kv["prepay_id"]
 	jsRequest["signType"] = "MD5"

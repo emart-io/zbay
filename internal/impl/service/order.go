@@ -7,19 +7,22 @@ import (
 	"github.com/emart.io/zbay/internal/impl/biz"
 	"github.com/emart.io/zbay/internal/impl/biz/db"
 	pb "github.com/emart.io/zbay/service/go"
-	"github.com/gogo/protobuf/types"
 	"google.golang.org/grpc"
+	"google.golang.org/protobuf/types/known/emptypb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 const (
 	orderTable = "orders"
 )
 
-type OrdersImpl struct{}
+type OrdersImpl struct {
+	pb.UnimplementedOrdersServer
+}
 
 func (s *OrdersImpl) Add(ctx context.Context, in *pb.Order) (*pb.Order, error) {
-	in.Id = types.TimestampNow().String()
-	in.Created = types.TimestampNow()
+	in.Id = timestamppb.Now().String()
+	in.Created = timestamppb.Now()
 	if err := db.Insert(orderTable, in); err != nil {
 		return nil, err
 	}
@@ -151,9 +154,9 @@ func (s *OrdersImpl) ListForSeller(in *pb.ListQuery, stream pb.Orders_ListForSel
 	return nil
 }
 
-func (s *OrdersImpl) Delete(ctx context.Context, in *pb.Order) (*types.Empty, error) {
+func (s *OrdersImpl) Delete(ctx context.Context, in *pb.Order) (*emptypb.Empty, error) {
 	if err := db.Delete(orderTable, in.Id); err != nil {
 		return nil, err
 	}
-	return &types.Empty{}, nil
+	return &emptypb.Empty{}, nil
 }

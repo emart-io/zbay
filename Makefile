@@ -24,7 +24,10 @@ prepare:
 
 generate:generate-js generate-go
 
-generate-go:
+generate-go-v2:
+	@$(PROTOC) -I./service --go_out=. --go-grpc_out=. service/*.proto
+
+generate-go-v1:
 	@$(PROTOC) -I./service --gogofaster_out=\
 	Mgoogle/protobuf/any.proto=github.com/gogo/protobuf/types,\
 	Mgoogle/protobuf/duration.proto=github.com/gogo/protobuf/types,\

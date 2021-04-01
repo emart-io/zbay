@@ -4,12 +4,12 @@ import (
 	"fmt"
 
 	pb "github.com/emart.io/zbay/service/go"
-	"github.com/gogo/protobuf/types"
 	"google.golang.org/grpc"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func UUID() string {
-	now := types.TimestampNow()
+	now := timestamppb.Now()
 	return fmt.Sprint(now.Seconds) + "-" + fmt.Sprint(now.Nanos)
 }
 
