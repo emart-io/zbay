@@ -24,7 +24,7 @@ prepare:
 
 generate:generate-js generate-go
 
-generate-go-v2:
+generate-go:
 	@$(PROTOC) -I./service --go_out=. --go-grpc_out=. service/*.proto
 
 generate-go-v1:

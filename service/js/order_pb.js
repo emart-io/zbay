@@ -2,6 +2,7 @@
 /**
  * @fileoverview
  * @enhanceable
+ * @suppress {missingRequire} reports error on implicit type usages.
  * @suppress {messageConventions} JS Compiler reports an error if a variable or
  *     field starts with 'MSG_' and isn't a translatable message.
  * @public
@@ -231,9 +232,9 @@ proto.zbay.Account.prototype.toObject = function(opt_includeInstance) {
 proto.zbay.Account.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    userid: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    userId: jspb.Message.getFieldWithDefault(msg, 2, ""),
     amount: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    orderid: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    orderId: jspb.Message.getFieldWithDefault(msg, 4, ""),
     created: (f = msg.getCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     annotationsMap: (f = msg.getAnnotationsMap()) ? f.toObject(includeInstance, undefined) : []
   };
@@ -278,7 +279,7 @@ proto.zbay.Account.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUserid(value);
+      msg.setUserId(value);
       break;
     case 3:
       var value = /** @type {number} */ (reader.readInt64());
@@ -286,7 +287,7 @@ proto.zbay.Account.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
-      msg.setOrderid(value);
+      msg.setOrderId(value);
       break;
     case 5:
       var value = new google_protobuf_timestamp_pb.Timestamp;
@@ -335,7 +336,7 @@ proto.zbay.Account.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getUserid();
+  f = message.getUserId();
   if (f.length > 0) {
     writer.writeString(
       2,
@@ -349,7 +350,7 @@ proto.zbay.Account.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getOrderid();
+  f = message.getOrderId();
   if (f.length > 0) {
     writer.writeString(
       4,
@@ -389,11 +390,21 @@ proto.zbay.Account.prototype.setId = function(value) {
 };
 
 
+Object.defineProperty(proto.zbay.Account.prototype, "id", {
+  set: function(value) {
+    this.setId(value);
+  },
+  get: function() {
+    return this.getId();
+  },
+});
+
+
 /**
  * optional string userId = 2;
  * @return {string}
  */
-proto.zbay.Account.prototype.getUserid = function() {
+proto.zbay.Account.prototype.getUserId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -402,9 +413,19 @@ proto.zbay.Account.prototype.getUserid = function() {
  * @param {string} value
  * @return {!proto.zbay.Account} returns this
  */
-proto.zbay.Account.prototype.setUserid = function(value) {
+proto.zbay.Account.prototype.setUserId = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
+
+
+Object.defineProperty(proto.zbay.Account.prototype, "userId", {
+  set: function(value) {
+    this.setUserId(value);
+  },
+  get: function() {
+    return this.getUserId();
+  },
+});
 
 
 /**
@@ -425,11 +446,21 @@ proto.zbay.Account.prototype.setAmount = function(value) {
 };
 
 
+Object.defineProperty(proto.zbay.Account.prototype, "amount", {
+  set: function(value) {
+    this.setAmount(value);
+  },
+  get: function() {
+    return this.getAmount();
+  },
+});
+
+
 /**
  * optional string orderId = 4;
  * @return {string}
  */
-proto.zbay.Account.prototype.getOrderid = function() {
+proto.zbay.Account.prototype.getOrderId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
@@ -438,9 +469,19 @@ proto.zbay.Account.prototype.getOrderid = function() {
  * @param {string} value
  * @return {!proto.zbay.Account} returns this
  */
-proto.zbay.Account.prototype.setOrderid = function(value) {
+proto.zbay.Account.prototype.setOrderId = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
 };
+
+
+Object.defineProperty(proto.zbay.Account.prototype, "orderId", {
+  set: function(value) {
+    this.setOrderId(value);
+  },
+  get: function() {
+    return this.getOrderId();
+  },
+});
 
 
 /**
@@ -460,6 +501,16 @@ proto.zbay.Account.prototype.getCreated = function() {
 proto.zbay.Account.prototype.setCreated = function(value) {
   return jspb.Message.setWrapperField(this, 5, value);
 };
+
+
+Object.defineProperty(proto.zbay.Account.prototype, "created", {
+  set: function(value) {
+    this.setCreated(value);
+  },
+  get: function() {
+    return this.getCreated();
+  },
+});
 
 
 /**
@@ -491,6 +542,16 @@ proto.zbay.Account.prototype.getAnnotationsMap = function(opt_noLazyCreate) {
       jspb.Message.getMapField(this, 6, opt_noLazyCreate,
       null));
 };
+
+
+Object.defineProperty(proto.zbay.Account.prototype, "annotationsMap", {
+  set: function(value) {
+    this.setAnnotationsMap(value);
+  },
+  get: function() {
+    return this.getAnnotationsMap();
+  },
+});
 
 
 /**
@@ -643,6 +704,16 @@ proto.zbay.PayMap.prototype.setUrl = function(value) {
 };
 
 
+Object.defineProperty(proto.zbay.PayMap.prototype, "url", {
+  set: function(value) {
+    this.setUrl(value);
+  },
+  get: function() {
+    return this.getUrl();
+  },
+});
+
+
 /**
  * map<string, string> kv = 2;
  * @param {boolean=} opt_noLazyCreate Do not create the map if
@@ -654,6 +725,16 @@ proto.zbay.PayMap.prototype.getKvMap = function(opt_noLazyCreate) {
       jspb.Message.getMapField(this, 2, opt_noLazyCreate,
       null));
 };
+
+
+Object.defineProperty(proto.zbay.PayMap.prototype, "kvMap", {
+  set: function(value) {
+    this.setKvMap(value);
+  },
+  get: function() {
+    return this.getKvMap();
+  },
+});
 
 
 /**
@@ -701,13 +782,13 @@ proto.zbay.Order.toObject = function(includeInstance, msg) {
     snapshot: (f = msg.getSnapshot()) && commodity_pb.Commodity.toObject(includeInstance, f),
     groupon: (f = msg.getGroupon()) && proto.zbay.Groupon.toObject(includeInstance, f),
     price: (f = msg.getPrice()) && commodity_pb.Price.toObject(includeInstance, f),
-    userid: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    userId: jspb.Message.getFieldWithDefault(msg, 3, ""),
     destination: (f = msg.getDestination()) && user_pb.Address.toObject(includeInstance, f),
     quantity: jspb.Message.getFieldWithDefault(msg, 5, 0),
     amount: jspb.Message.getFieldWithDefault(msg, 6, 0),
     status: jspb.Message.getFieldWithDefault(msg, 7, ""),
     comment: jspb.Message.getFieldWithDefault(msg, 8, ""),
-    payinfo: (f = msg.getPayinfo()) && proto.zbay.PayInfo.toObject(includeInstance, f),
+    payInfo: (f = msg.getPayInfo()) && proto.zbay.PayInfo.toObject(includeInstance, f),
     express: (f = msg.getExpress()) && proto.zbay.Express.toObject(includeInstance, f),
     annotationsMap: (f = msg.getAnnotationsMap()) ? f.toObject(includeInstance, undefined) : [],
     created: (f = msg.getCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
@@ -768,7 +849,7 @@ proto.zbay.Order.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUserid(value);
+      msg.setUserId(value);
       break;
     case 4:
       var value = new user_pb.Address;
@@ -794,7 +875,7 @@ proto.zbay.Order.deserializeBinaryFromReader = function(msg, reader) {
     case 9:
       var value = new proto.zbay.PayInfo;
       reader.readMessage(value,proto.zbay.PayInfo.deserializeBinaryFromReader);
-      msg.setPayinfo(value);
+      msg.setPayInfo(value);
       break;
     case 14:
       var value = new proto.zbay.Express;
@@ -872,7 +953,7 @@ proto.zbay.Order.serializeBinaryToWriter = function(message, writer) {
       commodity_pb.Price.serializeBinaryToWriter
     );
   }
-  f = message.getUserid();
+  f = message.getUserId();
   if (f.length > 0) {
     writer.writeString(
       3,
@@ -915,7 +996,7 @@ proto.zbay.Order.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getPayinfo();
+  f = message.getPayInfo();
   if (f != null) {
     writer.writeMessage(
       9,
@@ -964,6 +1045,16 @@ proto.zbay.Order.prototype.setId = function(value) {
 };
 
 
+Object.defineProperty(proto.zbay.Order.prototype, "id", {
+  set: function(value) {
+    this.setId(value);
+  },
+  get: function() {
+    return this.getId();
+  },
+});
+
+
 /**
  * optional Commodity snapshot = 12;
  * @return {?proto.zbay.Commodity}
@@ -981,6 +1072,16 @@ proto.zbay.Order.prototype.getSnapshot = function() {
 proto.zbay.Order.prototype.setSnapshot = function(value) {
   return jspb.Message.setWrapperField(this, 12, value);
 };
+
+
+Object.defineProperty(proto.zbay.Order.prototype, "snapshot", {
+  set: function(value) {
+    this.setSnapshot(value);
+  },
+  get: function() {
+    return this.getSnapshot();
+  },
+});
 
 
 /**
@@ -1020,6 +1121,16 @@ proto.zbay.Order.prototype.setGroupon = function(value) {
 };
 
 
+Object.defineProperty(proto.zbay.Order.prototype, "groupon", {
+  set: function(value) {
+    this.setGroupon(value);
+  },
+  get: function() {
+    return this.getGroupon();
+  },
+});
+
+
 /**
  * Clears the message field making it undefined.
  * @return {!proto.zbay.Order} returns this
@@ -1057,6 +1168,16 @@ proto.zbay.Order.prototype.setPrice = function(value) {
 };
 
 
+Object.defineProperty(proto.zbay.Order.prototype, "price", {
+  set: function(value) {
+    this.setPrice(value);
+  },
+  get: function() {
+    return this.getPrice();
+  },
+});
+
+
 /**
  * Clears the message field making it undefined.
  * @return {!proto.zbay.Order} returns this
@@ -1079,7 +1200,7 @@ proto.zbay.Order.prototype.hasPrice = function() {
  * optional string userId = 3;
  * @return {string}
  */
-proto.zbay.Order.prototype.getUserid = function() {
+proto.zbay.Order.prototype.getUserId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -1088,9 +1209,19 @@ proto.zbay.Order.prototype.getUserid = function() {
  * @param {string} value
  * @return {!proto.zbay.Order} returns this
  */
-proto.zbay.Order.prototype.setUserid = function(value) {
+proto.zbay.Order.prototype.setUserId = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
+
+
+Object.defineProperty(proto.zbay.Order.prototype, "userId", {
+  set: function(value) {
+    this.setUserId(value);
+  },
+  get: function() {
+    return this.getUserId();
+  },
+});
 
 
 /**
@@ -1110,6 +1241,16 @@ proto.zbay.Order.prototype.getDestination = function() {
 proto.zbay.Order.prototype.setDestination = function(value) {
   return jspb.Message.setWrapperField(this, 4, value);
 };
+
+
+Object.defineProperty(proto.zbay.Order.prototype, "destination", {
+  set: function(value) {
+    this.setDestination(value);
+  },
+  get: function() {
+    return this.getDestination();
+  },
+});
 
 
 /**
@@ -1148,6 +1289,16 @@ proto.zbay.Order.prototype.setQuantity = function(value) {
 };
 
 
+Object.defineProperty(proto.zbay.Order.prototype, "quantity", {
+  set: function(value) {
+    this.setQuantity(value);
+  },
+  get: function() {
+    return this.getQuantity();
+  },
+});
+
+
 /**
  * optional uint64 amount = 6;
  * @return {number}
@@ -1164,6 +1315,16 @@ proto.zbay.Order.prototype.getAmount = function() {
 proto.zbay.Order.prototype.setAmount = function(value) {
   return jspb.Message.setProto3IntField(this, 6, value);
 };
+
+
+Object.defineProperty(proto.zbay.Order.prototype, "amount", {
+  set: function(value) {
+    this.setAmount(value);
+  },
+  get: function() {
+    return this.getAmount();
+  },
+});
 
 
 /**
@@ -1184,6 +1345,16 @@ proto.zbay.Order.prototype.setStatus = function(value) {
 };
 
 
+Object.defineProperty(proto.zbay.Order.prototype, "status", {
+  set: function(value) {
+    this.setStatus(value);
+  },
+  get: function() {
+    return this.getStatus();
+  },
+});
+
+
 /**
  * optional string comment = 8;
  * @return {string}
@@ -1202,11 +1373,21 @@ proto.zbay.Order.prototype.setComment = function(value) {
 };
 
 
+Object.defineProperty(proto.zbay.Order.prototype, "comment", {
+  set: function(value) {
+    this.setComment(value);
+  },
+  get: function() {
+    return this.getComment();
+  },
+});
+
+
 /**
  * optional PayInfo payInfo = 9;
  * @return {?proto.zbay.PayInfo}
  */
-proto.zbay.Order.prototype.getPayinfo = function() {
+proto.zbay.Order.prototype.getPayInfo = function() {
   return /** @type{?proto.zbay.PayInfo} */ (
     jspb.Message.getWrapperField(this, proto.zbay.PayInfo, 9));
 };
@@ -1216,17 +1397,27 @@ proto.zbay.Order.prototype.getPayinfo = function() {
  * @param {?proto.zbay.PayInfo|undefined} value
  * @return {!proto.zbay.Order} returns this
 */
-proto.zbay.Order.prototype.setPayinfo = function(value) {
+proto.zbay.Order.prototype.setPayInfo = function(value) {
   return jspb.Message.setWrapperField(this, 9, value);
 };
+
+
+Object.defineProperty(proto.zbay.Order.prototype, "payInfo", {
+  set: function(value) {
+    this.setPayInfo(value);
+  },
+  get: function() {
+    return this.getPayInfo();
+  },
+});
 
 
 /**
  * Clears the message field making it undefined.
  * @return {!proto.zbay.Order} returns this
  */
-proto.zbay.Order.prototype.clearPayinfo = function() {
-  return this.setPayinfo(undefined);
+proto.zbay.Order.prototype.clearPayInfo = function() {
+  return this.setPayInfo(undefined);
 };
 
 
@@ -1234,7 +1425,7 @@ proto.zbay.Order.prototype.clearPayinfo = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.zbay.Order.prototype.hasPayinfo = function() {
+proto.zbay.Order.prototype.hasPayInfo = function() {
   return jspb.Message.getField(this, 9) != null;
 };
 
@@ -1256,6 +1447,16 @@ proto.zbay.Order.prototype.getExpress = function() {
 proto.zbay.Order.prototype.setExpress = function(value) {
   return jspb.Message.setWrapperField(this, 14, value);
 };
+
+
+Object.defineProperty(proto.zbay.Order.prototype, "express", {
+  set: function(value) {
+    this.setExpress(value);
+  },
+  get: function() {
+    return this.getExpress();
+  },
+});
 
 
 /**
@@ -1289,6 +1490,16 @@ proto.zbay.Order.prototype.getAnnotationsMap = function(opt_noLazyCreate) {
 };
 
 
+Object.defineProperty(proto.zbay.Order.prototype, "annotationsMap", {
+  set: function(value) {
+    this.setAnnotationsMap(value);
+  },
+  get: function() {
+    return this.getAnnotationsMap();
+  },
+});
+
+
 /**
  * Clears values from the map. The map will be non-null.
  * @return {!proto.zbay.Order} returns this
@@ -1315,6 +1526,16 @@ proto.zbay.Order.prototype.getCreated = function() {
 proto.zbay.Order.prototype.setCreated = function(value) {
   return jspb.Message.setWrapperField(this, 11, value);
 };
+
+
+Object.defineProperty(proto.zbay.Order.prototype, "created", {
+  set: function(value) {
+    this.setCreated(value);
+  },
+  get: function() {
+    return this.getCreated();
+  },
+});
 
 
 /**
@@ -1368,7 +1589,7 @@ proto.zbay.PayInfo.prototype.toObject = function(opt_includeInstance) {
 proto.zbay.PayInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
     type: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    payresult: jspb.Message.getFieldWithDefault(msg, 2, "")
+    payResult: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -1411,7 +1632,7 @@ proto.zbay.PayInfo.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setPayresult(value);
+      msg.setPayResult(value);
       break;
     default:
       reader.skipField();
@@ -1449,7 +1670,7 @@ proto.zbay.PayInfo.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getPayresult();
+  f = message.getPayResult();
   if (f.length > 0) {
     writer.writeString(
       2,
@@ -1477,11 +1698,21 @@ proto.zbay.PayInfo.prototype.setType = function(value) {
 };
 
 
+Object.defineProperty(proto.zbay.PayInfo.prototype, "type", {
+  set: function(value) {
+    this.setType(value);
+  },
+  get: function() {
+    return this.getType();
+  },
+});
+
+
 /**
  * optional string payResult = 2;
  * @return {string}
  */
-proto.zbay.PayInfo.prototype.getPayresult = function() {
+proto.zbay.PayInfo.prototype.getPayResult = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -1490,9 +1721,19 @@ proto.zbay.PayInfo.prototype.getPayresult = function() {
  * @param {string} value
  * @return {!proto.zbay.PayInfo} returns this
  */
-proto.zbay.PayInfo.prototype.setPayresult = function(value) {
+proto.zbay.PayInfo.prototype.setPayResult = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
+
+
+Object.defineProperty(proto.zbay.PayInfo.prototype, "payResult", {
+  set: function(value) {
+    this.setPayResult(value);
+  },
+  get: function() {
+    return this.getPayResult();
+  },
+});
 
 
 
@@ -1533,8 +1774,8 @@ proto.zbay.WechatPayParams.toObject = function(includeInstance, msg) {
     noncestr: jspb.Message.getFieldWithDefault(msg, 3, ""),
     timestamp: jspb.Message.getFieldWithDefault(msg, 4, ""),
     sign: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    mweburl: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    outtradeno: jspb.Message.getFieldWithDefault(msg, 8, "")
+    mwebUrl: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    outTradeNo: jspb.Message.getFieldWithDefault(msg, 8, "")
   };
 
   if (includeInstance) {
@@ -1597,11 +1838,11 @@ proto.zbay.WechatPayParams.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 6:
       var value = /** @type {string} */ (reader.readString());
-      msg.setMweburl(value);
+      msg.setMwebUrl(value);
       break;
     case 8:
       var value = /** @type {string} */ (reader.readString());
-      msg.setOuttradeno(value);
+      msg.setOutTradeNo(value);
       break;
     default:
       reader.skipField();
@@ -1674,14 +1915,14 @@ proto.zbay.WechatPayParams.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getMweburl();
+  f = message.getMwebUrl();
   if (f.length > 0) {
     writer.writeString(
       6,
       f
     );
   }
-  f = message.getOuttradeno();
+  f = message.getOutTradeNo();
   if (f.length > 0) {
     writer.writeString(
       8,
@@ -1709,6 +1950,16 @@ proto.zbay.WechatPayParams.prototype.setAppid = function(value) {
 };
 
 
+Object.defineProperty(proto.zbay.WechatPayParams.prototype, "appid", {
+  set: function(value) {
+    this.setAppid(value);
+  },
+  get: function() {
+    return this.getAppid();
+  },
+});
+
+
 /**
  * optional string partnerid = 1;
  * @return {string}
@@ -1725,6 +1976,16 @@ proto.zbay.WechatPayParams.prototype.getPartnerid = function() {
 proto.zbay.WechatPayParams.prototype.setPartnerid = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
+
+
+Object.defineProperty(proto.zbay.WechatPayParams.prototype, "partnerid", {
+  set: function(value) {
+    this.setPartnerid(value);
+  },
+  get: function() {
+    return this.getPartnerid();
+  },
+});
 
 
 /**
@@ -1745,6 +2006,16 @@ proto.zbay.WechatPayParams.prototype.setPrepayid = function(value) {
 };
 
 
+Object.defineProperty(proto.zbay.WechatPayParams.prototype, "prepayid", {
+  set: function(value) {
+    this.setPrepayid(value);
+  },
+  get: function() {
+    return this.getPrepayid();
+  },
+});
+
+
 /**
  * optional string noncestr = 3;
  * @return {string}
@@ -1761,6 +2032,16 @@ proto.zbay.WechatPayParams.prototype.getNoncestr = function() {
 proto.zbay.WechatPayParams.prototype.setNoncestr = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
+
+
+Object.defineProperty(proto.zbay.WechatPayParams.prototype, "noncestr", {
+  set: function(value) {
+    this.setNoncestr(value);
+  },
+  get: function() {
+    return this.getNoncestr();
+  },
+});
 
 
 /**
@@ -1781,6 +2062,16 @@ proto.zbay.WechatPayParams.prototype.setTimestamp = function(value) {
 };
 
 
+Object.defineProperty(proto.zbay.WechatPayParams.prototype, "timestamp", {
+  set: function(value) {
+    this.setTimestamp(value);
+  },
+  get: function() {
+    return this.getTimestamp();
+  },
+});
+
+
 /**
  * optional string sign = 5;
  * @return {string}
@@ -1799,11 +2090,21 @@ proto.zbay.WechatPayParams.prototype.setSign = function(value) {
 };
 
 
+Object.defineProperty(proto.zbay.WechatPayParams.prototype, "sign", {
+  set: function(value) {
+    this.setSign(value);
+  },
+  get: function() {
+    return this.getSign();
+  },
+});
+
+
 /**
  * optional string mwebUrl = 6;
  * @return {string}
  */
-proto.zbay.WechatPayParams.prototype.getMweburl = function() {
+proto.zbay.WechatPayParams.prototype.getMwebUrl = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
@@ -1812,16 +2113,26 @@ proto.zbay.WechatPayParams.prototype.getMweburl = function() {
  * @param {string} value
  * @return {!proto.zbay.WechatPayParams} returns this
  */
-proto.zbay.WechatPayParams.prototype.setMweburl = function(value) {
+proto.zbay.WechatPayParams.prototype.setMwebUrl = function(value) {
   return jspb.Message.setProto3StringField(this, 6, value);
 };
+
+
+Object.defineProperty(proto.zbay.WechatPayParams.prototype, "mwebUrl", {
+  set: function(value) {
+    this.setMwebUrl(value);
+  },
+  get: function() {
+    return this.getMwebUrl();
+  },
+});
 
 
 /**
  * optional string outTradeNo = 8;
  * @return {string}
  */
-proto.zbay.WechatPayParams.prototype.getOuttradeno = function() {
+proto.zbay.WechatPayParams.prototype.getOutTradeNo = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
 };
 
@@ -1830,9 +2141,19 @@ proto.zbay.WechatPayParams.prototype.getOuttradeno = function() {
  * @param {string} value
  * @return {!proto.zbay.WechatPayParams} returns this
  */
-proto.zbay.WechatPayParams.prototype.setOuttradeno = function(value) {
+proto.zbay.WechatPayParams.prototype.setOutTradeNo = function(value) {
   return jspb.Message.setProto3StringField(this, 8, value);
 };
+
+
+Object.defineProperty(proto.zbay.WechatPayParams.prototype, "outTradeNo", {
+  set: function(value) {
+    this.setOutTradeNo(value);
+  },
+  get: function() {
+    return this.getOutTradeNo();
+  },
+});
 
 
 
@@ -1874,7 +2195,7 @@ proto.zbay.Groupon.prototype.toObject = function(opt_includeInstance) {
  */
 proto.zbay.Groupon.toObject = function(includeInstance, msg) {
   var f, obj = {
-    orderidsList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f
+    orderIdsList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f
   };
 
   if (includeInstance) {
@@ -1913,7 +2234,7 @@ proto.zbay.Groupon.deserializeBinaryFromReader = function(msg, reader) {
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.addOrderids(value);
+      msg.addOrderIds(value);
       break;
     default:
       reader.skipField();
@@ -1944,7 +2265,7 @@ proto.zbay.Groupon.prototype.serializeBinary = function() {
  */
 proto.zbay.Groupon.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getOrderidsList();
+  f = message.getOrderIdsList();
   if (f.length > 0) {
     writer.writeRepeatedString(
       1,
@@ -1958,7 +2279,7 @@ proto.zbay.Groupon.serializeBinaryToWriter = function(message, writer) {
  * repeated string orderIds = 1;
  * @return {!Array<string>}
  */
-proto.zbay.Groupon.prototype.getOrderidsList = function() {
+proto.zbay.Groupon.prototype.getOrderIdsList = function() {
   return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 1));
 };
 
@@ -1967,7 +2288,7 @@ proto.zbay.Groupon.prototype.getOrderidsList = function() {
  * @param {!Array<string>} value
  * @return {!proto.zbay.Groupon} returns this
  */
-proto.zbay.Groupon.prototype.setOrderidsList = function(value) {
+proto.zbay.Groupon.prototype.setOrderIdsList = function(value) {
   return jspb.Message.setField(this, 1, value || []);
 };
 
@@ -1977,17 +2298,27 @@ proto.zbay.Groupon.prototype.setOrderidsList = function(value) {
  * @param {number=} opt_index
  * @return {!proto.zbay.Groupon} returns this
  */
-proto.zbay.Groupon.prototype.addOrderids = function(value, opt_index) {
+proto.zbay.Groupon.prototype.addOrderIds = function(value, opt_index) {
   return jspb.Message.addToRepeatedField(this, 1, value, opt_index);
 };
+
+
+Object.defineProperty(proto.zbay.Groupon.prototype, "orderIdsList", {
+  set: function(value) {
+    this.setOrderIdsList(value);
+  },
+  get: function() {
+    return this.getOrderIdsList();
+  },
+});
 
 
 /**
  * Clears the list making it empty but non-null.
  * @return {!proto.zbay.Groupon} returns this
  */
-proto.zbay.Groupon.prototype.clearOrderidsList = function() {
-  return this.setOrderidsList([]);
+proto.zbay.Groupon.prototype.clearOrderIdsList = function() {
+  return this.setOrderIdsList([]);
 };
 
 
@@ -2133,6 +2464,16 @@ proto.zbay.Express.prototype.setCompany = function(value) {
 };
 
 
+Object.defineProperty(proto.zbay.Express.prototype, "company", {
+  set: function(value) {
+    this.setCompany(value);
+  },
+  get: function() {
+    return this.getCompany();
+  },
+});
+
+
 /**
  * optional string number = 2;
  * @return {string}
@@ -2149,6 +2490,16 @@ proto.zbay.Express.prototype.getNumber = function() {
 proto.zbay.Express.prototype.setNumber = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
+
+
+Object.defineProperty(proto.zbay.Express.prototype, "number", {
+  set: function(value) {
+    this.setNumber(value);
+  },
+  get: function() {
+    return this.getNumber();
+  },
+});
 
 
 
@@ -2296,6 +2647,16 @@ proto.zbay.ListQuery.prototype.setUser = function(value) {
 };
 
 
+Object.defineProperty(proto.zbay.ListQuery.prototype, "user", {
+  set: function(value) {
+    this.setUser(value);
+  },
+  get: function() {
+    return this.getUser();
+  },
+});
+
+
 /**
  * Clears the message field making it undefined.
  * @return {!proto.zbay.ListQuery} returns this
@@ -2330,6 +2691,16 @@ proto.zbay.ListQuery.prototype.getStatus = function() {
 proto.zbay.ListQuery.prototype.setStatus = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
+
+
+Object.defineProperty(proto.zbay.ListQuery.prototype, "status", {
+  set: function(value) {
+    this.setStatus(value);
+  },
+  get: function() {
+    return this.getStatus();
+  },
+});
 
 
 goog.object.extend(exports, proto.zbay);
