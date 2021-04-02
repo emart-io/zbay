@@ -18,9 +18,10 @@ else
 endif
 
 prepare:
-	@go get github.com/gogo/protobuf/protoc-gen-gogofaster
-	@-docker swarm init
-	@-docker network create --driver=overlay devel
+	@go get google.golang.org/protobuf/cmd/protoc-gen-go
+	@go get google.golang.org/grpc/cmd/protoc-gen-go-grpc
+#	@-docker swarm init
+#	@-docker network create --driver=overlay devel
 
 generate:generate-js generate-go
 
