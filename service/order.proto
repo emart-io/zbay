@@ -1,12 +1,14 @@
 syntax = "proto3";
 
+package zbay;
+
 import "user.proto";
 import "commodity.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
-package zbay;
 option go_package="service/go;zbay";
+
 service Orders {
   rpc Add(Order) returns (Order) {}
   rpc Get(Order) returns (Order) {}
