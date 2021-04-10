@@ -44,7 +44,7 @@ func checkTable(table string) error {
 }
 
 func ToJSON(obj proto.Message) (string, error) {
-	jsonStr, err := (&protojson.MarshalOptions{}).Marshal(obj)
+	jsonStr, err := protojson.Marshal(obj)
 	if err != nil {
 		return "", err
 	}
@@ -97,7 +97,7 @@ func InsertIfNotExist(table, id string, obj proto.Message) error {
 	return nil
 }
 
-//Update||Insert
+// Update||Insert
 func Upsert(table, id string, obj proto.Message) error {
 	//var o interface{}
 	o := reflect.New(reflect.TypeOf(obj).Elem()).Interface().(proto.Message)
