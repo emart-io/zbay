@@ -1,7 +1,7 @@
-FROM envoyproxy/envoy-alpine:v1.14-latest
+FROM envoyproxy/envoy-alpine:v1.18-latest
 
-COPY ./envoy.yaml /etc/envoy/envoy.yaml
-ADD ./cert/fullchain.cer ./cert/iyou.city.key /etc/
+COPY ./envoy-json.yaml /etc/envoy/envoy.yaml
+ADD ./service/descriptor.pb /etc/
 CMD /usr/local/bin/envoy -c /etc/envoy/envoy.yaml
 
-EXPOSE 443
+EXPOSE 8080

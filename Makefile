@@ -23,11 +23,11 @@ prepare:
 #	@-docker swarm init
 #	@-docker network create --driver=overlay devel
 
-generate:generate-js generate-go
+generate:generate-js generate-go generate-descriptor
 
 generate-go:
 	@$(PROTOC) -I./service --go_out=. --go-grpc_out=. service/*.proto
-	@echo Generate-go successfully.
+	@echo Generate-go completely.
 
 generate-go-v1:
 	@$(PROTOC) -I./service --gogofaster_out=\
@@ -46,7 +46,12 @@ generate-js:
 	--js_out=import_style=commonjs:service/js \
 	--grpc-web_out=import_style=commonjs+dts,mode=grpcweb:service/js
 	cp -rf service/js/* ../pwa/src/sdk
-	@echo Generate-js successfully.
+	@echo Generate-js completely.
+
+generate-descriptor:
+	@$(PROTOC) -I./service --include_imports --include_source_info \
+	--descriptor_set_out=service/descriptor.pb service/*.proto
+	@echo Generate-descriptor completely.
 
 build:generate
 	CGO_ENABLED=0 go build -ldflags='$(LD_FLAGS)' -o bundles/$(SERVICE) internal/cmd/*.go
@@ -65,6 +70,10 @@ envoy:
 	docker build -t $(IMG_HUB)/envoy:$(TAG) -f envoy.Dockerfile .
 	docker push $(IMG_HUB)/envoy:$(TAG)
 #	docker service create --name envoy --network devel -p 80:80 $(IMG_HUB)/envoy:$(TAG)
+
+envoy-json:
+	docker build -t $(IMG_HUB)/envoy-json:$(TAG) -f envoy.Dockerfile .
+	docker push $(IMG_HUB)/envoy-json:$(TAG)
 
 mysql:
 	-docker service create --name mysql_emart --network devel --mount type=bind,source=/home/daniel/.emart_mysqldata,destination=/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=emart mysql:5.7.24
