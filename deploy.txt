@@ -8,3 +8,5 @@ docker service create --name pwa --network best -p 80:80 -p443:443 jmzwcn/pwa:20
 
 # 可选：restful接口专用
 docker service create --name envoy --network best -p 8080:8080 jmzwcn/envoy:20210422-1006
+# 用法举例
+curl -X POST 'http://iyou.city:8080/zbay.Commodities/List' -H 'Content-Type: application/json' -d '{"id":"15311429910"}'
