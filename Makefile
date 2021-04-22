@@ -23,23 +23,23 @@ prepare:
 #	@-docker swarm init
 #	@-docker network create --driver=overlay devel
 
-generate:generate-js generate-go generate-descriptor
+generate:generate-js generate-go
 
 generate-go:
 	@$(PROTOC) -I./service --go_out=. --go-grpc_out=. service/*.proto
 	@echo Generate-go completely.
 
-generate-go-v1:
-	@$(PROTOC) -I./service --gogofaster_out=\
-	Mgoogle/protobuf/any.proto=github.com/gogo/protobuf/types,\
-	Mgoogle/protobuf/duration.proto=github.com/gogo/protobuf/types,\
-	Mgoogle/protobuf/struct.proto=github.com/gogo/protobuf/types,\
-	Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types,\
-	Mgoogle/protobuf/empty.proto=github.com/gogo/protobuf/types,\
-	Mgoogle/protobuf/wrappers.proto=github.com/gogo/protobuf/types,\
-	plugins=grpc:./service/go service/*.proto
-	@$(SED) -i '/google\/api/d' service/go/*.pb.go
-	@echo Generate-go successfully.
+# generate-go-v1:
+# 	@$(PROTOC) -I./service --gogofaster_out=\
+# 	Mgoogle/protobuf/any.proto=github.com/gogo/protobuf/types,\
+# 	Mgoogle/protobuf/duration.proto=github.com/gogo/protobuf/types,\
+# 	Mgoogle/protobuf/struct.proto=github.com/gogo/protobuf/types,\
+# 	Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types,\
+# 	Mgoogle/protobuf/empty.proto=github.com/gogo/protobuf/types,\
+# 	Mgoogle/protobuf/wrappers.proto=github.com/gogo/protobuf/types,\
+# 	plugins=grpc:./service/go service/*.proto
+# 	@$(SED) -i '/google\/api/d' service/go/*.pb.go
+# 	@echo Generate-go successfully.
 
 generate-js:
 	@$(PROTOC) -I./service service/*.proto \
@@ -66,14 +66,10 @@ run:image
 	-docker service rm $(SERVICE) > /dev/null 2>&1  || true	
 	@docker service create --name $(SERVICE) --network devel --mount type=bind,source=/home/daniel/.emart_uploads,destination=/uploads $(IMG_HUB)/$(SERVICE):$(TAG)
 
-envoy:
+envoy:generate-descriptor
 	docker build -t $(IMG_HUB)/envoy:$(TAG) -f envoy.Dockerfile .
 	docker push $(IMG_HUB)/envoy:$(TAG)
 #	docker service create --name envoy --network devel -p 80:80 $(IMG_HUB)/envoy:$(TAG)
-
-envoy-json:
-	docker build -t $(IMG_HUB)/envoy-json:$(TAG) -f envoy.Dockerfile .
-	docker push $(IMG_HUB)/envoy-json:$(TAG)
 
 mysql:
 	-docker service create --name mysql_emart --network devel --mount type=bind,source=/home/daniel/.emart_mysqldata,destination=/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=emart mysql:5.7.24
