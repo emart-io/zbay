@@ -104,11 +104,9 @@ func rsaEncrypt(origData []byte) ([]byte, error) {
 	priv, err := x509.ParsePKCS1PrivateKey(block.Bytes)
 	if err != nil {
 		log.Errorln("无法还原私钥", err)
-		return nil, nil
+		return nil, err
 	}
 	h2 := sha256.New()
 	h2.Write(origData)
-	hashed := h2.Sum(nil)
-	signature2, err := rsa.SignPKCS1v15(rand.Reader, priv, crypto.SHA256, hashed)
-	return signature2, err
+	return rsa.SignPKCS1v15(rand.Reader, priv, crypto.SHA256, h2.Sum(nil))
 }

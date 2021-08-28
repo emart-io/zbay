@@ -99,10 +99,10 @@ func Get(table string, kvs map[string]interface{}, obj proto.Message) error {
 	keys := []string{}
 	values := []interface{}{}
 	for k, v := range kvs { //key should be [json-path], e.g:$.id
-		keys = append(keys, "data->'"+k+"'=? ")
+		keys = append(keys, "data->'"+k+"'=?")
 		values = append(values, v)
 	}
-	query := "SELECT data FROM " + table + " WHERE " + strings.Join(keys, "AND")
+	query := "SELECT data FROM " + table + " WHERE " + strings.Join(keys, " AND ")
 	data := ""
 	if err := DB.QueryRow(query, values...).Scan(&data); err == nil {
 		if err := protojson.Unmarshal([]byte(data), obj); err != nil {
