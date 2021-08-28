@@ -165,16 +165,15 @@ func Update(table, id string, newObj proto.Message) error {
 }
 
 func UpdateTx(tx *sql.Tx, table, id string, newObj proto.Message) error {
-	if err := DeleteTx(tx, table, id); err != nil {
+	jsonv, err := protojson.Marshal(newObj)
+	if err != nil {
 		return err
 	}
-	if err := InsertTx(tx, table, newObj); err != nil {
-		return err
-	}
-	return nil
+	_, err = tx.Exec("UPDATE "+table+" SET data=CAST(? AS JSON) WHERE data->'$.id'=?", jsonv, id)
+
+	return err
 }
 
-//string|int value works for now
 func UpdateKVS(table, id string, kvs map[string]interface{}) error {
 	keys := []string{}
 	values := []interface{}{}
@@ -182,9 +181,8 @@ func UpdateKVS(table, id string, kvs map[string]interface{}) error {
 		keys = append(keys, ",'"+k+"',?")
 		values = append(values, v)
 	}
-	values = append(values, id)
 	sql := "UPDATE " + table + " SET data=" + "JSON_SET(data" + strings.Join(keys, "") + ") WHERE data->'$.id'= ?"
-	_, err := DB.Exec(sql, values...)
+	_, err := DB.Exec(sql, append(values, id)...)
 	return err
 }
 
