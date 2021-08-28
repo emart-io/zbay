@@ -4,10 +4,10 @@ package zbay
 
 import (
 	context "context"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -22,9 +22,9 @@ type MessagesClient interface {
 	Add(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
 	List(ctx context.Context, in *Message, opts ...grpc.CallOption) (Messages_ListClient, error)
 	GroupBy(ctx context.Context, in *User, opts ...grpc.CallOption) (Messages_GroupByClient, error)
-	Send(ctx context.Context, in *Message, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Send(ctx context.Context, in *Message, opts ...grpc.CallOption) (*empty.Empty, error)
 	Receive(ctx context.Context, in *User, opts ...grpc.CallOption) (Messages_ReceiveClient, error)
-	Publish(ctx context.Context, in *Topic, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Publish(ctx context.Context, in *Topic, opts ...grpc.CallOption) (*empty.Empty, error)
 	Subscribe(ctx context.Context, in *Topic, opts ...grpc.CallOption) (Messages_SubscribeClient, error)
 }
 
@@ -109,8 +109,8 @@ func (x *messagesGroupByClient) Recv() (*Message, error) {
 	return m, nil
 }
 
-func (c *messagesClient) Send(ctx context.Context, in *Message, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *messagesClient) Send(ctx context.Context, in *Message, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/zbay.Messages/Send", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -150,8 +150,8 @@ func (x *messagesReceiveClient) Recv() (*Message, error) {
 	return m, nil
 }
 
-func (c *messagesClient) Publish(ctx context.Context, in *Topic, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *messagesClient) Publish(ctx context.Context, in *Topic, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/zbay.Messages/Publish", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -198,9 +198,9 @@ type MessagesServer interface {
 	Add(context.Context, *Message) (*Message, error)
 	List(*Message, Messages_ListServer) error
 	GroupBy(*User, Messages_GroupByServer) error
-	Send(context.Context, *Message) (*emptypb.Empty, error)
+	Send(context.Context, *Message) (*empty.Empty, error)
 	Receive(*User, Messages_ReceiveServer) error
-	Publish(context.Context, *Topic) (*emptypb.Empty, error)
+	Publish(context.Context, *Topic) (*empty.Empty, error)
 	Subscribe(*Topic, Messages_SubscribeServer) error
 	mustEmbedUnimplementedMessagesServer()
 }
@@ -218,13 +218,13 @@ func (UnimplementedMessagesServer) List(*Message, Messages_ListServer) error {
 func (UnimplementedMessagesServer) GroupBy(*User, Messages_GroupByServer) error {
 	return status.Errorf(codes.Unimplemented, "method GroupBy not implemented")
 }
-func (UnimplementedMessagesServer) Send(context.Context, *Message) (*emptypb.Empty, error) {
+func (UnimplementedMessagesServer) Send(context.Context, *Message) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Send not implemented")
 }
 func (UnimplementedMessagesServer) Receive(*User, Messages_ReceiveServer) error {
 	return status.Errorf(codes.Unimplemented, "method Receive not implemented")
 }
-func (UnimplementedMessagesServer) Publish(context.Context, *Topic) (*emptypb.Empty, error) {
+func (UnimplementedMessagesServer) Publish(context.Context, *Topic) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Publish not implemented")
 }
 func (UnimplementedMessagesServer) Subscribe(*Topic, Messages_SubscribeServer) error {

@@ -4,11 +4,11 @@ package zbay
 
 import (
 	context "context"
+	empty "github.com/golang/protobuf/ptypes/empty"
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -24,8 +24,8 @@ type CommoditiesClient interface {
 	Get(ctx context.Context, in *Commodity, opts ...grpc.CallOption) (*Commodity, error)
 	Update(ctx context.Context, in *Commodity, opts ...grpc.CallOption) (*Commodity, error)
 	List(ctx context.Context, in *User, opts ...grpc.CallOption) (Commodities_ListClient, error)
-	Search(ctx context.Context, in *wrapperspb.StringValue, opts ...grpc.CallOption) (Commodities_SearchClient, error)
-	Delete(ctx context.Context, in *Commodity, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Search(ctx context.Context, in *wrappers.StringValue, opts ...grpc.CallOption) (Commodities_SearchClient, error)
+	Delete(ctx context.Context, in *Commodity, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type commoditiesClient struct {
@@ -95,7 +95,7 @@ func (x *commoditiesListClient) Recv() (*Commodity, error) {
 	return m, nil
 }
 
-func (c *commoditiesClient) Search(ctx context.Context, in *wrapperspb.StringValue, opts ...grpc.CallOption) (Commodities_SearchClient, error) {
+func (c *commoditiesClient) Search(ctx context.Context, in *wrappers.StringValue, opts ...grpc.CallOption) (Commodities_SearchClient, error) {
 	stream, err := c.cc.NewStream(ctx, &Commodities_ServiceDesc.Streams[1], "/zbay.Commodities/Search", opts...)
 	if err != nil {
 		return nil, err
@@ -127,8 +127,8 @@ func (x *commoditiesSearchClient) Recv() (*Commodity, error) {
 	return m, nil
 }
 
-func (c *commoditiesClient) Delete(ctx context.Context, in *Commodity, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *commoditiesClient) Delete(ctx context.Context, in *Commodity, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/zbay.Commodities/Delete", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -144,8 +144,8 @@ type CommoditiesServer interface {
 	Get(context.Context, *Commodity) (*Commodity, error)
 	Update(context.Context, *Commodity) (*Commodity, error)
 	List(*User, Commodities_ListServer) error
-	Search(*wrapperspb.StringValue, Commodities_SearchServer) error
-	Delete(context.Context, *Commodity) (*emptypb.Empty, error)
+	Search(*wrappers.StringValue, Commodities_SearchServer) error
+	Delete(context.Context, *Commodity) (*empty.Empty, error)
 	mustEmbedUnimplementedCommoditiesServer()
 }
 
@@ -165,10 +165,10 @@ func (UnimplementedCommoditiesServer) Update(context.Context, *Commodity) (*Comm
 func (UnimplementedCommoditiesServer) List(*User, Commodities_ListServer) error {
 	return status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (UnimplementedCommoditiesServer) Search(*wrapperspb.StringValue, Commodities_SearchServer) error {
+func (UnimplementedCommoditiesServer) Search(*wrappers.StringValue, Commodities_SearchServer) error {
 	return status.Errorf(codes.Unimplemented, "method Search not implemented")
 }
-func (UnimplementedCommoditiesServer) Delete(context.Context, *Commodity) (*emptypb.Empty, error) {
+func (UnimplementedCommoditiesServer) Delete(context.Context, *Commodity) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedCommoditiesServer) mustEmbedUnimplementedCommoditiesServer() {}
@@ -260,7 +260,7 @@ func (x *commoditiesListServer) Send(m *Commodity) error {
 }
 
 func _Commodities_Search_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(wrapperspb.StringValue)
+	m := new(wrappers.StringValue)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
@@ -344,7 +344,7 @@ type CouponsClient interface {
 	Add(ctx context.Context, in *Coupon, opts ...grpc.CallOption) (*Coupon, error)
 	Get(ctx context.Context, in *Coupon, opts ...grpc.CallOption) (*Coupon, error)
 	Update(ctx context.Context, in *Coupon, opts ...grpc.CallOption) (*Coupon, error)
-	Delete(ctx context.Context, in *Coupon, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Delete(ctx context.Context, in *Coupon, opts ...grpc.CallOption) (*empty.Empty, error)
 	List(ctx context.Context, in *User, opts ...grpc.CallOption) (Coupons_ListClient, error)
 }
 
@@ -383,8 +383,8 @@ func (c *couponsClient) Update(ctx context.Context, in *Coupon, opts ...grpc.Cal
 	return out, nil
 }
 
-func (c *couponsClient) Delete(ctx context.Context, in *Coupon, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *couponsClient) Delete(ctx context.Context, in *Coupon, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/zbay.Coupons/Delete", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -431,7 +431,7 @@ type CouponsServer interface {
 	Add(context.Context, *Coupon) (*Coupon, error)
 	Get(context.Context, *Coupon) (*Coupon, error)
 	Update(context.Context, *Coupon) (*Coupon, error)
-	Delete(context.Context, *Coupon) (*emptypb.Empty, error)
+	Delete(context.Context, *Coupon) (*empty.Empty, error)
 	List(*User, Coupons_ListServer) error
 	mustEmbedUnimplementedCouponsServer()
 }
@@ -449,7 +449,7 @@ func (UnimplementedCouponsServer) Get(context.Context, *Coupon) (*Coupon, error)
 func (UnimplementedCouponsServer) Update(context.Context, *Coupon) (*Coupon, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedCouponsServer) Delete(context.Context, *Coupon) (*emptypb.Empty, error) {
+func (UnimplementedCouponsServer) Delete(context.Context, *Coupon) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedCouponsServer) List(*User, Coupons_ListServer) error {
@@ -602,7 +602,7 @@ type CommentsClient interface {
 	Add(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*Comment, error)
 	Get(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*Comment, error)
 	Update(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*Comment, error)
-	Delete(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Delete(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*empty.Empty, error)
 	List(ctx context.Context, in *Commodity, opts ...grpc.CallOption) (Comments_ListClient, error)
 }
 
@@ -641,8 +641,8 @@ func (c *commentsClient) Update(ctx context.Context, in *Comment, opts ...grpc.C
 	return out, nil
 }
 
-func (c *commentsClient) Delete(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *commentsClient) Delete(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/zbay.Comments/Delete", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -689,7 +689,7 @@ type CommentsServer interface {
 	Add(context.Context, *Comment) (*Comment, error)
 	Get(context.Context, *Comment) (*Comment, error)
 	Update(context.Context, *Comment) (*Comment, error)
-	Delete(context.Context, *Comment) (*emptypb.Empty, error)
+	Delete(context.Context, *Comment) (*empty.Empty, error)
 	List(*Commodity, Comments_ListServer) error
 	mustEmbedUnimplementedCommentsServer()
 }
@@ -707,7 +707,7 @@ func (UnimplementedCommentsServer) Get(context.Context, *Comment) (*Comment, err
 func (UnimplementedCommentsServer) Update(context.Context, *Comment) (*Comment, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedCommentsServer) Delete(context.Context, *Comment) (*emptypb.Empty, error) {
+func (UnimplementedCommentsServer) Delete(context.Context, *Comment) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedCommentsServer) List(*Commodity, Comments_ListServer) error {

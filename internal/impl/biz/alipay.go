@@ -8,6 +8,7 @@ import (
 	"crypto/x509"
 	"encoding/base64"
 	"encoding/pem"
+	"errors"
 	"sort"
 	"time"
 
@@ -98,7 +99,7 @@ func rsaEncrypt(origData []byte) ([]byte, error) {
 	block, _ := pem.Decode([]byte(alipayPrivateKey))
 	if block == nil {
 		log.Errorln("block空")
-		return nil, nil
+		return nil, errors.New("certificate failed to load")
 	}
 	priv, err := x509.ParsePKCS1PrivateKey(block.Bytes)
 	if err != nil {

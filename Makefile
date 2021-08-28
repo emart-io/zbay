@@ -23,7 +23,7 @@ prepare:
 #	@-docker swarm init
 #	@-docker network create --driver=overlay devel
 
-generate:generate-js generate-go
+generate: generate-go
 
 generate-go:
 	@$(PROTOC) -I./service --go_out=. --go-grpc_out=. service/*.proto

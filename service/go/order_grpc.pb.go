@@ -4,10 +4,10 @@ package zbay
 
 import (
 	context "context"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -22,7 +22,7 @@ type OrdersClient interface {
 	Add(ctx context.Context, in *Order, opts ...grpc.CallOption) (*Order, error)
 	Get(ctx context.Context, in *Order, opts ...grpc.CallOption) (*Order, error)
 	Update(ctx context.Context, in *Order, opts ...grpc.CallOption) (*Order, error)
-	Delete(ctx context.Context, in *Order, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Delete(ctx context.Context, in *Order, opts ...grpc.CallOption) (*empty.Empty, error)
 	ListByOrder(ctx context.Context, in *Order, opts ...grpc.CallOption) (Orders_ListByOrderClient, error)
 	ListForBuyer(ctx context.Context, in *ListQuery, opts ...grpc.CallOption) (Orders_ListForBuyerClient, error)
 	ListForSeller(ctx context.Context, in *ListQuery, opts ...grpc.CallOption) (Orders_ListForSellerClient, error)
@@ -63,8 +63,8 @@ func (c *ordersClient) Update(ctx context.Context, in *Order, opts ...grpc.CallO
 	return out, nil
 }
 
-func (c *ordersClient) Delete(ctx context.Context, in *Order, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *ordersClient) Delete(ctx context.Context, in *Order, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/zbay.Orders/Delete", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -175,7 +175,7 @@ type OrdersServer interface {
 	Add(context.Context, *Order) (*Order, error)
 	Get(context.Context, *Order) (*Order, error)
 	Update(context.Context, *Order) (*Order, error)
-	Delete(context.Context, *Order) (*emptypb.Empty, error)
+	Delete(context.Context, *Order) (*empty.Empty, error)
 	ListByOrder(*Order, Orders_ListByOrderServer) error
 	ListForBuyer(*ListQuery, Orders_ListForBuyerServer) error
 	ListForSeller(*ListQuery, Orders_ListForSellerServer) error
@@ -195,7 +195,7 @@ func (UnimplementedOrdersServer) Get(context.Context, *Order) (*Order, error) {
 func (UnimplementedOrdersServer) Update(context.Context, *Order) (*Order, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedOrdersServer) Delete(context.Context, *Order) (*emptypb.Empty, error) {
+func (UnimplementedOrdersServer) Delete(context.Context, *Order) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedOrdersServer) ListByOrder(*Order, Orders_ListByOrderServer) error {

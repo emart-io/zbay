@@ -4,10 +4,10 @@ package zbay
 
 import (
 	context "context"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -23,7 +23,7 @@ type UsersClient interface {
 	Get(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error)
 	Update(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error)
 	List(ctx context.Context, in *User, opts ...grpc.CallOption) (Users_ListClient, error)
-	Delete(ctx context.Context, in *User, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Delete(ctx context.Context, in *User, opts ...grpc.CallOption) (*empty.Empty, error)
 	Login(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error)
 	Certificate(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error)
 }
@@ -95,8 +95,8 @@ func (x *usersListClient) Recv() (*User, error) {
 	return m, nil
 }
 
-func (c *usersClient) Delete(ctx context.Context, in *User, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *usersClient) Delete(ctx context.Context, in *User, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/zbay.Users/Delete", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -130,7 +130,7 @@ type UsersServer interface {
 	Get(context.Context, *User) (*User, error)
 	Update(context.Context, *User) (*User, error)
 	List(*User, Users_ListServer) error
-	Delete(context.Context, *User) (*emptypb.Empty, error)
+	Delete(context.Context, *User) (*empty.Empty, error)
 	Login(context.Context, *User) (*User, error)
 	Certificate(context.Context, *User) (*User, error)
 	mustEmbedUnimplementedUsersServer()
@@ -152,7 +152,7 @@ func (UnimplementedUsersServer) Update(context.Context, *User) (*User, error) {
 func (UnimplementedUsersServer) List(*User, Users_ListServer) error {
 	return status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (UnimplementedUsersServer) Delete(context.Context, *User) (*emptypb.Empty, error) {
+func (UnimplementedUsersServer) Delete(context.Context, *User) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedUsersServer) Login(context.Context, *User) (*User, error) {
@@ -352,7 +352,7 @@ type AddressesClient interface {
 	Add(ctx context.Context, in *Address, opts ...grpc.CallOption) (*Address, error)
 	Get(ctx context.Context, in *Address, opts ...grpc.CallOption) (*Address, error)
 	Update(ctx context.Context, in *Address, opts ...grpc.CallOption) (*Address, error)
-	Delete(ctx context.Context, in *Address, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Delete(ctx context.Context, in *Address, opts ...grpc.CallOption) (*empty.Empty, error)
 	List(ctx context.Context, in *User, opts ...grpc.CallOption) (Addresses_ListClient, error)
 }
 
@@ -391,8 +391,8 @@ func (c *addressesClient) Update(ctx context.Context, in *Address, opts ...grpc.
 	return out, nil
 }
 
-func (c *addressesClient) Delete(ctx context.Context, in *Address, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *addressesClient) Delete(ctx context.Context, in *Address, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/zbay.Addresses/Delete", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -439,7 +439,7 @@ type AddressesServer interface {
 	Add(context.Context, *Address) (*Address, error)
 	Get(context.Context, *Address) (*Address, error)
 	Update(context.Context, *Address) (*Address, error)
-	Delete(context.Context, *Address) (*emptypb.Empty, error)
+	Delete(context.Context, *Address) (*empty.Empty, error)
 	List(*User, Addresses_ListServer) error
 	mustEmbedUnimplementedAddressesServer()
 }
@@ -457,7 +457,7 @@ func (UnimplementedAddressesServer) Get(context.Context, *Address) (*Address, er
 func (UnimplementedAddressesServer) Update(context.Context, *Address) (*Address, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedAddressesServer) Delete(context.Context, *Address) (*emptypb.Empty, error) {
+func (UnimplementedAddressesServer) Delete(context.Context, *Address) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedAddressesServer) List(*User, Addresses_ListServer) error {
@@ -610,7 +610,7 @@ type MemosClient interface {
 	Add(ctx context.Context, in *Memo, opts ...grpc.CallOption) (*Memo, error)
 	Get(ctx context.Context, in *Memo, opts ...grpc.CallOption) (*Memo, error)
 	Update(ctx context.Context, in *Memo, opts ...grpc.CallOption) (*Memo, error)
-	Delete(ctx context.Context, in *Memo, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Delete(ctx context.Context, in *Memo, opts ...grpc.CallOption) (*empty.Empty, error)
 	List(ctx context.Context, in *User, opts ...grpc.CallOption) (Memos_ListClient, error)
 }
 
@@ -649,8 +649,8 @@ func (c *memosClient) Update(ctx context.Context, in *Memo, opts ...grpc.CallOpt
 	return out, nil
 }
 
-func (c *memosClient) Delete(ctx context.Context, in *Memo, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *memosClient) Delete(ctx context.Context, in *Memo, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/zbay.Memos/Delete", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -697,7 +697,7 @@ type MemosServer interface {
 	Add(context.Context, *Memo) (*Memo, error)
 	Get(context.Context, *Memo) (*Memo, error)
 	Update(context.Context, *Memo) (*Memo, error)
-	Delete(context.Context, *Memo) (*emptypb.Empty, error)
+	Delete(context.Context, *Memo) (*empty.Empty, error)
 	List(*User, Memos_ListServer) error
 	mustEmbedUnimplementedMemosServer()
 }
@@ -715,7 +715,7 @@ func (UnimplementedMemosServer) Get(context.Context, *Memo) (*Memo, error) {
 func (UnimplementedMemosServer) Update(context.Context, *Memo) (*Memo, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedMemosServer) Delete(context.Context, *Memo) (*emptypb.Empty, error) {
+func (UnimplementedMemosServer) Delete(context.Context, *Memo) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedMemosServer) List(*User, Memos_ListServer) error {
