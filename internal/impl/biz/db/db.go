@@ -70,9 +70,7 @@ func InsertTx(tx *sql.Tx, table string, obj proto.Message) error {
 }
 
 func InsertIfNotExist(table, id string, obj proto.Message) error {
-	//var o interface{}
-	o := reflect.New(reflect.TypeOf(obj).Elem()).Interface().(proto.Message)
-	if GetById(table, id, o) == sql.ErrNoRows {
+	if GetById(table, id, proto.Clone(obj)) == sql.ErrNoRows {
 		return Insert(table, obj)
 	}
 	return nil
@@ -80,10 +78,7 @@ func InsertIfNotExist(table, id string, obj proto.Message) error {
 
 // Update||Insert
 func Upsert(table, id string, obj proto.Message) error {
-	//var o interface{}
-	o := reflect.New(reflect.TypeOf(obj).Elem()).Interface().(proto.Message)
-	err := GetById(table, id, o)
-	if err == sql.ErrNoRows {
+	if err := GetById(table, id, proto.Clone(obj)); err == sql.ErrNoRows {
 		return Insert(table, obj)
 	}
 	return Update(table, id, obj)

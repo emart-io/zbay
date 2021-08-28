@@ -4,7 +4,21 @@ import (
 	"fmt"
 	"regexp"
 	"testing"
+
+	pb "github.com/emart.io/zbay/service/go"
+	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/reflect/protoreflect"
 )
+
+func TestCast(t *testing.T) {
+	fmt.Println("beign")
+	var msg proto.Message
+	msg = &pb.Account{Id: "abc"}
+	a := msg.ProtoReflect().New()
+	aa := proto.Clone(msg)
+	fmt.Println(msg.(proto.Message), a.(protoreflect.Message), aa)
+	t.Error("done")
+}
 
 func TestPrimaryKey(t *testing.T) {
 	//checkTable("test")
