@@ -69,7 +69,7 @@ func InsertTx(tx *sql.Tx, table string, obj proto.Message) error {
 	return err
 }
 
-func InsertIfNotExist(table, id string, obj proto.Message) error {
+func InsertIfNotExist(table string, id interface{}, obj proto.Message) error {
 	if GetById(table, id, proto.Clone(obj)) == sql.ErrNoRows {
 		return Insert(table, obj)
 	}
@@ -77,23 +77,25 @@ func InsertIfNotExist(table, id string, obj proto.Message) error {
 }
 
 // Update||Insert
-func Upsert(table, id string, obj proto.Message) error {
+func Upsert(table string, id interface{}, obj proto.Message) error {
 	if err := GetById(table, id, proto.Clone(obj)); err == sql.ErrNoRows {
 		return Insert(table, obj)
 	}
 	return Update(table, id, obj)
 }
 
-func GetById(table string, id string, obj proto.Message) error {
+func GetById(table string, id interface{}, obj proto.Message) error {
 	return Get(table, map[string]interface{}{"$.id": id}, obj)
 }
 
-//https://dev.mysql.com/doc/refman/5.7/en/json.html#json-paths
+// https://dev.mysql.com/doc/refman/5.7/en/json.html#json-paths
 func Get(table string, kvs map[string]interface{}, obj proto.Message) error {
 	checkTable(table)
-	keys := []string{}
-	values := []interface{}{}
-	for k, v := range kvs { //key should be [json-path], e.g:$.id
+	var (
+		keys   []string
+		values []interface{}
+	)
+	for k, v := range kvs { // key should be [json-path], e.g:$.id
 		keys = append(keys, "data->'"+k+"'=?")
 		values = append(values, v)
 	}
@@ -146,7 +148,7 @@ func List(table string, result interface{}, clause ...string) error {
 	return nil
 }
 
-func Update(table, id string, newObj proto.Message) error {
+func Update(table string, id interface{}, newObj proto.Message) error {
 	tx, err := DB.Begin()
 	if err != nil {
 		return err
@@ -164,7 +166,7 @@ func Update(table, id string, newObj proto.Message) error {
 	return nil
 }
 
-func UpdateTx(tx *sql.Tx, table, id string, newObj proto.Message) error {
+func UpdateTx(tx *sql.Tx, table string, id interface{}, newObj proto.Message) error {
 	jsonv, err := protojson.Marshal(newObj)
 	if err != nil {
 		return err
@@ -174,10 +176,12 @@ func UpdateTx(tx *sql.Tx, table, id string, newObj proto.Message) error {
 	return err
 }
 
-func UpdateKVS(table, id string, kvs map[string]interface{}) error {
-	keys := []string{}
-	values := []interface{}{}
-	for k, v := range kvs { //key should be [json-path], e.g:$.id
+func UpdateKVS(table string, id interface{}, kvs map[string]interface{}) error {
+	var (
+		keys   []string
+		values []interface{}
+	)
+	for k, v := range kvs { // key should be [json-path], e.g:$.id
 		keys = append(keys, ",'"+k+"',?")
 		values = append(values, v)
 	}
@@ -186,7 +190,7 @@ func UpdateKVS(table, id string, kvs map[string]interface{}) error {
 	return err
 }
 
-func Delete(table, id string) error {
+func Delete(table string, id interface{}) error {
 	tx, err := DB.Begin()
 	if err != nil {
 		return err
@@ -202,7 +206,7 @@ func Delete(table, id string) error {
 	return nil
 }
 
-func DeleteTx(tx *sql.Tx, table, id string) error {
+func DeleteTx(tx *sql.Tx, table string, id interface{}) error {
 	_, err := tx.Exec("DELETE FROM "+table+" WHERE data->'$.id' = ?", id)
 	return err
 }
