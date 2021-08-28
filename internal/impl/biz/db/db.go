@@ -43,25 +43,6 @@ func checkTable(table string) error {
 	return nil
 }
 
-func ToJSON(obj proto.Message) (string, error) {
-	jsonStr, err := protojson.Marshal(obj)
-	if err != nil {
-		return "", err
-	}
-	// https://dev.mysql.com/doc/refman/5.7/en/json-modification-functions.html#json-unquote-character-escape-sequences
-	replacer := strings.NewReplacer(
-		"\"", "\\\"",
-		"\\b", "\\\\b",
-		"\\f", "\\\\f",
-		"\\n", "\\\\n",
-		"\\r", "\\\\r",
-		"\\t", "\\\\t",
-		"'", "\\'",
-		"\\\\", "",
-	)
-	return replacer.Replace(string(jsonStr)), nil
-}
-
 func Insert(table string, obj proto.Message) error {
 	tx, err := DB.Begin()
 	if err != nil {
@@ -80,11 +61,11 @@ func Insert(table string, obj proto.Message) error {
 
 func InsertTx(tx *sql.Tx, table string, obj proto.Message) error {
 	checkTable(table)
-	strValue, err := ToJSON(obj)
+	jsonv, err := protojson.Marshal(obj)
 	if err != nil {
 		return err
 	}
-	_, err = tx.Exec("INSERT INTO " + table + " VALUES ('" + strValue + "')")
+	_, err = tx.Exec("INSERT INTO "+table+"(data) VALUES (CAST(? AS JSON))", jsonv)
 	return err
 }
 
@@ -115,21 +96,16 @@ func GetById(table string, id string, obj proto.Message) error {
 //https://dev.mysql.com/doc/refman/5.7/en/json.html#json-paths
 func Get(table string, kvs map[string]interface{}, obj proto.Message) error {
 	checkTable(table)
-	union := ""
-	for k, value := range kvs { //key should be [json-path], e.g:$.id
-		switch v := value.(type) {
-		case string:
-			union = union + "AND data->'" + k + "'='" + v + "' "
-		case int, int32, int64, uint, uint32, uint64:
-			union = union + "AND data->'" + k + "'=" + fmt.Sprint(v) + " "
-		default:
-			return fmt.Errorf("unknown type: %+v", v)
-		}
+	keys := []string{}
+	values := []interface{}{}
+	for k, v := range kvs { //key should be [json-path], e.g:$.id
+		keys = append(keys, "data->'"+k+"'=? ")
+		values = append(values, v)
 	}
-	query := "SELECT * FROM " + table + " WHERE " + strings.TrimPrefix(union, "AND")
-	jsonStr := ""
-	if err := DB.QueryRow(query).Scan(&jsonStr); err == nil {
-		if err := protojson.Unmarshal([]byte(jsonStr), obj); err != nil {
+	query := "SELECT data FROM " + table + " WHERE " + strings.Join(keys, "AND")
+	data := ""
+	if err := DB.QueryRow(query, values...).Scan(&data); err == nil {
+		if err := protojson.Unmarshal([]byte(data), obj); err != nil {
 			return err
 		}
 	} else {
@@ -142,7 +118,7 @@ func List(table string, result interface{}, clause ...string) error {
 	checkTable(table)
 	resultv := reflect.ValueOf(result)
 	if resultv.Kind() != reflect.Ptr || resultv.Elem().Kind() != reflect.Slice {
-		panic("result argument must be a slice address")
+		return fmt.Errorf("result argument must be a slice address")
 	}
 	slicev := resultv.Elem()
 	elemt := slicev.Type().Elem()
@@ -161,13 +137,13 @@ func List(table string, result interface{}, clause ...string) error {
 	defer rows.Close()
 	i := 0
 	for rows.Next() {
-		jsonStr := ""
-		err := rows.Scan(&jsonStr)
+		data := ""
+		err := rows.Scan(&data)
 		if err != nil {
 			return err
 		}
 		elemp := reflect.New(elemt.Elem())
-		protojson.Unmarshal([]byte(jsonStr), elemp.Interface().(proto.Message))
+		protojson.Unmarshal([]byte(data), elemp.Interface().(proto.Message))
 		slicev = reflect.Append(slicev, elemp)
 		i++
 	}
@@ -205,19 +181,15 @@ func UpdateTx(tx *sql.Tx, table, id string, newObj proto.Message) error {
 
 //string|int value works for now
 func UpdateKVS(table, id string, kvs map[string]interface{}) error {
-	union := ""
-	for key, v := range kvs { //key should be [json-path], e.g:$.id
-		switch value := v.(type) {
-		case string:
-			union = union + ",'" + key + "','" + value + "'"
-		case int, int32, int64, uint, uint32, uint64:
-			union = union + ",'" + key + "'," + fmt.Sprint(value)
-		default:
-			return fmt.Errorf("unknown type: %+v", v)
-		}
+	keys := []string{}
+	values := []interface{}{}
+	for k, v := range kvs { //key should be [json-path], e.g:$.id
+		keys = append(keys, ",'"+k+"',?")
+		values = append(values, v)
 	}
-	sql := "UPDATE " + table + " SET data=" + "JSON_SET(data" + union + ") WHERE data->'$.id'='" + id + "'"
-	_, err := DB.Exec(sql)
+	values = append(values, id)
+	sql := "UPDATE " + table + " SET data=" + "JSON_SET(data" + strings.Join(keys, "") + ") WHERE data->'$.id'= ?"
+	_, err := DB.Exec(sql, values...)
 	return err
 }
 
@@ -238,7 +210,6 @@ func Delete(table, id string) error {
 }
 
 func DeleteTx(tx *sql.Tx, table, id string) error {
-	sql := "DELETE FROM " + table + " WHERE data->'$.id'='" + id + "'"
-	_, err := tx.Exec(sql)
+	_, err := tx.Exec("DELETE FROM "+table+" WHERE data->'$.id' = ?", id)
 	return err
 }
