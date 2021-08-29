@@ -6,7 +6,6 @@ import (
 	"time"
 
 	pb "github.com/emart.io/zbay/service/go"
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmzwcn/db"
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
