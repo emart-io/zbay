@@ -1,13 +1,10 @@
 package biz
 
 import (
-	"database/sql"
 	"fmt"
-	"time"
 
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/jmzwcn/db"
-	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -16,23 +13,8 @@ var (
 	dburl = "root:123456@tcp(mysql_emart:3306)/emart"
 )
 
-var DB *sql.DB
-
 func init() {
-	var err error
-	for i := 1; i <= 5; i++ {
-		DB, err = sql.Open("mysql", dburl)
-		if err != nil {
-			log.Errorln("Connect failed: ", dburl, err, i)
-			time.Sleep(time.Second * 5)
-			continue
-		} else {
-			break
-		}
-	}
-	log.Debugln("DB init completely: ", dburl)
-	DB.SetMaxIdleConns(0)
-	db.InitDB(DB)
+	db.Open(dburl)
 }
 
 func UUID() string {
