@@ -10,11 +10,11 @@ import (
 )
 
 var (
-	dburl = "root:123456@tcp(mysql_emart:3306)/emart"
+	dsn = "root:123456@tcp(mysql_emart:3306)/emart"
 )
 
 func init() {
-	db.Open(dburl)
+	db.Open(dsn)
 }
 
 func UUID() string {
