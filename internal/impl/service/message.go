@@ -4,6 +4,7 @@ import (
 	"context"
 	"strings"
 
+	"github.com/emart.io/zbay/internal/impl/biz"
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/jmzwcn/db"
 	log "github.com/sirupsen/logrus"
@@ -25,7 +26,7 @@ type MessageImpl struct {
 }
 
 func (s *MessageImpl) Add(ctx context.Context, in *pb.Message) (*pb.Message, error) {
-	in.Id = timestamppb.Now().String()
+	in.Id = biz.UUID()
 	in.Created = timestamppb.Now()
 	if err := db.Insert(messageTable, in); err != nil {
 		return nil, err

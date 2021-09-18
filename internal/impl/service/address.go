@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 
+	"github.com/emart.io/zbay/internal/impl/biz"
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/jmzwcn/db"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -18,7 +19,7 @@ type AddressImpl struct {
 }
 
 func (s *AddressImpl) Add(ctx context.Context, in *pb.Address) (*pb.Address, error) {
-	in.Id = timestamppb.Now().String()
+	in.Id = biz.UUID()
 	in.Created = timestamppb.Now()
 	if err := db.Insert(addressTable, in); err != nil {
 		return nil, err

@@ -21,7 +21,7 @@ type OrdersImpl struct {
 }
 
 func (s *OrdersImpl) Add(ctx context.Context, in *pb.Order) (*pb.Order, error) {
-	in.Id = timestamppb.Now().String()
+	in.Id = biz.UUID()
 	in.Created = timestamppb.Now()
 	if err := db.Insert(orderTable, in); err != nil {
 		return nil, err

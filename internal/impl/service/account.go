@@ -21,7 +21,7 @@ type AccountImpl struct {
 }
 
 func (s *AccountImpl) Add(ctx context.Context, in *pb.Account) (*pb.Account, error) {
-	in.Id = timestamppb.Now().String()
+	in.Id = biz.UUID()
 	in.Created = timestamppb.Now()
 	if err := db.Insert(accountTable, in); err != nil {
 		return nil, err

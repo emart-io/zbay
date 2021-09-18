@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 
+	"github.com/emart.io/zbay/internal/impl/biz"
 	pb "github.com/emart.io/zbay/service/go"
 	"github.com/jmzwcn/db"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -18,7 +19,7 @@ type MemoImpl struct {
 }
 
 func (s *MemoImpl) Add(ctx context.Context, in *pb.Memo) (*pb.Memo, error) {
-	in.Id = timestamppb.Now().String()
+	in.Id = biz.UUID()
 	in.Created = timestamppb.Now()
 	if err := db.Insert(memoTable, in); err != nil {
 		return nil, err
