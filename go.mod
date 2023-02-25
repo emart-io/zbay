@@ -5,7 +5,7 @@ require (
 	github.com/jmzwcn/db v0.0.0-20210913152146-4ff45ff99f5d
 	github.com/sirupsen/logrus v1.8.1
 	github.com/tencentcloud/tencentcloud-sdk-go v3.0.233+incompatible
-	golang.org/x/sys v0.0.0-20210910150752-751e447fb3d0 // indirect
+	golang.org/x/sys v0.1.0 // indirect
 	google.golang.org/grpc v1.36.1
 	google.golang.org/protobuf v1.27.1
 )
